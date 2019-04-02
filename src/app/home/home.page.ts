@@ -14,6 +14,7 @@ export class HomePage {
     this._window = windowRef.nativeWindow;
     this.create()
   }
+
   async create(){
     var address = await this._window.ScryptaCore.createAddress('dodododo')
     alert(address.pub)
