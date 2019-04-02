@@ -26,19 +26,23 @@ export class LoginToWalletPage implements OnInit {
 
   loginCard()
   {
+    var nfcreader;
     this.platform.ready().then(()=>{
-    let nfcreader=this.nfc.addNdefListener(()=>{
+     nfcreader=this.nfc.addNdefListener(()=>{
       alert('successfull attached ndef');
     },(err)=>{
       alert('errore ndef');
 
     }).subscribe((event)=>{
-      alert('decoded tag id'+ this.nfc.bytesToHexString(event.tag.id));
+      alert(this.nfc.bytesToString(event.tag.ndefMessage[0].payload).substr(3));
+
+      console.log(this.nfc.bytesToString(event.tag.ndefMessage[0].payload).substr(3));
+    });
       let message = this.ndef.textRecord('Hello world');
       this.nfc.share([message]).then().catch();
     })
     nfcreader.unsubscribe();
-  });
+
   }
 
   readQrCode()
