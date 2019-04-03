@@ -16,7 +16,9 @@ const routes: Routes = [
     loadChildren: './list/list.module#ListPageModule'
   },
   { path: 'congratulations', loadChildren: './congratulations/congratulations.module#CongratulationsPageModule' },
-  { path: 'login-to-wallet', loadChildren: './login-to-wallet/login-to-wallet.module#LoginToWalletPageModule' }
+  { path: 'login-to-wallet', loadChildren: './login-to-wallet/login-to-wallet.module#LoginToWalletPageModule' },
+  
+  { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardPageModule' }
 ];
 
 @NgModule({
@@ -25,4 +27,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {} 
