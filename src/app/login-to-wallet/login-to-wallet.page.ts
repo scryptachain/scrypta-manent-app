@@ -7,21 +7,25 @@ import { Router } from '@angular/router';
 import Axios from 'axios';
 //import {createCipher,createDecipher} from 'crypto';
 import {BarcodeScanner} from '@ionic-native/barcode-scanner/ngx'
-
-
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import {File} from '@ionic-native/file/ngx'
+import {HTTP} from '@ionic-native/http/ngx'
 @Component({
   selector: 'app-login-to-wallet',
   templateUrl: './login-to-wallet.page.html',
   styleUrls: ['./login-to-wallet.page.scss'],
 })
 export class LoginToWalletPage implements OnInit {
+  
   password:string='';
   decrypted_wallet:string='';
   nodes:string[]=[];
   connected:string='';
   private _window: ICustomWindow;
 
-  constructor(private nfc:NFC,private ndef:Ndef,private qrScanner: BarcodeScanner, public platform:Platform, windowRef: WindowRefService,public router:Router)
+  constructor(private nfc:NFC,private ndef:Ndef,private qrScanner: BarcodeScanner, public platform:Platform, windowRef: WindowRefService,public router:Router, private fileChooser:FileChooser,private fileOpener:FileOpener,private filePath:FilePath,private file:File,private http:HTTP)
   { 
     this._window = windowRef.nativeWindow;
   }
@@ -94,6 +98,7 @@ connectToNode()
   console.log(this.password)
   //console.log(localStorage.getItem('createPasswd'));
   var unlockPasswd=localStorage.getItem('createPasswd');
+  
   var decrypted_wallet=this.decrypted_wallet
   localStorage.setItem('decrypted_wallet',decrypted_wallet);
   //var password=this.password;
@@ -174,8 +179,47 @@ readQrCode()
 {
   this.qrScanner.scan().then(barcodeData=>{
     console.log('barcode',barcodeData)
+    localStorage.setItem('createPasswd',barcodeData.text);
+    document.getElementById('password').style.display='block';
   }).catch(err=>{
     console.log(err)
   })
+}
+
+openSidFile()
+{
+  
+  this.fileChooser.open().then(uploadfile=>{
+    console.log(uploadfile)
+    this.filePath.resolveNativePath(uploadfile).then(resolvedFilePath=>{
+      console.log(resolvedFilePath);
+      this.file.resolveLocalFilesystemUrl(resolvedFilePath).then(fileinfo=>{
+        console.log(fileinfo)
+        this.file.readAsText(this.file.externalDataDirectory,fileinfo.name).then(result=>{
+          //console.log(result);
+          localStorage.setItem('createPasswd',result);
+    document.getElementById('password').style.display='block';
+        })
+      })
+      /*
+      var namefile=resolvedFilePath.split('/');
+      console.log(namefile)
+     this.file.readAsText(this.file.externalDataDirectory,namefile[10]).then(ffff=>{
+       console.log(ffff)
+     })*/
+       
+    })
+    /*
+    
+    this.fileOpener.open(uploadfile,'txt').then(fileopen=>{
+      console.log('fileopen') 
+    }).catch(err=>{
+      console.log('err'+err)
+    })
+  
+*/
+  })
+    
+
 }
 }

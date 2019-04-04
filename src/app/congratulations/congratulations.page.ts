@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 //import { File } from '@ionic-native/file/';
-import {File} from '@ionic-native/file/ngx'
+import {File} from '@ionic-native/file/ngx';
 import { Router } from '@angular/router';
+import {Diagnostic} from '@ionic-native/diagnostic/ngx';
 
 @Component({
   selector: 'app-congratulations',
@@ -10,34 +11,47 @@ import { Router } from '@angular/router';
   styleUrls: ['./congratulations.page.scss'],
 })
 export class CongratulationsPage implements OnInit {
-  file:any;
+  
+  storageDirectory:string='';
+  filedownload:any;
   a:any;
   public_address:string;
-  constructor(private transfer:FileTransfer, private fileT:File,public router:Router) { }
-  fileTransfer: FileTransferObject = this.transfer.create();
+  constructor(private transfer:FileTransfer, private file:File,public router:Router,fileTransfer:FileTransfer,private diagnostic:Diagnostic) { }
+  
+  
   ngOnInit() {
+    
     var credentials=localStorage.getItem('credential');
+    console.log(credentials)
     var credJson=JSON.parse(credentials)
     this.public_address=credJson.pub;
-    var files=new Blob([credJson.pub+':'+credJson.enc],{type:'sid'});
-    this.file=files;
+    var files=new Blob([credJson.walletstore],{type:'sid'});
+    this.filedownload=files;
     var buttonid=document.getElementById('downloadsid');
     this.a=buttonid;
-
+    
+    
   }
 
 
   downloadFile()
   {
-    console.log(this.public_address)
-    this.a.href=URL.createObjectURL(this.file);
+   // console.log(this.public_address)
+    //this.a.href=URL.createObjectURL(this.file);
     //this.a.download=this.public_address+'.sid';
-    const url = 'http://www.example.com/file.pdf';
-   this.fileTransfer.download(url, this.fileT.dataDirectory + 'file.pdf').then((entry) => {
-    console.log('download complete: ' + entry.toURL());
-  }, (error) => {
-    // handle error
-  });
+    
+    const fileTransfer:FileTransferObject=this.transfer.create();
+    console.log(fileTransfer);
+    this.file.writeFile(this.file.externalDataDirectory,this.public_address+'.sid',this.filedownload)
+    console.log(this.file.externalDataDirectory)
+    alert('File .sid salvato con Successo!')
+    /*
+    fileTransfer.download(url, this.file.applicationStorageDirectory +'/Download/'+ this.public_address+'.pdf').then((entry) => {
+      console.log('download complete: ' + entry.toURL());
+    }, (error) => {
+     console.log('ccccc',error)
+    })
+  */
   }
 
 

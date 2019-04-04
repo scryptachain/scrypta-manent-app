@@ -1,19 +1,33 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>congratulations</ion-title>
+    <ion-buttons>
+      <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+    <ion-title></ion-title>
+    
   </ion-toolbar>
 </ion-header>
+<ion-content text-center>
+        <img src="/assets/logo.png" style="margin-top:10%;">
+        <h2>SCRYPTA-MANENT</h2>
+    </ion-content>
 
-<ion-content>
-  <ion-button id="downloadsid" (click)="downloadFile()">Download .Sid</ion-button>
+<ion-content text-center>
+  
+  <ion-button id="downloadsid" (click)="downloadFile()">Download .Sid File</ion-button>
 
 </ion-content>
+<ion-row>
 
-<ion-content>
-    <ion-item>
+        <ion-col size="3">
         <ion-button (click)='goPrev()' >Prev</ion-button>
-      
+        </ion-col>
+        <ion-col size="3"></ion-col>
+        <ion-col size="3"></ion-col>
+        
+          <ion-col size=3>
+        <ion-button (click)='goNext()'>Next</ion-button>
+        </ion-col>
+
+</ion-row>
  
-    <ion-button (click)='goNext()'>Next</ion-button>
-  </ion-item>
-</ion-content>

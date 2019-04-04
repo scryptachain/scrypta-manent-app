@@ -1,37 +1,44 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>
-      Home
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content>
-    <ion-card class="welcome-card">
-      <ion-img src="/assets/shapes.svg"></ion-img>
-      <ion-card-header>
-        <ion-card-subtitle>Get Started</ion-card-subtitle>
-        <ion-card-title>Welcome to Ionic</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Now that your app has been created, you'll want to start building out features and components. Check out some of the resources below for next steps.</p>
-      </ion-card-content>
-    </ion-card>
+
+<ion-content text-center>
+    <img src="/assets/logo.png" style="margin-top:10%;">
+    <h2>SCRYPTA-MANENT</h2>
+</ion-content>
+
+  
+
+
+    <ion-content text-center class="vertical-align-center" >
     <form (ngSubmit)=createWallet()>
+      <ion-item>
         <ion-label position="floating">
             <ion-icon name="lock" item-start></ion-icon>
             Password
           </ion-label> 
    <ion-input type="password" [(ngModel)]='password' name='password'></ion-input>
+   </ion-item>
+   <ion-item>
+     
    <ion-label position="floating">
+     
       <ion-icon name="lock" item-start></ion-icon>
      Repeat Password
     </ion-label>
    <ion-input type="password"  [(ngModel)]='repassword'  name='repassword'></ion-input>
-
+</ion-item>
+<ion-item text-center class="vertical-align-center">
     <ion-button type="submit">Create Wallet</ion-button>
+    </ion-item>
     </form>
-</ion-content>
+  
+  </ion-content>
+ 
+   <ion-row >
+     <ion-item>
+    <ion-label>Already have an account ? </ion-label>
+    </ion-item>
+
+    <ion-item text-center >
+    <ion-label ><a routerLink='/login-to-wallet'>Login Now</a></ion-label>
+</ion-item>
+</ion-row>

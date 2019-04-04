@@ -83,6 +83,7 @@ export class HomePage {
     if(this._window.ScryptaCore.keyExsist()){
       this.public_address=this._window.ScryptaCore.PubAddress;
       this.encrypted_wallet=this._window.ScryptaCore.RAWsAPIKey;
+      console.log(this.encrypted_wallet)
     }
   }
 
@@ -98,8 +99,8 @@ export class HomePage {
           address:response.pub,
           api_secret:response.api_secret
         }).then(function(){
-          //console.log(app.encrypted_wallet);
-          response.enc=app.encrypted_wallet;
+          console.log(response);
+          
           localStorage.setItem('credential',JSON.stringify(response));
           app.router.navigate(['/congratulations'])
           
