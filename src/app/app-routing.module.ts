@@ -18,7 +18,11 @@ const routes: Routes = [
   { path: 'congratulations', loadChildren: './congratulations/congratulations.module#CongratulationsPageModule' },
   { path: 'login-to-wallet', loadChildren: './login-to-wallet/login-to-wallet.module#LoginToWalletPageModule' },
   
-  { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardPageModule' }
+  { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardPageModule' },
+  { path: 'account', loadChildren: './account/account.module#AccountPageModule' },
+  { path: 'send', loadChildren: './send/send.module#SendPageModule' },
+  { path: 'converter', loadChildren: './converter/converter.module#ConverterPageModule' },
+  { path: 'backup', loadChildren: './backup/backup.module#BackupPageModule' }
 ];
 
 @NgModule({

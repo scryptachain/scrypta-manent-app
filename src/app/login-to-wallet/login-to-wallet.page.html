@@ -1,32 +1,44 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>loginToWallet</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content>
-<ion-item>
-<ion-button (click)='openSidFile()' >Login With .Sid file</ion-button>
-
-</ion-item>
-<ion-item>
-    <ion-button (click)='loginCard()'>Login Card</ion-button>
+<ion-content text-center>
+    <img src="/assets/imgs/scrypta_ce.png" style="width: 140px;height: 118px;margin-top:5%"><br/>
+     <img src="/assets/imgs/manent.png" class="scrypta_ce" style='width: 140px;height: 19,28px; margin-top:10%'>
     
-    </ion-item>
-    <ion-item>
-        <ion-button (click)='readQrCode()' >Login QrCode</ion-button>
+
+</ion-content>
+
+<ion-content text-center>
+
+<button (click)='openSidFile()' expand="full" class='buttonsBut' style='margin-top: 5%' >Login With .Sid file<ion-icon name="key" style="float:right"></ion-icon></button>
+
+
+
+    <button (click)='loginCard()' expand="full" class='buttonsBut' style='margin-top: 5%'>Login With Card<ion-icon name="card" style="float:right"></ion-icon></button>
+    
+   
+        <button (click)='readQrCode()' expand="full" class='buttonsBut'style='margin-top: 5%'>Login With QrCode<ion-icon name="qr-scanner" style="float:right"></ion-icon></button>
         
-        </ion-item>
-        <ion-item id='password'>
+      
+        <ion-item id='password' padding>
         <ion-label position="floating">
             <ion-icon name="lock" item-start></ion-icon>
             Password
           </ion-label> 
-   <ion-input type="password" [(ngModel)]='password' name='password'  required='true' ></ion-input>
-   <ion-button (click)='unlockWallet()'>Accedi al tuo Wallet</ion-button>
-</ion-item>
+   <ion-input #input type="password" [(ngModel)]='password' name='password'  required='true' id='password'></ion-input>
+        </ion-item>
+
+        <button (click)='unlockWallet()' id='buttonSend' expand="full" class='buttonsBut' style='margin:0 auto'>Accedi al tuo Wallet</button>
+  
 
 
-</ion-content>
 
+      </ion-content>
 
+<ion-footer text-center>
+  
+  <div class="footerAlready">Don’t have an account?
+      <a style="color:#d8273a" routerLink='/home'>SignUP</a>
+      </div>
+    
+    
+
+</ion-footer>

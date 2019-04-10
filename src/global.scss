@@ -14,3 +14,29 @@
 title-toolbar{
     text-align: center;
 }
+
+.buttonsBut {
+    width: 290px;
+  height: 50px;
+    background:#d8273a;
+    font-family: Poppins;
+    
+    color:white;
+    border-radius: 15px 15px 15px 15px;
+  }
+
+  .inputforms{
+    width: 215px;
+    height: 19px;
+    color: #555555;
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: -0,2215385px;
+  }
+ 
+  ion-menu{
+      --ion-background-color:#464646;
+      --ion-text-color:white
+  }

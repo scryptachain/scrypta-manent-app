@@ -43,18 +43,27 @@ export class AppComponent {
 
   ];
 
+  private localAddress:string
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar
+    
   ) {
     this.initializeApp();
+    this.fetchAddress();
+  }
+  fetchAddress()
+  {
+    var indirizzo=localStorage.getItem('createPasswd').split(':')
+    this.localAddress=indirizzo[0]
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      
     });
   }
 }

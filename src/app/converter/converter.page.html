@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons>
+          <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+    <ion-title>Converter</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>Scrypta</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-input placeholder="Inserisci " type="number" [(ngModel)]='valueScrypta' min='0'  value='0' (keyup)='calculateCurrencyOne()' (keydown)='calculateCurrencyOne()'></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Eur</ion-label>
+    </ion-item>
+    <ion-item>
+
+        <ion-input placeholder="Inserisci " type="number" [(ngModel)]='valueEur' min='0' (keyup)='calculateCurrencyTwo()' (keydown)='calculateCurrencyTwo()'></ion-input>
+  </ion-item>
+
+</ion-content>

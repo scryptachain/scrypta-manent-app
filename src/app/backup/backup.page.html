@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons>
+          <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+    <ion-title>Backup</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <ion-item lines='none'>
+      <ion-label><h3>Your Account Address</h3></ion-label>
+  </ion-item>
+  <ion-item>
+     
+    {{address}}
+  </ion-item>
+
+  <ion-item text-center lines='none' style="margin-top:10%">
+      <h3>Download, backup and use this file for future access.</h3>
+
+  </ion-item>
+
+  
+  <ion-button expand='full' (click)='getPermissions()'>Download .sid file <ion-icon name='key'></ion-icon></ion-button>
+ 
+  
+    <h3 style="text-align:center">Or</h3>
+    <h3><p style="text-align: center">This is your paper wallet. Print it and don't share this informations. </p> </h3>
+    <ion-button expand='full' (click)='getQRCode()'>Download .pdf QR Code <ion-icon name='qr-scanner'></ion-icon></ion-button>
+ 
+</ion-content>
+<ion-footer>
+          
+  
+    <ion-tab-bar slot="bottom">
+  
+      <ion-tab-button  [routerLink]="'/account'">
+        <ion-label>Account</ion-label>
+        <ion-icon name="card"></ion-icon>
+        
+      </ion-tab-button>
+  
+      <ion-tab-button >
+        <ion-label>Send</ion-label>
+        <ion-icon name="send"></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button >
+          <ion-label>Receive</ion-label>
+          <ion-icon name="add"></ion-icon>
+        </ion-tab-button>
+
+        <ion-tab-button >
+            <ion-label>Archive</ion-label>
+            <ion-icon name="archive"></ion-icon>
+          </ion-tab-button>
+    </ion-tab-bar>
+  
+  </ion-footer>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NFC, Ndef } from '@ionic-native/nfc/ngx';
 //import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import {Platform} from '@ionic/angular'
@@ -24,6 +24,8 @@ export class LoginToWalletPage implements OnInit {
   nodes:string[]=[];
   connected:string='';
   private _window: ICustomWindow;
+  @ViewChild('input') mypassword;
+
 
   constructor(private nfc:NFC,private ndef:Ndef,private qrScanner: BarcodeScanner, public platform:Platform, windowRef: WindowRefService,public router:Router, private fileChooser:FileChooser,private fileOpener:FileOpener,private filePath:FilePath,private file:File,private http:HTTP)
   { 
@@ -32,7 +34,8 @@ export class LoginToWalletPage implements OnInit {
 
   ngOnInit() {
      this.checkIdaNodes();
-    document.getElementById('password').style.display='none';
+     document.getElementById('password').style.display='none';
+     document.getElementById('buttonSend').style.display='none';
     
     
     
@@ -61,6 +64,7 @@ connectToNode()
   var app = this
   if(app.connected == ''){
     app.connected = app.nodes[Math.floor(Math.random()*app.nodes.length)];
+    
 }
 }
 
@@ -69,7 +73,7 @@ connectToNode()
     var nfcreader;
     this.platform.ready().then(()=>{
      nfcreader=this.nfc.addNdefListener(()=>{
-      alert('successfull attached ndef');
+      alert('Avvicina la tua card al sensore NFC');
     },(err)=>{
       alert('errore ndef');
 
@@ -79,6 +83,8 @@ connectToNode()
       //console.log(this.nfc.bytesToString(event.tag.ndefMessage[0].payload).substr(3));
       localStorage.setItem('createPasswd',this.nfc.bytesToString(event.tag.ndefMessage[0].payload).substr(3));
       document.getElementById('password').style.display='block';
+    document.getElementById('buttonSend').style.display='block';
+    this.mypassword.setFocus()
 
       //this.unlockWallet();
 
@@ -122,9 +128,9 @@ connectToNode()
           location.reload(); 
         }
       })
-
+      this.fetchTransactions();
        this.checkBalance();
-
+       
 
 }
   checkBalance()
@@ -143,6 +149,22 @@ connectToNode()
 
 
   
+}
+
+fetchTransactions()
+{
+var app=this
+var createPasswd=localStorage.getItem('createPasswd');
+var indirizzo=createPasswd.split(':');
+Axios.post('https://'+app.connected+'/transactions',{
+  address:indirizzo[0]
+}).then(function(response){
+  console.log('transactions',response)
+  localStorage.setItem('transactions',response.request.response)
+}) 
+
+
+
 }
 /*
   readQrCode()
@@ -181,6 +203,7 @@ readQrCode()
     console.log('barcode',barcodeData)
     localStorage.setItem('createPasswd',barcodeData.text);
     document.getElementById('password').style.display='block';
+    document.getElementById('buttonSend').style.display='block';
   }).catch(err=>{
     console.log(err)
   })
@@ -195,10 +218,11 @@ openSidFile()
       console.log(resolvedFilePath);
       this.file.resolveLocalFilesystemUrl(resolvedFilePath).then(fileinfo=>{
         console.log(fileinfo)
-        this.file.readAsText(this.file.externalDataDirectory,fileinfo.name).then(result=>{
+        this.file.readAsText(this.file.externalRootDirectory+'/Download/',fileinfo.name).then(result=>{
           //console.log(result);
           localStorage.setItem('createPasswd',result);
-    document.getElementById('password').style.display='block';
+          document.getElementById('password').style.display='block';
+          document.getElementById('buttonSend').style.display='block';
         })
       })
       /*

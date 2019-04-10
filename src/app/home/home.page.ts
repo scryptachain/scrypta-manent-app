@@ -102,6 +102,7 @@ export class HomePage {
           console.log(response);
           
           localStorage.setItem('credential',JSON.stringify(response));
+          localStorage.setItem('password',app.password)
           app.router.navigate(['/congratulations'])
           
           

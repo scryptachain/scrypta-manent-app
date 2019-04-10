@@ -1,0 +1,155 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons>
+          <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+    <ion-title>Send</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+    
+    <ion-item  lines='none'>
+        <h4>Amount</h4>
+    <div slot='end'><ion-label style="font-size: 0.8rem">Your Balance : {{balance}} LYRA</ion-label></div>
+    
+    </ion-item>
+    
+<ion-item>
+    <ion-input type="number" placeholder ='Amount you mean to send'[(ngModel)]='amountToSend'></ion-input>
+    <ion-label slot='end'><h2>LYRA</h2></ion-label>
+</ion-item>
+
+
+  <h4>Insert a valid Lyra address</h4>
+    
+
+<ion-item>
+    <ion-input type="text" [(ngModel)]='addressToSend' placeholder="write address here or scan with qrCode"></ion-input>
+</ion-item>
+ 
+<ion-row>
+    <ion-col size="6" >
+  
+      <ion-buttons start>
+          <button ion-button (click)="scanQRCode()"  style="background:transparent">
+
+            <ion-icon name="qr-scanner" style="zoom:2.0"></ion-icon>
+            <br><ion-label>Scan QR Code</ion-label>
+          </button>
+        </ion-buttons>
+  
+  </ion-col>
+  <ion-col size="6">
+ 
+      <ion-buttons end>
+          <button ion-button (click)="pasteAddress()"  style="background:transparent">
+
+            <ion-icon name="more" style="zoom:2.0"></ion-icon>
+            <br><ion-label>Paste Address</ion-label>
+          </button>
+        </ion-buttons>
+ 
+  </ion-col>
+</ion-row>
+     
+ 
+   <h4>Unencrypted Message</h4>
+ 
+ 
+ <ion-item>
+  <ion-textarea placeholder="facoltative" rows="2" maxLength="80">
+
+  </ion-textarea>
+
+ </ion-item>
+ <div id='password'>
+   <h4>Insert Your password</h4>
+   <ion-item>
+     <ion-input type="password" [(ngModel)]='unlockPwd' placeholder='Insert your password' required (keyup)='unlockButton()'></ion-input>
+   </ion-item>
+ </div>
+ 
+   <ion-button expand='block' id='buttonSend' (click)='unlockWallet()'>Send</ion-button>
+
+
+
+
+
+
+
+
+
+</ion-content>
+<!--
+<ion-content padding>
+  <ion-item slot="end">
+    <ion-label>kjlkjljljlkjlkjlkjlkjljklkj</ion-label>
+  </ion-item>
+    <ion-list>
+      <ion-item >
+      
+        <ion-note slot="end">
+          Your Balance {{balance}}
+        </ion-note>
+      </ion-item>
+    </ion-list>
+    </ion-content>
+  
+      <ion-item slot="start" lines='none'>
+        <ion-label>Amount</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-input type="number" placeholder ='Amount you mean to send'[(ngModel)]='amountToSend'></ion-input>
+        <ion-label slot="end"><h2>LYRA</h2></ion-label>
+      </ion-item>
+
+      <ion-item slot="start" lines='none'>
+        <ion-label>Address </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" placeholder="Insert a valid lyra address" [(ngModel)]='addressToSend'></ion-input>
+       
+      </ion-item>
+      <ion-row>
+        <ion-col size="6" >
+      
+          <ion-buttons start>
+              <button ion-button (click)="scanQRCode()"  style="background:transparent">
+  
+                <ion-icon name="qr-scanner" style="zoom:2.0"></ion-icon>
+                <br><ion-label>Scan QR Code</ion-label>
+              </button>
+            </ion-buttons>
+      
+      </ion-col>
+      <ion-col size="6">
+     
+          <ion-buttons end>
+              <button ion-button (click)="pasteAddress()"  style="background:transparent">
+  
+                <ion-icon name="more" style="zoom:2.0"></ion-icon>
+                <br><ion-label>Paste Address</ion-label>
+              </button>
+            </ion-buttons>
+     
+      </ion-col>
+    </ion-row>
+   
+    <ion-item slot="start" lines='none'>
+      <ion-label>Unencrypted Message</ion-label>
+      
+    </ion-item>
+    <ion-item>
+        <ion-textarea placeholder='facoltative'></ion-textarea>
+    </ion-item>
+    <ion-item>
+        <ion-input type="text" [(ngModel)]='unlockPwd'></ion-input>
+      </ion-item>
+    <ion-item text-center>
+      <ion-button type="submit" (click)='unlockWallet()'>Send</ion-button>
+    </ion-item>
+
+
+  -->
+  
+  
