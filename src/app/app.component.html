@@ -17,15 +17,17 @@
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
-        <div style='font-size:0.9rem;margin-top:20%' padding >
-          <ion-label padding style="font-size:0.6rem">
-        {{localAddress}}</ion-label>
+        <div style='font-size:9px;margin-top:20%' padding >
+         
+        {{localAddress}}
         <br/><ion-item>
         <div slot='start'>
-            <ion-label padding style="font-size:0.5rem"> last logged in </ion-label>
+            <ion-label padding style="font-size:0.5rem"> last logged in <br/> <p style='font-size:6px'>{{dateLogin}}</p></ion-label>
+           
+            
         </div>
         <div slot='end'>
-          Logout
+         <button (click)='logout()'>Logout</button>
         </div>
       </ion-item>
       <ion-item>

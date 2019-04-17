@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NFC, Ndef } from '@ionic-native/nfc/ngx';
 //import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
-import {Platform} from '@ionic/angular'
+import {Platform, ModalController, LoadingController} from '@ionic/angular'
 import { WindowRefService, ICustomWindow } from '../windowservice';
 import { Router } from '@angular/router';
 import Axios from 'axios';
@@ -12,6 +12,8 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import {File} from '@ionic-native/file/ngx'
 import {HTTP} from '@ionic-native/http/ngx'
+import { ModalLoginPage } from '../modal-login/modal-login.page';
+import { OverlayEventDetail } from '@ionic/core';
 @Component({
   selector: 'app-login-to-wallet',
   templateUrl: './login-to-wallet.page.html',
@@ -24,19 +26,23 @@ export class LoginToWalletPage implements OnInit {
   nodes:string[]=[];
   connected:string='';
   private _window: ICustomWindow;
-  @ViewChild('input') mypassword;
+  
 
 
-  constructor(private nfc:NFC,private ndef:Ndef,private qrScanner: BarcodeScanner, public platform:Platform, windowRef: WindowRefService,public router:Router, private fileChooser:FileChooser,private fileOpener:FileOpener,private filePath:FilePath,private file:File,private http:HTTP)
+  constructor(private nfc:NFC,private ndef:Ndef,private qrScanner: BarcodeScanner, public platform:Platform, windowRef: WindowRefService,public router:Router, private fileChooser:FileChooser,private fileOpener:FileOpener,private filePath:FilePath,private file:File,private http:HTTP,private modalCtrl:ModalController,private loadingController:LoadingController)
   { 
     this._window = windowRef.nativeWindow;
   }
 
   ngOnInit() {
+    localStorage.removeItem('transactions')
+    localStorage.removeItem('transactions2')
      this.checkIdaNodes();
-     document.getElementById('password').style.display='none';
-     document.getElementById('buttonSend').style.display='none';
+     
     
+    if(localStorage.getItem('createPasswd')!=null){
+      this.openModal()
+    }
     
     
   }
@@ -70,6 +76,7 @@ connectToNode()
 
   loginCard()
   {
+    
     var nfcreader;
     this.platform.ready().then(()=>{
      nfcreader=this.nfc.addNdefListener(()=>{
@@ -77,45 +84,71 @@ connectToNode()
     },(err)=>{
       alert('errore ndef');
 
-    }).subscribe((event)=>{
+    }).subscribe(async (event)=>{
+
       alert('Inserisci la password ed entra nel tuo wallet');
-
-      //console.log(this.nfc.bytesToString(event.tag.ndefMessage[0].payload).substr(3));
-      localStorage.setItem('createPasswd',this.nfc.bytesToString(event.tag.ndefMessage[0].payload).substr(3));
-      document.getElementById('password').style.display='block';
-    document.getElementById('buttonSend').style.display='block';
-    this.mypassword.setFocus()
-
-      //this.unlockWallet();
-
+      console.log('precedente',localStorage.getItem('createPasswd'))
+      await localStorage.removeItem('createPasswd')
+      
+      await localStorage.setItem('createPasswd',this.nfc.bytesToString(event.tag.ndefMessage[0].payload).substr(3));
+      console.log(localStorage.getItem('createPasswd'))
+      
+      nfcreader.unsubscribe();
+      
+      this.openModal().then((result)=>{
+        console.log(result)
+      }).catch((err)=>{
+        console.log(err)
+      })
+     
     });
+
+    
       let message = this.ndef.textRecord('Hello world');
       this.nfc.share([message]).then().catch();
       
     })
-   
+
+  
 
   }
 
 
+  async openModal()
+  {
+    const modal= await this.modalCtrl.create({
+      component:ModalLoginPage
+    });
+    
+    modal.onDidDismiss().then((detail:OverlayEventDetail)=>{
+      if(detail!=null)
+      {
+        console.log(detail);
+        this.password=detail.data;
+        this.unlockWallet()
+        
+      }
+    })
+    await modal.present()
+    
+  }
+
 
  async unlockWallet()
 {
-  console.log(this.password)
-  //console.log(localStorage.getItem('createPasswd'));
+  await this.checkBalance();
+  //await this.fetchTransactions();
   var unlockPasswd=localStorage.getItem('createPasswd');
   
   var decrypted_wallet=this.decrypted_wallet
   localStorage.setItem('decrypted_wallet',decrypted_wallet);
-  //var password=this.password;
+ 
       decrypted_wallet='WALLET LOCKED';
-      //console.log(unlockPasswd);
-      //var split=unlockPasswd.split(':');
-      //console.log(split)
+     
       
        await this._window.ScryptaCore.readKey(this.password,unlockPasswd).then( function(response){
 
-       console.log(response+'pre');
+      
         if(response!==false)
         {
           
@@ -128,12 +161,13 @@ connectToNode()
           location.reload(); 
         }
       })
-      this.fetchTransactions();
-       this.checkBalance();
-       
+     // await this.loading()
+
+      
+
 
 }
-  checkBalance()
+   async checkBalance()
 {
   
   var app=this
@@ -141,75 +175,64 @@ connectToNode()
   var indirizzo=createPasswd.split(':');
   Axios.post('https://'+app.connected+'/getbalance',{
     address:indirizzo[0]
-  }).then(function(response){
+    
+  }).then(async function(response){
     console.log(response)
+    await app.loading()
     localStorage.setItem('balance',JSON.stringify(response.data))
+   // localStorage.removeItem('transactions')
+    //localStorage.removeItem('transactions2')
+   await app.fetchTransactions();
+    
     app.router.navigate(['/dashboard'])
   })
 
 
   
 }
+ async loading()
+{
+  const loading= await this.loadingController.create({
+    spinner:'circles',
+    duration:3500,
+    message:'Please Wait...',
+    translucent:true,
+  })
+  await loading.present();
+  
+}
 
-fetchTransactions()
+async fetchTransactions()
 {
 var app=this
 var createPasswd=localStorage.getItem('createPasswd');
 var indirizzo=createPasswd.split(':');
-Axios.post('https://'+app.connected+'/transactions',{
+await Axios.post('https://'+app.connected+'/transactions',{
   address:indirizzo[0]
-}).then(function(response){
-  console.log('transactions',response)
-  localStorage.setItem('transactions',response.request.response)
+}).then(async function(response){
+  //console.log('trans-pre',localStorage.getItem('transactions'))
+  //await localStorage.removeItem('transactions')
+  await localStorage.setItem('transactions2',response.request.response)
+  console.log('dopo-',localStorage.getItem('transactions2'))
 }) 
 
 
 
 }
-/*
-  readQrCode()
-  {
-    console.log('ci sono entrato')
-    this.qrScanner.prepare()
-  .then((status: QRScannerStatus) => {
-     if (status.authorized) {
-       // camera permission was granted
-      this.qrScanner.show();
 
-       // start scanning
-       let scanSub = this.qrScanner.scan().subscribe((text: string) => {
-         console.log('Scanned something', scanSub);
-         alert(text)
-
-         this.qrScanner.hide(); // hide camera preview
-         scanSub.unsubscribe(); // stop scanning
-       });
-
-     } else if (status.denied) {
-       console.log('non abilitato'+status);
-       // camera permission was permanently denied
-       // you must use QRScanner.openSettings() method to guide the user to the settings page
-       // then they can grant the permission from there
-     } else {
-       // permission was denied, but not permanently. You can ask for permission again at a later time.
-     }
-  })
-  .catch((e: any) => console.log('Error is', e));
-  }
-*/
-readQrCode()
+async readQrCode()
 {
-  this.qrScanner.scan().then(barcodeData=>{
-    console.log('barcode',barcodeData)
-    localStorage.setItem('createPasswd',barcodeData.text);
-    document.getElementById('password').style.display='block';
-    document.getElementById('buttonSend').style.display='block';
+ await this.qrScanner.scan().then(async barcodeData=>{
+    await localStorage.removeItem('createPasswd')
+    await localStorage.setItem('createPasswd',barcodeData.text);
+    
+   this.openModal()
   }).catch(err=>{
     console.log(err)
   })
 }
 
-openSidFile()
+async openSidFile()
 {
   
   this.fileChooser.open().then(uploadfile=>{
@@ -218,30 +241,18 @@ openSidFile()
       console.log(resolvedFilePath);
       this.file.resolveLocalFilesystemUrl(resolvedFilePath).then(fileinfo=>{
         console.log(fileinfo)
-        this.file.readAsText(this.file.externalRootDirectory+'/Download/',fileinfo.name).then(result=>{
-          //console.log(result);
-          localStorage.setItem('createPasswd',result);
-          document.getElementById('password').style.display='block';
-          document.getElementById('buttonSend').style.display='block';
+        this.file.readAsText(this.file.externalRootDirectory+'/Download/',fileinfo.name).then(async result=>{
+          
+          await localStorage.removeItem('createPasswd')
+          await localStorage.setItem('createPasswd',result);
+         
+         this.openModal()
         })
       })
-      /*
-      var namefile=resolvedFilePath.split('/');
-      console.log(namefile)
-     this.file.readAsText(this.file.externalDataDirectory,namefile[10]).then(ffff=>{
-       console.log(ffff)
-     })*/
+      
        
     })
-    /*
-    
-    this.fileOpener.open(uploadfile,'txt').then(fileopen=>{
-      console.log('fileopen') 
-    }).catch(err=>{
-      console.log('err'+err)
-    })
-  
-*/
+   
   })
     
 

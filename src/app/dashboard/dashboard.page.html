@@ -10,98 +10,80 @@
 </ion-header>
 
 <ion-content >
-  <div class='walletbala'>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+  <div class='walletbala' style="width:100%;border-bottom-right-radius: 29px;">
     
     <chart [options] ="options" style="display:block;width:auto; height:100%;margin:0 auto;" type="chart"> </chart>
   </div>
-  </ion-content>
-<ion-content padding [scrollEvents]="true" >
-  <h2>Activity</h2>
+ 
 
+  <h2 style="font-size:16px" padding>Activity</h2>
+  <ion-list>
+      <div *ngIf="transactions.length==0" padding>No Transactions</div>
+      <div *ngIf="transactions.length!=0">
+      <ion-item *ngFor="let transazioni of transactions  ;let i=index" [attr.data-index]="i" (click)='openDetails(transazioni)'>
+         
+          <div *ngIf="transazioni.amount.charAt(0)==='-'">
+             
+              <div slot='start'>
+              <img src='/assets/imgs/sent.png' style="width:28px;height: 28px;float: left;margin-left: -10%" >Sent:<br>
+              <p style='font-size:10px;margin-left: 25%'>{{transazioni.date}}</p>
+            </div>
+         
+            
+          </div>
+          <div *ngIf="transazioni.amount.charAt(0)!=='-'">
+          
+              <div slot='start'>
+              <img src='/assets/imgs/received.png' style="width:28px;height: 28px;float: left;margin-left: -7%" >Received:<br>
+              <p style='font-size:10px;margin-left: 25%'>{{transazioni.date}}</p>
+            </div>
+         
+            
+          </div>
+          
+               <div slot='end'><b>{{transazioni.amount}}</b></div> 
+              
+           
       
-  <ion-item *ngFor="let transazioni of transactions  ;let i=index" [attr.data-index]="i" >
-    
-     
-        
-      <ion-row>
-   <ion-col size="6" style="float:left">
-      <div *ngIf="transazioni.amount.charAt(0)==='-'">
-      <ion-icon name="arrow-forward"></ion-icon>Sent:<br><b>{{transazioni.amount}}</b>
-    </div> 
-    <div *ngIf="transazioni.amount.charAt(0)!=='-'">
-        <ion-icon name="arrow-back"></ion-icon>Received:<br><b>{{transazioni.amount}}</b>
-      </div> 
-    <div *ngIf="transactions.length=='0'">
-      No Activities
-    </div>
-    
-   </ion-col>  
-   <ion-col size="2"></ion-col>
-   <ion-col size="4" style="float:right">
-      <p style="font-size: 0.3rem"> Date : {{transazioni.date}}</p>
-   </ion-col>
-   
-  </ion-row>
+      </ion-item>
+      </div>
+      
   
+        </ion-list>
+
   
-  </ion-item>
-
-
-
-  <!--
-<ion-content >
-  
-   <ion-row text-center>
-    
-    <ion-col size="3">
-    
-        <ion-icon name="card"></ion-icon>
-        <ion-label>asdasdasd</ion-label>
-   
-    </ion-col>
- 
-    <ion-col size="3">
-        <ion-icon name="card"></ion-icon>
-    </ion-col>
-    <ion-col size="3">
-        <ion-icon name="card"></ion-icon>
-    </ion-col>
-    <ion-col size="3">
-        <ion-icon name="card"></ion-icon>
-    </ion-col>
-
-   </ion-row>
-    
- 
-  </ion-content>
--->
 </ion-content>
 <ion-footer>
-    
+          
   
     <ion-tab-bar slot="bottom">
   
       <ion-tab-button  [routerLink]="'/account'">
-        <ion-label>Account</ion-label>
-        <ion-icon name="card"></ion-icon>
+        <ion-label style='color:#a7a7a7'>Account</ion-label>
+        <ion-icon name="card" style='color:#a7a7a7'></ion-icon>
         
       </ion-tab-button>
   
-      <ion-tab-button [routerLink]="'/send'" >
-        <ion-label>Send</ion-label>
-        <ion-icon name="send"></ion-icon>
+      <ion-tab-button [routerLink]="'/send'">
+        <ion-label style='color:#a7a7a7'>Send</ion-label>
+        <ion-icon name="send" style='color:#a7a7a7'></ion-icon>
       </ion-tab-button>
 
-      <ion-tab-button >
-          <ion-label>Receive</ion-label>
-          <ion-icon name="add"></ion-icon>
+      <ion-tab-button [routerLink]="'/receive'" >
+          <ion-label style='color:#a7a7a7'>Receive</ion-label>
+          <ion-icon name="add" style='color:#a7a7a7'></ion-icon>
         </ion-tab-button>
 
-        <ion-tab-button >
-            <ion-label>Archive</ion-label>
-            <ion-icon name="archive"></ion-icon>
+        <ion-tab-button [routerLink]="'/archive'" >
+            <ion-label style='color:#a7a7a7'>Archive</ion-label>
+            <ion-icon name="archive" style='color:#a7a7a7'></ion-icon>
           </ion-tab-button>
     </ion-tab-bar>
+  
   </ion-footer>
+
 
  

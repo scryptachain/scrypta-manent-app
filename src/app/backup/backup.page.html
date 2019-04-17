@@ -2,37 +2,42 @@
   <ion-toolbar>
       <ion-buttons>
           <ion-menu-button></ion-menu-button>
+          <ion-title>Backup</ion-title>
           </ion-buttons>
-    <ion-title>Backup</ion-title>
+    
   </ion-toolbar>
 </ion-header>
 
-<ion-content >
+<ion-content text-center >
   <ion-item lines='none'>
-      <ion-label><h3>Your Account Address</h3></ion-label>
+      <h3 style='width: 215px;height:16px;color:#d8273a;font-size:12px;font-family: BanglaSangamMN;text-align: center'>Your Account Address</h3>
   </ion-item>
   <ion-item>
-     
+     <div style='height: 25px;font-size:14px'>
     {{address}}
+  </div>
   </ion-item>
 
-  <ion-item text-center lines='none' style="margin-top:10%">
-      <h3>Download, backup and use this file for future access.</h3>
+
+  <ion-item lines='none' style="margin-top:10%">
+      <h3 style="font-size:14px;text-align: center;margin:0 auto">Download, backup and use this file for future access.</h3>
 
   </ion-item>
 
   
-  <ion-button expand='full' (click)='getPermissions()'>Download .sid file <ion-icon name='key'></ion-icon></ion-button>
+  <button expand='full' (click)='getPermissions()' class='buttonsBut'>Download .sid file <ion-icon name='key' size='large' style='float:right'></ion-icon></button>
  
   
-    <h3 style="text-align:center">Or</h3>
-    <h3><p style="text-align: center">This is your paper wallet. Print it and don't share this informations. </p> </h3>
-    <ion-button expand='full' (click)='getQRCode()'>Download .pdf QR Code <ion-icon name='qr-scanner'></ion-icon></ion-button>
+    <h3 style="text-align:center;color:red">Or</h3>
+    <h3><p style="text-align: center;font-size:14px">This is your paper wallet. Print it and don't share this informations. </p> </h3>
+    <button expand='full' (click)='getQRCode()'class='buttonsBut' >Download .pdf QR Code <ion-icon name='qr-scanner' size='large' style="float:right"></ion-icon></button>
  
 </ion-content>
-<ion-footer>
+<ion-footer  padding>
+  <div style='font-size:12px;color:#d8273a'>Attention!</div>
+  <div style='font-size:12px'>Please remind, you are the only responsable of these files and the password associated. No one will take a copy or will be able to rescue it, so keep them safe.</div>
           
-  
+  <!--
     <ion-tab-bar slot="bottom">
   
       <ion-tab-button  [routerLink]="'/account'">
@@ -56,5 +61,5 @@
             <ion-icon name="archive"></ion-icon>
           </ion-tab-button>
     </ion-tab-bar>
-  
+  -->
   </ion-footer>

@@ -52,22 +52,14 @@ export class BackupPage implements OnInit {
 
   async downloadFile()
   {
-   // console.log(this.public_address)
-    //this.a.href=URL.createObjectURL(this.file);
-    //this.a.download=this.public_address+'.sid';
+   
     
     const fileTransfer:FileTransferObject=this.transfer.create();
     console.log(fileTransfer);
     this.file.writeFile(this.file.externalRootDirectory+'/Download/',this.address +'.sid',this.filedownload)
     console.log(this.file.externalDataDirectory)
     alert('File .sid salvato con Successo!')
-    /*
-    fileTransfer.download(url, this.file.applicationStorageDirectory +'/Download/'+ this.public_address+'.pdf').then((entry) => {
-      console.log('download complete: ' + entry.toURL());
-    }, (error) => {
-     console.log('ccccc',error)
-    })
-  */
+   
  
   }
 
@@ -77,10 +69,18 @@ export class BackupPage implements OnInit {
    var QrCode=new QRious({value:this.encrypted,size:500})
    console.log(QrCode)
    var pdf=new jsPdf("p", "mm", "a4")
+   pdf.text("Encrypted Wallet.",57,38)
    console.log(QrCode.toDataURL())
-   var width = pdf.internal.pageSize.getWidth();
-var height = pdf.internal.pageSize.getHeight();
-   pdf.addImage(QrCode.toDataURL(),"JPEG",0,0,60,60)
+   
+   pdf.addImage(QrCode.toDataURL(),"JPEG",55,40,100,100)
+   pdf.text("Public Address",10,158)
+   var QrCodePublicAddress=new QRious({value:this.address,size:500})
+   pdf.addImage(QrCodePublicAddress.toDataURL(),"JPEG",10,160,60,60)
+   pdf.text('Private Key',140,158)
+   var decrypted=JSON.parse(localStorage.getItem('credential'));
+   //console.log(localStorage.getItem('credential'))
+   var QrCodeDecryptedWallet=new QRious({value:decrypted.prv,size:500})
+   pdf.addImage(QrCodeDecryptedWallet.toDataURL(),"JPEG",140,160,60,60)
    var pdfOutPut=pdf.output()
    var buffer=new ArrayBuffer(pdfOutPut.length)
    var array= new Uint8Array(buffer)
@@ -90,7 +90,7 @@ var height = pdf.internal.pageSize.getHeight();
    
    const fileTransfer:FileTransferObject=this.transfer.create();
     
-   this.file.writeFile(this.file.externalRootDirectory+'/Download/',this.address+'.pdf',buffer).then(response=>{
+   this.file.writeFile(this.file.externalRootDirectory+'/Download/',this.address+'.pdf',buffer,{replace:true}).then(response=>{
      console.log(response)
      alert('File '+this.address+'.pdf salvato con successo')
    }).catch(err=>{

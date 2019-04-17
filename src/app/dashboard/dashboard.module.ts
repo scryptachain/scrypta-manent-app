@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { DashboardPage } from './dashboard.page';
 import { ChartModule } from 'angular2-highcharts';
 import * as highcharts from 'highcharts';
+import { ModaltransactionPage } from '../modaltransaction/modaltransaction.page';
 
 
 const routes: Routes = [
@@ -25,6 +26,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [DashboardPage]
+  declarations: [DashboardPage,ModaltransactionPage],
+  entryComponents:[ModaltransactionPage]
 })
 export class DashboardPageModule {}

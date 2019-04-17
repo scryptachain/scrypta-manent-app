@@ -1,0 +1,80 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons>
+            <ion-menu-button></ion-menu-button>
+            <ion-title>Archive</ion-title>
+            </ion-buttons>
+      
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content padding text-center>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+  <button class='buttonsBut' (click)='openModalUpload()' style='margin:0 auto;margin-top:5%' >Upload</button>
+
+  <ion-item lines='none' style='margin-top:5%'>
+    <h2 style='font-size:16px'>Archive history</h2>
+    
+  </ion-item>
+  <div *ngIf="readreturn.length==0" padding>No Transactions</div>
+  <div *ngIf="readreturn.length!=0" padding>
+
+    <ion-item *ngFor="let readreturn of readreturn2  ;let i=index" [attr.data-index]="i" lines='nolines'>
+      <ion-item (click)="generic(readreturn)" lines='nolines'>
+      <div slot='start'>
+        <p style='font-size: 10px;'>Title: {{readreturn.text}}</p>
+        <p style="font-size: 10px;color:#a7a7a7">{{readreturn.datetime}}</p>
+      </div>
+      
+      <div slot='end' lines='nolines'>
+        <p style="font-size:10px;color:#a7a7a7">Block: {{readreturn.block}}</p>
+      </div>
+      </ion-item>
+
+    </ion-item>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+</ion-content>
+<ion-footer>
+          
+  
+    <ion-tab-bar slot="bottom">
+  
+      <ion-tab-button  [routerLink]="'/account'">
+        <ion-label style='color:#a7a7a7'>Account</ion-label>
+        <ion-icon name="card" style='color:#a7a7a7'></ion-icon>
+        
+      </ion-tab-button>
+  
+      <ion-tab-button [routerLink]="'/send'">
+        <ion-label style='color:#a7a7a7'>Send</ion-label>
+        <ion-icon name="send" style='color:#a7a7a7'></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button [routerLink]="'/receive'" >
+          <ion-label style='color:#a7a7a7'>Receive</ion-label>
+          <ion-icon name="add" style='color:#a7a7a7'></ion-icon>
+        </ion-tab-button>
+
+        <ion-tab-button [routerLink]="'/archive'" >
+            <ion-label style='color:#a7a7a7'>Archive</ion-label>
+            <ion-icon name="archive" style='color:#a7a7a7'></ion-icon>
+          </ion-tab-button>
+    </ion-tab-bar>
+  
+  </ion-footer>

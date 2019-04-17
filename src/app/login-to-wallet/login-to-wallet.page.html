@@ -8,14 +8,14 @@
 
 <ion-content text-center>
 
-<button (click)='openSidFile()' expand="full" class='buttonsBut' style='margin-top: 5%' >Login With .Sid file<ion-icon name="key" style="float:right" size='large'></ion-icon></button>
+<button (click)='openSidFile()' expand="full" class='buttonsBut' style='margin-top: 5%' >Login With .Sid file<ion-icon name="key" style="float:right" size='large'></ion-icon></button><br/>
 
 
 
-    <button (click)='loginCard()' expand="full" class='buttonsBut' style='margin-top: 5%'>Login With Card<ion-icon name="card" style="float:right" size='large'></ion-icon></button>
+    <button (click)='loginCard()' expand="full" class='buttonsBut' style='margin-top: 5%'>Login With Card<ion-icon name="card" style="float:right" size='large'></ion-icon></button><br/>
     
    
-        <button (click)='readQrCode()' expand="full" class='buttonsBut'style='margin-top: 5%'>Login With QrCode<ion-icon name="qr-scanner" style="float:right" size='large'></ion-icon></button>
+        <button (click)='readQrCode()' expand="full" class='buttonsBut'style='margin-top: 5%'>Login With QrCode<ion-icon name="qr-scanner" style="float:right" size='large'></ion-icon></button><br/>
         
       
         <ion-item id='password' padding>
@@ -23,11 +23,9 @@
             <ion-icon name="lock" item-start></ion-icon>
             Password
           </ion-label> 
-   <ion-input #input type="password" [(ngModel)]='password' name='password'  required='true' id='password'></ion-input>
         </ion-item>
 
-        <button (click)='unlockWallet()' id='buttonSend' expand="full" class='buttonsBut' style='margin:0 auto'>Accedi al tuo Wallet</button>
-  
+        
 
 
 

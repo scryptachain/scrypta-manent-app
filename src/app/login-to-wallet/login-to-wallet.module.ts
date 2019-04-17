@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { LoginToWalletPage } from './login-to-wallet.page';
+import { ModalLoginPage } from '../modal-login/modal-login.page';
 
 const routes: Routes = [
   {
@@ -16,11 +17,13 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
+    
     CommonModule,
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [LoginToWalletPage]
+  declarations: [LoginToWalletPage,ModalLoginPage],
+  entryComponents:[ModalLoginPage]
 })
 export class LoginToWalletPageModule {}

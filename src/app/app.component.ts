@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class AppComponent {
   public appPages = [
-    {
+    /*{
       title: 'Home',
       url: '/home',
      
@@ -34,36 +35,58 @@ export class AppComponent {
     },
     {
       title:'General Settings',
-      url:'/general-settings'
+      url:'/settings'
     },
     {
       title:'Converter',
       url:'/converter'
     }
+    
 
   ];
-
+  private dateLogin:string
   private localAddress:string
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private router:Router,
+    private menuCtrl:MenuController,
     
   ) {
     this.initializeApp();
-    this.fetchAddress();
+    //this.fetchAddress();
   }
   fetchAddress()
   {
-    var indirizzo=localStorage.getItem('createPasswd').split(':')
-    this.localAddress=indirizzo[0]
+    if(localStorage.getItem('createPasswd')!='')
+    {
+      var indirizzo=localStorage.getItem('createPasswd').split(':')
+      this.localAddress=indirizzo[0]
+    }
+    
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      if(localStorage.getItem('loginDate')!='')
+      {
+        this.dateLogin=localStorage.getItem('loginDate').substr(0,25)
+      }
+      this.fetchAddress()
       
     });
+  }
+
+  logout()
+  {
+    
+    localStorage.removeItem('createPasswd')
+    window.location.reload()
+    this.menuCtrl.close()
+    this.router.navigate(['/'])
+
   }
 }

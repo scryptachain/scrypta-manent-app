@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { WindowRefService, ICustomWindow } from '../windowservice';
 import axios from 'axios'
 import { checkNoChanges } from '@angular/core/src/render3/instructions';
 import { unwatchFile } from 'fs';
 import {BarcodeScanner} from '@ionic-native/barcode-scanner/ngx'
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-send',
   templateUrl: './send.page.html',
   styleUrls: ['./send.page.scss'],
 })
 export class SendPage implements OnInit {
+  
   
   private _window: ICustomWindow;
 
@@ -26,8 +29,8 @@ export class SendPage implements OnInit {
   isSending: boolean;
   messageToSend: any;
   balance: any;
-
-  constructor(windowRef: WindowRefService,private qrScanner: BarcodeScanner) { 
+  @ViewChild('passwordSend') mypassword;
+  constructor(windowRef: WindowRefService,private qrScanner: BarcodeScanner,private router:Router) { 
     this._window = windowRef.nativeWindow;
     
     
@@ -118,7 +121,8 @@ export class SendPage implements OnInit {
   var unlockPasswd=localStorage.getItem('createPasswd');
   console.log(unlockPasswd)
   await this._window.ScryptaCore.send(this.unlockPwd,'',this.addressToSend,this.amountToSend,'','',unlockPasswd).then((result) => {
-   alert('Successfull!!\n Your txid is :'+result)
+   //alert('Successfull!!\n Your txid is :'+result)
+   this.router.navigate(['/successfulsend'])
    
   }).catch((err) => {
     console.log(err)
@@ -159,6 +163,8 @@ scanQRCode()
     this.addressToSend=barcodeData.text
     document.getElementById('password').style.display='block';
     document.getElementById('buttonSend').style.display='block';
+    this.mypassword.setFocus()
+
   }).catch(err=>{
     console.log(err)
   })
@@ -168,5 +174,7 @@ unlockButton()
 {
   document.getElementById('buttonSend').style.display='block'
 }
+
+
 
 }

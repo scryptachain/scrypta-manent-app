@@ -6,30 +6,71 @@ import axios from 'axios'
   styleUrls: ['./converter.page.scss'],
 })
 export class ConverterPage implements OnInit {
-  currentPrice:number=0
-  valueScrypta:number=0
-  valueEur:number=0
-  constructor() { }
+  currentPrice:number
+  valueScrypta:number
+  valueEur:number
+  stringcurrency:string='EUR'
+  currency:string
+  constructor() {}
 
   ngOnInit() {
-   this.getCurrentPrice()
+    this.getCurrentPrice()
+   this.currentPrice=0;
+   this.valueEur=0;
+   this.valueScrypta=0;
   }
 
-  getCurrentPrice()
+   getCurrentPrice()
   {
+    if(localStorage.getItem('currency')=='eur')
+    {
     axios.get('https://api.coingecko.com/api/v3/coins/scrypta').then((response)=>{
       this.currentPrice=response.data.market_data.current_price.eur
     })
   }
-  
-  calculateCurrencyOne()
-  {
-    this.valueEur=(this.valueScrypta*this.currentPrice*10)
-    this.valueEur.toFixed(2)
+
+  else if(localStorage.getItem('currency')=='usd'){
+    
+    var currency=localStorage.getItem('currency')
+    //this.currency=currency
+    this.stringcurrency=currency.toUpperCase()
+    
+    axios.get('https://api.coingecko.com/api/v3/coins/scrypta').then((response)=>{
+      console.log(response)
+      this.currentPrice=response.data.market_data.current_price.usd
+      console.log(this.currentPrice)
+    })
+    }
+
+    else if(localStorage.getItem('currency')=='gbp')
+    {
+      
+    var currency=localStorage.getItem('currency')
+    //this.currency=currency
+    this.stringcurrency=currency.toUpperCase()
+    
+    axios.get('https://api.coingecko.com/api/v3/coins/scrypta').then((response)=>{
+      console.log(response)
+      this.currentPrice=response.data.market_data.current_price.gbp
+      console.log(this.currentPrice)
+
+    })
   }
-  calculateCurrencyTwo()
+  }
+  
+   calculateCurrencyOne()
   {
-    this.valueScrypta=this.valueEur/this.currentPrice*10
+
+    console.log(this.valueScrypta)
+    var valore:any
+    valore=(this.valueScrypta*this.currentPrice).toFixed(2)
+    this.valueEur=valore
+  }
+   calculateCurrencyTwo()
+  {
+    var valore
+    valore=(this.valueEur/this.currentPrice).toFixed(2)
+    this.valueScrypta=valore
     
   }
 }

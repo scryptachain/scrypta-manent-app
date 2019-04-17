@@ -27,6 +27,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import {HTTP} from '@ionic-native/http/ngx'
 import {Clipboard} from '@ionic-native/clipboard/ngx'
 
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -37,6 +38,7 @@ import {Clipboard} from '@ionic-native/clipboard/ngx'
     AppRoutingModule
   ],
   providers: [
+    LoadingController,
     Clipboard,
     HTTP,
  BarcodeScanner,
