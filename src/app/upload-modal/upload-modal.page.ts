@@ -70,25 +70,34 @@ selectFile()
       this.fileUpload.resolveLocalFilesystemUrl(resolveFilePath).then(fileInfo=>{
         var metadata=fileInfo.getMetadata(resp=>{
           console.log('MEtadada',resp)
-          this.fileBuffer=resp
+          
         })
         
         console.log('FileInfo',fileInfo)
         this.fileName=fileInfo.name
         this.file=fileInfo.nativeURL
-        var imagefile = document.querySelector('#fileInput');
-        console.log('IMAGEFILE',imagefile)
-        
-        console.log('fileBuffer',fileInfo)
+       
        
       })
     })
   })
 
+
+}
+getAttributes()
+{
+  var imagefile:any
+   imagefile = window.document.querySelector('#fileInput');
+    this.fileBuffer=imagefile.files[0]
+    console.log('IMAGEFILE',imagefile.files)
 }
   save()
   {
 
+    
+    
+    //console.log('fileBuffer',fileInfo)
+    //this.fileBuffer=imagefile.files[0]
     console.log(this.uploadForm)
     this.uploadForm.title=this.title
     this.uploadForm.file=this.file

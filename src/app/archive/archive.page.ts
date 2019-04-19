@@ -194,6 +194,7 @@ doRefresh(event) {
 
  async openModalUpload()
  {
+   var link
    var FormData=require('form-data')
   // var fs=require('fs')
  
@@ -205,24 +206,11 @@ doRefresh(event) {
     {
       var public_addr=localStorage.getItem('createPasswd').split(':')
       console.log(detail);
-      var fileInfo={
-        'lastModified':'1554226040404',
-        'name':'nuovo_documento_di testo',
-        'size':259,
-        'type':'',
-        'webkitRelativePath':''
-
-      }
-     this.formdata.file.push(fileInfo)
-     this.formdata.private_key=this.private_key 
-     this.formdata.api_secret=this.api_secret
-     this.formdata.dapp_address=public_addr[0]
-     this.formdata.encryption=detail.data.fileObject.Encrypt
-     this.formdata.data=detail.data.fileObject.message
-     this.formdata.refID=detail.data.fileObject.title
-     
+      console.log('private',this.private_key)
+      console.log('wallet',localStorage.getItem('createPasswd'))
+      console.log('credential',localStorage.getItem('credential'))
      var form=new FormData()
-     form.append('file',detail.data.fileObject.file)
+     form.append('file',detail.data.fileObject.fileBuffer)
      form.append('dapp_address',public_addr[0])
      form.append('api_secret',this.api_secret)
      form.append('private_key',this.private_key)
@@ -233,23 +221,36 @@ doRefresh(event) {
      
 
      console.log(Array.from(form))
-     await Axios.post('https://'+this.connected+'/ipfs/add',Array.from(form),{
+     await Axios.post('https://'+this.connected+'/ipfs/add',form,{
        headers:{
         'Content-Type': 'multipart/form-data'
        }
      }).then(res=>{
        console.log(res)
-       console.log(form)
+       link=res.data.data
+       console.log(res.data.data.length)
      })
-
-/*
-      console.log('FORMDATA',this.formdata)
-      Axios.post('https://'+this.connected+'/write',form,{
-       
-      }).then(response=>{
-        console.log(response)
+      console.log(localStorage.getItem('credentials'))
+      console.log('link',link)
+      var metadata='ipfs:'+link
+      console.log(metadata)
+      //console.log('FORMDATA',this.formdata)
+      
+      await this._window.ScryptaCore.write(
+       'assocoinlab',
+        metadata,
+        '',
+        '',
+        '',
+        'LTK3Yq87ni6dm2mY2EWCaci3HaZATrafGm:8e183f091de1f7efb4f71c9351bef415606f4246dfcbb0185ed490f3c4ff37bd35cb6f289e9ab7284bc763f5fafff14bdfb3d2e23b35b54939c6cc1487fcb5a230d89d93dc18902ddad376c13096be5ac58202e1abb2a578727c4025fd43e6c8fd6ba322b070960eb859128b73211811'
+      ).then(response=>{
+        console.log('risposta da scrypta',response)
       })
-     */
+      
+       
+
+    
+     
 
       
     }

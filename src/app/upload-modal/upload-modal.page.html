@@ -16,18 +16,15 @@
 
   </ion-item>
 
-
-
-  
     <ion-item>
       
-      <ion-input placeholder='Choose a file' type ='text' [(ngModel)]='fileName' style='font-size:12px' ></ion-input>
-      <div slot='end'>
+      <input placeholder='Choose a file' type ='file' [(ngModel)]='fileName' style='font-size:12px' id='fileInput' (change)='getAttributes()'>
+     <!-- <div slot='end'>
         <button (click)='selectFile()' id='fileInput' type="file">Browse</button>
       </div>
-    
+    -->
     </ion-item>
-   
+  
     <h2 style='font-size:14px'>Message</h2>
 <ion-item>
 
