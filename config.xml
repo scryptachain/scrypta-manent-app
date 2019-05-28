@@ -1,9 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Manent</name>
+<<<<<<< HEAD
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
     
+=======
+    <description>Official Scrypta Wallet.</description>
+    <author email="info@scryptachain.org" href="https://scryptachain.org">Scrypta</author>
+    <content src="index.html" />
+>>>>>>> master
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -82,6 +88,9 @@
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^3.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
+<<<<<<< HEAD
     <allow-navigation href="*" />
    
+=======
+>>>>>>> master
 </widget>
