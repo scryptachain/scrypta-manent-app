@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons>
+            <ion-menu-button></ion-menu-button>
+            <ion-title>Receive</ion-title>
+            </ion-buttons>
+      
+    </ion-toolbar>
+</ion-header>
+<ion-content >
+  <div padding style="width: 260px;height: 260px;margin:0 auto">
+      <qrcode [qrdata]="myAngularxQrCode" [size]="256" [level]="'M'"></qrcode>
+  </div>
+  <p style='font-size:10px;color:#a7a7a7' padding>Your Lyra Address</p>
+  <ion-item padding style="margin-top:-10%;font-size:11px">
+    {{pubaddress}}
+    <img src="/assets/imgs/logo.png" style="width:12px;height:12px;float:right" slot='end'>
+  </ion-item>
+ 
+<ion-item padding style="margin-top:-15%">
+  <ion-input type="number"  [(ngModel)]='amount' (ngModelChange)='fetchQRCode()' value=0 style='font-size: 30px;' padding></ion-input>
+  <p style='font-size: 30px' slot='end'>LYRA</p>
+</ion-item>
+</ion-content>
+<ion-footer>
+          
+  
+    <ion-tab-bar slot="bottom">
+  
+      <ion-tab-button  [routerLink]="'/account'">
+        <ion-label style='color:#a7a7a7'>Account</ion-label>
+        <ion-icon name="card" style='color:#a7a7a7'></ion-icon>
+        
+      </ion-tab-button>
+  
+      <ion-tab-button [routerLink]="'/send'">
+        <ion-label style='color:#a7a7a7'>Send</ion-label>
+        <ion-icon name="send" style='color:#a7a7a7'></ion-icon>
+      </ion-tab-button>
+
+      <ion-tab-button [routerLink]="'/receive'" >
+          <ion-label style='color:#a7a7a7'>Receive</ion-label>
+          <ion-icon name="add" style='color:#a7a7a7'></ion-icon>
+        </ion-tab-button>
+
+        <ion-tab-button [routerLink]="'/archive'" >
+            <ion-label style='color:#a7a7a7'>Archive</ion-label>
+            <ion-icon name="archive" style='color:#a7a7a7'></ion-icon>
+          </ion-tab-button>
+    </ion-tab-bar>
+  
+  </ion-footer>

@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Upload</ion-title>
+    <div slot='end'>
+      <ion-icon name='close' (click)='close()'></ion-icon>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <h2 style='font-size:14px'>Title</h2>
+
+  <ion-item>
+    <ion-input placeholder='Insert a Title' [(ngModel)]='title' style='font-size:12px' ></ion-input>
+
+  </ion-item>
+
+    <ion-item>
+      
+      <input placeholder='Choose a file' type ='file' [(ngModel)]='fileName' style='font-size:12px' id='fileInput' (change)='getAttributes()'>
+     <!-- <div slot='end'>
+        <button (click)='selectFile()' id='fileInput' type="file">Browse</button>
+      </div>
+    -->
+    </ion-item>
+  
+    <h2 style='font-size:14px'>Message</h2>
+<ion-item>
+
+  <ion-textarea placeholder='insert a message' style='font-size:12px' [(ngModel)]='message' ></ion-textarea>
+</ion-item>
+
+
+
+   <br>
+<ion-item> 
+       
+    <h2 style='font-size:14px'>Encrypt Data</h2>
+    
+    <div slot='end'>
+      <ion-toggle (ionChange)='showPasswordLabel()' [(ngModel)]='toggleChecked' ></ion-toggle>
+    </div>
+  </ion-item>
+<br>
+  <div id='passwordFields'>
+  <h2 style='font-size:14px'>Password</h2>
+  <ion-item>
+    <ion-input type='password' [(ngModel)]='passwordEncrypt' style='font-size:12px'></ion-input>
+  </ion-item>
+  <h2 style='font-size:14px'>Repeat Password</h2>
+  <ion-item>
+    <ion-input type='password' [(ngModel)]='repeatpasswordEncrypt' style='font-size:12px'></ion-input>
+  </ion-item>
+
+  </div>
+<div text-center>
+  <button class="buttonsBut" type="submit" (click)='save()' style="margin:0 auto" text-center>Upload</button>
+</div>
+
+</ion-content>

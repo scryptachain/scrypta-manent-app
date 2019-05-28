@@ -1,0 +1,113 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons>
+          <ion-menu-button></ion-menu-button>
+          <ion-title>Account</ion-title>
+          </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <h2 style='font-size:12px;color:#d8273a'>Balance</h2>
+    
+    <ion-item>
+   <h2 >{{balance}} LYRA</h2>
+ 
+  </ion-item> 
+
+
+<ion-row style="margin-top:5%">
+  <h2 style='font-size:12px;color:#d8273a'>Your Account Address</h2>
+  <ion-item style='font-size:14px'>{{address}}</ion-item>
+ 
+    <ion-col size="6" text-center>
+        <ion-buttons end>
+            <button ion-button (click)="someThingLikeLogOut()"  style="background:transparent">
+
+              <ion-icon name="qr-scanner" style="zoom:2.0;color:#a7a7a7"></ion-icon>
+              <br><ion-label style='color:#a7a7a7'>QR Code</ion-label>
+            </button>
+          </ion-buttons>
+    </ion-col>
+    <ion-col size="6">
+      
+        <ion-buttons end style='float: right;'>
+            <button ion-button (click)="copyAddress()"  style="background:transparent">
+
+              <ion-icon name="more" style="zoom:2.0;color:#a7a7a7"></ion-icon>
+              <br><ion-label style='color:#a7a7a7'>Copy Address</ion-label>
+            </button>
+          </ion-buttons>
+      </ion-col>
+
+  </ion-row>
+
+  <h2 style='font-size:16px'><b>Transaction History</b></h2>
+  <ion-list>
+      <div *ngIf="transactions.length==0" padding>No Transactions</div>
+      <div *ngIf="transactions.length!=0" padding>
+      
+      <ion-item *ngFor="let transazioni of transactions  ;let i=index" [attr.data-index]="i" lines='full' (click)='openDetails(transazioni)'>
+          <div *ngIf="transazioni.amount.charAt(0)==='-'">
+          
+              <div slot='start'>
+              <img src='/assets/imgs/sent.png' style="width:28px;height: 28px;float: left;margin-left: -10%" >Sent:<br>
+              <p style='font-size:10px;margin-left: 25%'>{{transazioni.date}}</p>
+            </div>
+         
+            
+          </div>
+          <div *ngIf="transazioni.amount.charAt(0)!=='-'">
+          
+              <div slot='start'>
+              <img src='/assets/imgs/received.png' style="width:28px;height: 28px;float: left;margin-left: -7%" >Received:<br>
+              <p style='font-size:10px;margin-left: 25%'>{{transazioni.date}}</p>
+            </div>
+         
+            
+          </div>
+          
+               <div slot='end'><b>{{transazioni.amount}}</b></div> 
+              
+           
+    
+      </ion-item>
+      </div>
+      
+      
+  
+        </ion-list>
+      
+    </ion-content>
+        <ion-footer>
+          
+  
+            <ion-tab-bar slot="bottom">
+          
+              <ion-tab-button  [routerLink]="'/account'">
+                <ion-label style='color:#a7a7a7'>Account</ion-label>
+                <ion-icon name="card" style='color:#a7a7a7'></ion-icon>
+                
+              </ion-tab-button>
+          
+              <ion-tab-button [routerLink]="'/send'">
+                <ion-label style='color:#a7a7a7'>Send</ion-label>
+                <ion-icon name="send" style='color:#a7a7a7'></ion-icon>
+              </ion-tab-button>
+        
+              <ion-tab-button [routerLink]="'/receive'" >
+                  <ion-label style='color:#a7a7a7'>Receive</ion-label>
+                  <ion-icon name="add" style='color:#a7a7a7'></ion-icon>
+                </ion-tab-button>
+        
+                <ion-tab-button [routerLink]="'/archive'" >
+                    <ion-label style='color:#a7a7a7'>Archive</ion-label>
+                    <ion-icon name="archive" style='color:#a7a7a7'></ion-icon>
+                  </ion-tab-button>
+            </ion-tab-bar>
+          
+          </ion-footer>
+        
+       
+
