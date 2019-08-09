@@ -21,8 +21,8 @@ transactions=[]
     var bal=JSON.parse(localStorage.getItem('balance'));
     console.log(bal.data)
     this.balance=bal.data
-    console.log(localStorage.getItem('createPasswd'))
-    var indirizzo=localStorage.getItem('createPasswd').split(':');
+    console.log(localStorage.getItem('lyraWallet'))
+    var indirizzo=localStorage.getItem('lyraWallet').split(':');
     console.log(indirizzo[0])
     this.address=indirizzo[0]
   }

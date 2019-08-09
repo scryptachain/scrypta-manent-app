@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import ScryptaCore from '../assets/js/scryptacore.js';
+import ScryptaCore from '../scryptacore.js';
 
 export interface ICustomWindow extends Window {
     ScryptaCore: ScryptaCore;

@@ -1,12 +1,10 @@
 
 <ion-content text-center>
-    <img src="/assets/imgs/scrypta_ce.png" style="width: 140px;height: 118px;margin-top:5%"><br/>
-     <img src="/assets/imgs/manent.png" class="scrypta_ce" style='width: 140px;height: 19,28px; margin-top:10%'>
+    <img src="/assets/imgs/scrypta_ce.png" style="width: 140px;height: 118px;margin-top:5%"><br><br>
     
-
-</ion-content>
-
-<ion-content text-center>
+    <div padding>
+        Select one of the following restore methods and follow the instructions:<br>
+    </div>
 
 <button (click)='openSidFile()' expand="full" class='buttonsBut' style='margin-top: 5%' >Login With .Sid file<ion-icon name="key" style="float:right" size='large'></ion-icon></button><br/>
 
@@ -18,25 +16,13 @@
         <button (click)='readQrCode()' expand="full" class='buttonsBut'style='margin-top: 5%'>Login With QrCode<ion-icon name="qr-scanner" style="float:right" size='large'></ion-icon></button><br/>
         
       
-        <ion-item id='password' padding>
+        <!--<ion-item id='password' padding>
         <ion-label position="floating">
             <ion-icon name="lock" item-start></ion-icon>
             Password
           </ion-label> 
-        </ion-item>
-
-        
-
-
-
+        </ion-item>--><br><br>
+        <div><h3>Don’t have an exsisting wallet?</h3>
+          <a style="color:#d8273a" routerLink='/home'>Create a new wallet</a>
+        </div>
       </ion-content>
-
-<ion-footer text-center>
-  
-  <div class="footerAlready">Don’t have an account?
-      <a style="color:#d8273a" routerLink='/home'>SignUP</a>
-      </div>
-    
-    
-
-</ion-footer>

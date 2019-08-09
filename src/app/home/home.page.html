@@ -1,9 +1,9 @@
 
 
 <ion-content text-center>
-    <img src="/assets/imgs/scrypta_ce.png" class="scrypta_ce" style='margin-top: 10%'>
-    <br/><img src="/assets/imgs/manent.png" class="scrypta_ce" style='margin-top: 10%'>
-
+    <img src="/assets/imgs/scrypta_ce.png" class="scrypta_ce" style='margin-top: 10%'><br><br>
+    Welcome on Manent<br>
+    A secure Lyra Wallet
     <form (ngSubmit)=createWallet()>
       <ion-item>
         <ion-label position="floating">
@@ -22,19 +22,11 @@
    <ion-input type="password"  [(ngModel)]='repassword'  name='repassword' class="inputForms"></ion-input>
 </ion-item>
 
-    <button type="submit" expand="full" class='buttonsBut' style="margin-top:5%;">Create Wallet</button>
-    </form>
-    
-
+    <button type="submit" expand="full" class='buttonsBut' style="margin-top:5%;">CREATE NEW WALLET</button>
+    </form><br><br>
+    <h3>Do you want to restore a wallet?</h3>
+    <a style="color:#d8273a" routerLink='/login-to-wallet'>Import exsisting wallet or a Lyra Card</a>
+  
   </ion-content>
-   <ion-footer text-center>
-    
-    <h3 class="footerAlready">Already have an account ? </h3>
-    
-
-    
-    <a class ='loginNow' routerLink='/login-to-wallet'>Import Wallet</a>
-
-</ion-footer>
 
 

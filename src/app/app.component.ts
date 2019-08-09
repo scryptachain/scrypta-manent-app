@@ -30,10 +30,6 @@ export class AppComponent {
       url:'/backup'
     },
     {
-      title:'Card Settings',
-      url:'/card-settings'
-    },
-    {
       title:'General Settings',
       url:'/settings'
     },
@@ -41,8 +37,6 @@ export class AppComponent {
       title:'Converter',
       url:'/converter'
     }
-    
-
   ];
   private dateLogin:string
   private localAddress:string
@@ -59,9 +53,9 @@ export class AppComponent {
   }
   fetchAddress()
   {
-    if(localStorage.getItem('createPasswd')!='')
+    if(localStorage.getItem('lyraWallet') !== null)
     {
-      var indirizzo=localStorage.getItem('createPasswd').split(':')
+      var indirizzo=localStorage.getItem('lyraWallet').split(':')
       this.localAddress=indirizzo[0]
     }
     
@@ -71,10 +65,6 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      if(localStorage.getItem('loginDate')!='')
-      {
-        this.dateLogin=localStorage.getItem('loginDate').substr(0,25)
-      }
       this.fetchAddress()
       
     });
@@ -83,7 +73,7 @@ export class AppComponent {
   logout()
   {
     
-    localStorage.removeItem('createPasswd')
+    localStorage.removeItem('lyraWallet')
     window.location.reload()
     this.menuCtrl.close()
     this.router.navigate(['/'])

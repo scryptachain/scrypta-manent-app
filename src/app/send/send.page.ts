@@ -77,7 +77,7 @@ export class SendPage implements OnInit {
   checkUser()
   {
     
-     var address=localStorage.getItem('createPasswd').split(':');
+     var address=localStorage.getItem('lyraWallet').split(':');
      console.log(address)
      
     this.public_address=address[0]
@@ -97,7 +97,7 @@ export class SendPage implements OnInit {
  unlockWallet()
  {
    if(this.unlockPwd !==''){
-    var unlockPasswd=localStorage.getItem('createPasswd');
+    var unlockPasswd=localStorage.getItem('lyraWallet');
      console.log(this.unlockPwd)
      var app=this
      app.decrypted_wallet='Wallet Locked'
@@ -118,7 +118,7 @@ export class SendPage implements OnInit {
 
  async sendLyra()
  {
-  var unlockPasswd=localStorage.getItem('createPasswd');
+  var unlockPasswd=localStorage.getItem('lyraWallet');
   console.log(unlockPasswd)
   await this._window.ScryptaCore.send(this.unlockPwd,'',this.addressToSend,this.amountToSend,'','',unlockPasswd).then((result) => {
    //alert('Successfull!!\n Your txid is :'+result)

@@ -40,7 +40,7 @@ export class LoginToWalletPage implements OnInit {
      this.checkIdaNodes();
      
     
-    if(localStorage.getItem('createPasswd')!=null){
+    if(localStorage.getItem('lyraWallet')!=null){
       this.openModal()
     }
     
@@ -87,11 +87,11 @@ connectToNode()
     }).subscribe(async (event)=>{
 
       alert('Inserisci la password ed entra nel tuo wallet');
-      console.log('precedente',localStorage.getItem('createPasswd'))
-      await localStorage.removeItem('createPasswd')
+      console.log('precedente',localStorage.getItem('lyraWallet'))
+      await localStorage.removeItem('lyraWallet')
       
-      await localStorage.setItem('createPasswd',this.nfc.bytesToString(event.tag.ndefMessage[0].payload).substr(3));
-      console.log(localStorage.getItem('createPasswd'))
+      await localStorage.setItem('lyraWallet',this.nfc.bytesToString(event.tag.ndefMessage[0].payload).substr(3));
+      console.log(localStorage.getItem('lyraWallet'))
       
       nfcreader.unsubscribe();
       
@@ -138,7 +138,7 @@ connectToNode()
 {
   await this.checkBalance();
   //await this.fetchTransactions();
-  var unlockPasswd=localStorage.getItem('createPasswd');
+  var unlockPasswd=localStorage.getItem('lyraWallet');
   
   var decrypted_wallet=this.decrypted_wallet
   localStorage.setItem('decrypted_wallet',decrypted_wallet);
@@ -171,8 +171,8 @@ connectToNode()
 {
   
   var app=this
-  var createPasswd=localStorage.getItem('createPasswd');
-  var indirizzo=createPasswd.split(':');
+  var lyraWallet=localStorage.getItem('lyraWallet');
+  var indirizzo=lyraWallet.split(':');
   Axios.post('https://'+app.connected+'/getbalance',{
     address:indirizzo[0]
     
@@ -205,8 +205,8 @@ connectToNode()
 async fetchTransactions()
 {
 var app=this
-var createPasswd=localStorage.getItem('createPasswd');
-var indirizzo=createPasswd.split(':');
+var lyraWallet=localStorage.getItem('lyraWallet');
+var indirizzo=lyraWallet.split(':');
 await Axios.post('https://'+app.connected+'/transactions',{
   address:indirizzo[0]
 }).then(async function(response){
@@ -223,8 +223,8 @@ await Axios.post('https://'+app.connected+'/transactions',{
 async readQrCode()
 {
  await this.qrScanner.scan().then(async barcodeData=>{
-    await localStorage.removeItem('createPasswd')
-    await localStorage.setItem('createPasswd',barcodeData.text);
+    await localStorage.removeItem('lyraWallet')
+    await localStorage.setItem('lyraWallet',barcodeData.text);
     
    this.openModal()
   }).catch(err=>{
@@ -243,8 +243,8 @@ async openSidFile()
         console.log(fileinfo)
         this.file.readAsText(this.file.externalRootDirectory+'/Download/',fileinfo.name).then(async result=>{
           
-          await localStorage.removeItem('createPasswd')
-          await localStorage.setItem('createPasswd',result);
+          await localStorage.removeItem('lyraWallet')
+          await localStorage.setItem('lyraWallet',result);
          
          this.openModal()
         })

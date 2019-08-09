@@ -9,7 +9,6 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { WindowRefService } from './windowservice';
-import ScryptaCore from 'assets/js/scryptacore_bk.js';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController, MenuController, ToastController, AlertController, LoadingController } from '@ionic/angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
@@ -32,7 +31,6 @@ import {Clipboard} from '@ionic-native/clipboard/ngx'
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
-    
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule

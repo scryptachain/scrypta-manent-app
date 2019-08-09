@@ -72,7 +72,7 @@ async connectToNode()
     console.log(this.nodes);
     
     var walletstore=JSON.parse(localStorage.getItem('credential'))
-    await app._window.ScryptaCore.readKey(localStorage.getItem('unlockPassword'),localStorage.getItem('createPasswd')).then(async function(response){
+    await app._window.ScryptaCore.readKey(localStorage.getItem('unlockPassword'),localStorage.getItem('lyraWallet')).then(async function(response){
       console.log('unlock',response)
      app.api_secret=response.api_secret
      app.private_key=response.prv
@@ -88,7 +88,7 @@ async readData()
 {
   const app = this
   app.readerror = ''
-  var credentials=localStorage.getItem('createPasswd').split(':');
+  var credentials=localStorage.getItem('lyraWallet').split(':');
   console.log(credentials)
   await Axios.post('https://'+app.connected+'/read',{
 
@@ -204,10 +204,10 @@ doRefresh(event) {
    modal.onDidDismiss().then(async (detail:OverlayEventDetail)=>{
     if(detail!=null)
     {
-      var public_addr=localStorage.getItem('createPasswd').split(':')
+      var public_addr=localStorage.getItem('lyraWallet').split(':')
       console.log(detail);
       console.log('private',this.private_key)
-      console.log('wallet',localStorage.getItem('createPasswd'))
+      console.log('wallet',localStorage.getItem('lyraWallet'))
       console.log('credential',localStorage.getItem('credential'))
      var form=new FormData()
      form.append('file',detail.data.fileObject.fileBuffer)

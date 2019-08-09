@@ -26,7 +26,7 @@ export class ReceivePage implements OnInit {
   }
 
  async fetchAddress(){
-   var indirizzo=localStorage.getItem('createPasswd').split(':');
+   var indirizzo=localStorage.getItem('lyraWallet').split(':');
    this.pubaddress=indirizzo[0];
  }
 

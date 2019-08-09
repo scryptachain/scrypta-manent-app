@@ -80,32 +80,35 @@ export class HomePage {
   }
 
   checkUser(){
-    if(this._window.ScryptaCore.keyExsist()){
-      this.public_address=this._window.ScryptaCore.PubAddress;
-      this.encrypted_wallet=this._window.ScryptaCore.RAWsAPIKey;
-      console.log(this.encrypted_wallet)
+    var app=this
+    if(localStorage.getItem('wallet') !== null){
+      let wallet = JSON.parse(localStorage.getItem('wallet'))
+      if(wallet.count > 0 && wallet[0].pub !== undefined){
+        app.router.navigate(['/dashboard'])
+      }
     }
   }
 
   async createWallet(){
-    console.log(this.password)
     
     var app=this
     
     if(app.password!==''&& app.password==app.repassword)
     {
-      await this._window.ScryptaCore.createAddress(app.password,true).then(function(response){
+      await app._window.ScryptaCore.createAddress(app.password,false).then(async function(response){
         axios.post('https://'+app.connected+'/init',{
-          address:response.pub,
-          api_secret:response.api_secret
+          address: response.pub,
+          airdrop: true
         }).then(function(){
-          console.log(response);
-          
-          localStorage.setItem('credential',JSON.stringify(response));
-          localStorage.setItem('password',app.password)
+          if(localStorage.getItem('wallet') === null){
+            let wallet = [response.walletstore]
+            localStorage.setItem('wallet',JSON.stringify(wallet))
+          }else{
+            let wallet = JSON.parse(localStorage.getItem('wallet'))
+            wallet.push(response.walletstore)
+            localStorage.setItem('wallet',JSON.stringify(wallet))
+          }
           app.router.navigate(['/congratulations'])
-          
-          
         }).catch((err)=>{
           console.log(err)
           alert("Seems there's a problem, please retry or change node!")

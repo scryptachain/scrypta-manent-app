@@ -22,10 +22,10 @@ export class BackupPage implements OnInit {
   ngOnInit() {
     
     
-    var indirizzo=localStorage.getItem('createPasswd');
+    var indirizzo=localStorage.getItem('lyraWallet');
     console.log(indirizzo)
     this.encrypted=indirizzo
-    var indirizzosplit=localStorage.getItem('createPasswd').split(':');
+    var indirizzosplit=localStorage.getItem('lyraWallet').split(':');
     this.address=indirizzosplit[0]
     var files=new Blob([indirizzo],{type:'sid'});
     this.filedownload=files;
