@@ -13,14 +13,19 @@
   </div>
   <p style='font-size:10px;color:#a7a7a7' padding>Your Lyra Address</p>
   <ion-item padding style="margin-top:-10%;font-size:11px">
-    {{pubaddress}}
+    {{address}}
     <img src="/assets/imgs/logo.png" style="width:12px;height:12px;float:right" slot='end'>
   </ion-item>
  
 <ion-item padding style="margin-top:-15%">
-  <ion-input type="number"  [(ngModel)]='amount' (ngModelChange)='fetchQRCode()' value=0 style='font-size: 30px;' padding></ion-input>
-  <p style='font-size: 30px' slot='end'>LYRA</p>
+  <ion-input type="number"  [(ngModel)]='amount' (ngModelChange)='fetchQRCode()' value=0 style='font-size: 18px;'></ion-input>
+  <p style='font-size: 18px' slot='end'>LYRA</p>
 </ion-item>
+<ion-item padding style="margin-top:-15%">
+  <ion-input type="number"  [(ngModel)]='amountFIAT' (ngModelChange)='fetchQRCode()' value=0 style='font-size: 18px;'></ion-input>
+  <p style='font-size: 18px' slot='end'>EUR</p>
+</ion-item>
+
 </ion-content>
 <ion-footer>
           

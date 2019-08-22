@@ -45,8 +45,8 @@ export class HomePage {
   }
   ngOnInit()
   {
-    this.checkIdaNodes();
     this.checkUser();
+    this.checkIdaNodes();
     setTimeout(function(){
       this.backupAlert=false;
     })
@@ -83,9 +83,13 @@ export class HomePage {
     var app=this
     if(localStorage.getItem('wallet') !== null){
       let wallet = JSON.parse(localStorage.getItem('wallet'))
-      if(wallet.count > 0 && wallet[0].pub !== undefined){
+      if(wallet.length > 0){
         app.router.navigate(['/dashboard'])
+      }else{
+        document.getElementById('splash').style.display = 'none';
       }
+    }else{
+      document.getElementById('splash').style.display = 'none';
     }
   }
 
@@ -100,15 +104,19 @@ export class HomePage {
           address: response.pub,
           airdrop: true
         }).then(function(){
-          if(localStorage.getItem('wallet') === null){
-            let wallet = [response.walletstore]
-            localStorage.setItem('wallet',JSON.stringify(wallet))
-          }else{
-            let wallet = JSON.parse(localStorage.getItem('wallet'))
-            wallet.push(response.walletstore)
-            localStorage.setItem('wallet',JSON.stringify(wallet))
-          }
-          app.router.navigate(['/congratulations'])
+          app._window.ScryptaCore.readKey(app.password, response.walletstore).then(function (check) {
+            if (check !== false) {
+              if(localStorage.getItem('wallet') === null){
+                let wallet = [response.walletstore]
+                localStorage.setItem('wallet',JSON.stringify(wallet))
+              }else{
+                let wallet = JSON.parse(localStorage.getItem('wallet'))
+                wallet.push(response.walletstore)
+                localStorage.setItem('wallet',JSON.stringify(wallet))
+              }
+              app.router.navigate(['/congratulations'])
+            }
+          })
         }).catch((err)=>{
           console.log(err)
           alert("Seems there's a problem, please retry or change node!")

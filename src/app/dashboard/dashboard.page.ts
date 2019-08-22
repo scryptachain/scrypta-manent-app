@@ -24,7 +24,7 @@ export class DashboardPage implements OnInit {
   wallet = []
   address: string = ''
   selected: number = 0
-  balance: string = ''
+  balance: string = '-'
   encrypted: string = ''
   lyra: number;
   value: number = 0;
@@ -37,15 +37,15 @@ export class DashboardPage implements OnInit {
   constructor(
     windowRef: WindowRefService,
     private modalCtrl: ModalController
-   
-  ){
+
+  ) {
     this._window = windowRef.nativeWindow;
 
   }
 
   ngOnInit() {
     const app = this
-    if(localStorage.getItem('selected') !== null){
+    if (localStorage.getItem('selected') !== null) {
       app.selected = parseInt(localStorage.getItem('selected'))
     }
     app.wallet = JSON.parse(localStorage.getItem('wallet'))
@@ -58,31 +58,29 @@ export class DashboardPage implements OnInit {
 
   }
 
-  async getBalance(){
+  async getBalance() {
     const app = this
-    app._window.ScryptaCore.connectNode().then(async function(response){
-      axios.get('https://microexplorer.scryptachain.org/balance/' + app.wallet)
-      .then(function(response){
-        app.balance = response.data['balance']
-        app.checkValore();
-      })
+    app._window.ScryptaCore.connectNode().then(async function (response) {
+      axios.get('https://microexplorer.scryptachain.org/balance/' + app.address)
+        .then(function (response) {
+          app.balance = response.data['balance']
+          app.checkValore();
+        })
     })
   }
 
   async fetchTransactions() {
-
-    var transazioni = JSON.parse(await localStorage.getItem('transactions'));
-    if(transazioni.data.length > 0){
-      for (var i = 0; i < transazioni.data.length; i++) {
-        await this.transactions.push(transazioni.data[i]);
-      }
-    }
+    const app = this
+    axios.get('https://microexplorer.scryptachain.org/transactions/' + app.address)
+      .then(function (response) {
+        app.transactions = response.data['data']
+      })
   }
 
   async fetchGraph() {
     var app = this;
     var currency = 'eur'
-    if(localStorage.getItem('currency') !== null){
+    if (localStorage.getItem('currency') !== null) {
       currency = localStorage.getItem('currency')
     }
     var url: string
