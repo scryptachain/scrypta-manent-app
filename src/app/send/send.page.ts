@@ -89,7 +89,6 @@ export class SendPage implements OnInit {
       if(app.amountToSend < app.balance){
         app.decrypted_wallet = 'Wallet Locked'
         app._window.ScryptaCore.readKey(app.unlockPwd, app.address + ':' + app.encrypted).then(function (response) {
-          console.log(response)
           if (response !== false) {
             app.private_key = response.key
             app.api_secret = response.api_secret
@@ -108,8 +107,12 @@ export class SendPage implements OnInit {
 
   async sendLyra() {
     const app = this
-    await this._window.ScryptaCore.send(this.unlockPwd, '', this.addressToSend, this.amountToSend, '', '', app.encrypted).then((result) => {
-      this.router.navigate(['/successfulsend'])
+    await this._window.ScryptaCore.send(app.unlockPwd, '', app.addressToSend, app.amountToSend, '', '', app.address + ':' + app.encrypted).then((result) => {
+      if(result !== false){
+        this.router.navigate(['/successfulsend'])
+      }else{
+        alert('Transaction failed, please retry!')
+      }
     }).catch((err) => {
       console.log(err)
     });
@@ -122,7 +125,6 @@ export class SendPage implements OnInit {
       document.getElementById('password').style.display = 'block';
       document.getElementById('buttonSend').style.display = 'block';
       this.mypassword.setFocus()
-
     }).catch(err => {
       console.log(err)
     })
