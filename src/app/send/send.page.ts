@@ -119,8 +119,14 @@ export class SendPage implements OnInit {
   }
 
   scanQRCode() {
+    const app = this
     this.qrScanner.scan().then(barcodeData => {
       console.log('barcode', barcodeData)
+      let check = barcodeData.text.split('?')
+      if(check[1] !== undefined){
+        var amount = check[1].replace('amount:','')
+        app.amountToSend = parseFloat(amount)
+      }
       this.addressToSend = barcodeData.text
       document.getElementById('password').style.display = 'block';
       document.getElementById('buttonSend').style.display = 'block';

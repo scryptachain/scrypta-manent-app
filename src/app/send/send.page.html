@@ -43,19 +43,6 @@
           <ion-label style="color:#a7a7a7">Scan QR Code</ion-label>
         </button>
       </ion-buttons>
-
-    </ion-col>
-    <ion-col size="6">
-
-      <ion-buttons end style="float:right;color:#a7a7a7">
-        <button ion-button (click)="pasteAddress()" style="background:transparent;float:right">
-
-          <ion-icon name="more" style="zoom:2.0;color: #a7a7a7"></ion-icon>
-          <br>
-          <ion-label style="color:#a7a7a7">Paste Address</ion-label>
-        </button>
-      </ion-buttons>
-
     </ion-col>
   </ion-row>
   <div id='password'>
@@ -83,8 +70,8 @@
 
   <ion-tab-bar slot="bottom">
 
-    <ion-tab-button [routerLink]="'/account'">
-      <ion-label style='color:#a7a7a7'>Account</ion-label>
+    <ion-tab-button [routerLink]="'/dashboard'">
+      <ion-label style='color:#a7a7a7'>Dashboard</ion-label>
       <ion-icon name="card" style='color:#a7a7a7'></ion-icon>
 
     </ion-tab-button>
@@ -99,8 +86,8 @@
       <ion-icon name="add" style='color:#a7a7a7'></ion-icon>
     </ion-tab-button>
 
-    <ion-tab-button [routerLink]="'/archive'">
-      <ion-label style='color:#a7a7a7'>Archive</ion-label>
+    <ion-tab-button [routerLink]="'/notify'">
+      <ion-label style='color:#a7a7a7'>Notify</ion-label>
       <ion-icon name="archive" style='color:#a7a7a7'></ion-icon>
     </ion-tab-button>
   </ion-tab-bar>

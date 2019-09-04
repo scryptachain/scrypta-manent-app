@@ -36,10 +36,10 @@ export class ReceivePage implements OnInit {
 
   calculateQRCode() {
     const app = this
-    if (app.amount === 0) {
+    if (app.amountLyra === 0) {
       app.myAngularxQrCode = app.address
-    } else if (app.amount != 0) {
-      app.myAngularxQrCode = this.address + "?" + "amount:" + this.amount
+    } else if (app.amountLyra != 0) {
+      app.myAngularxQrCode = this.address + "?" + "amount:" + app.amountLyra
     }
   }
 

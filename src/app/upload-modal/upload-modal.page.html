@@ -37,9 +37,8 @@
 <ion-item> 
        
     <h2 style='font-size:14px'>Encrypt Data</h2>
-    
     <div slot='end'>
-      <ion-toggle (ionChange)='showPasswordLabel()' [(ngModel)]='toggleChecked' ></ion-toggle>
+      <ion-toggle [(ngModel)]='toggleChecked' ></ion-toggle>
     </div>
   </ion-item>
 <br>
@@ -55,7 +54,7 @@
 
   </div>
 <div text-center>
-  <button class="buttonsBut" type="submit" (click)='save()' style="margin:0 auto" text-center>Upload</button>
+  <button class="buttonsBut" type="submit" (click)='unlockWallet()' style="margin:0 auto" text-center>Upload</button>
 </div>
 
 </ion-content>

@@ -11,19 +11,9 @@ import {Router} from '@angular/router'
 })
 export class AppComponent {
   public appPages = [
-    /*{
-      title: 'Home',
-      url: '/home',
-     
-    },
-    /*{
-      title: 'List',
-      url: '/list',
-      icon: 'list'
-    }*/
     {
-      title:'Dashboard',
-      url:'/dashboard'
+      title:'Accounts',
+      url:'/account'
     },
     {
       title:'Backup',
@@ -32,10 +22,6 @@ export class AppComponent {
     {
       title:'General Settings',
       url:'/settings'
-    },
-    {
-      title:'Converter',
-      url:'/converter'
     }
   ];
   private dateLogin:string
