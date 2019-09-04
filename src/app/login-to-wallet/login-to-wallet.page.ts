@@ -80,9 +80,9 @@ connectToNode()
     var nfcreader;
     this.platform.ready().then(()=>{
      nfcreader=this.nfc.addNdefListener(()=>{
-      alert('Avvicina la tua card al sensore NFC');
+      alert('We\'re ready, read the card with your phone now!');
     },(err)=>{
-      alert('errore ndef');
+      alert('NFC is not enabled, please activate it now!');
 
     }).subscribe(async (event)=>{
 

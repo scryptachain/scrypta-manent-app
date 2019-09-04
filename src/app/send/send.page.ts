@@ -109,7 +109,6 @@ export class SendPage implements OnInit {
   async sendLyra() {
     const app = this
     await this._window.ScryptaCore.send(this.unlockPwd, '', this.addressToSend, this.amountToSend, '', '', app.encrypted).then((result) => {
-      //alert('Successfull!!\n Your txid is :'+result)
       this.router.navigate(['/successfulsend'])
     }).catch((err) => {
       console.log(err)

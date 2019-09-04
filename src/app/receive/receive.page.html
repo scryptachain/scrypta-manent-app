@@ -8,21 +8,16 @@
     </ion-toolbar>
 </ion-header>
 <ion-content >
-  <div padding style="width: 260px;height: 260px;margin:0 auto">
-      <qrcode [qrdata]="myAngularxQrCode" [size]="256" [level]="'M'"></qrcode>
+  <div style="width: 100%; text-align: center; margin:30px 0">
+      <qrcode [qrdata]="myAngularxQrCode" [size]="256" style="display:inline-block" [level]="'M'"></qrcode><br>
+      <span style="font-size:11px">{{address}}</span>
   </div>
-  <p style='font-size:10px;color:#a7a7a7' padding>Your Lyra Address</p>
-  <ion-item padding style="margin-top:-10%;font-size:11px">
-    {{address}}
-    <img src="/assets/imgs/logo.png" style="width:12px;height:12px;float:right" slot='end'>
-  </ion-item>
- 
-<ion-item padding style="margin-top:-15%">
-  <ion-input type="number"  [(ngModel)]='amount' (ngModelChange)='fetchQRCode()' value=0 style='font-size: 18px;'></ion-input>
+<ion-item>
+  <ion-input type="number" [(ngModel)]='amountLyra' (ionFocus)="fixInputs('lyra')" (ngModelChange)='calculateFIAT()' value=0 style='font-size: 18px;'></ion-input>
   <p style='font-size: 18px' slot='end'>LYRA</p>
 </ion-item>
-<ion-item padding style="margin-top:-15%">
-  <ion-input type="number"  [(ngModel)]='amountFIAT' (ngModelChange)='fetchQRCode()' value=0 style='font-size: 18px;'></ion-input>
+<ion-item>
+  <ion-input type="number" [(ngModel)]='amountFIAT' (ionFocus)="fixInputs('fiat')" (ngModelChange)='calculateLyra()' value=0 style='font-size: 18px;'></ion-input>
   <p style='font-size: 18px' slot='end'>EUR</p>
 </ion-item>
 
