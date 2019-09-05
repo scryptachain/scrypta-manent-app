@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Account Details</ion-title>
+    <div slot='end'>
+      <ion-icon name='close' style="margin-right:5px;" (click)='close()'></ion-icon>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding style="text-align: center">
+  <strong>Balance</strong> {{ balance }} LYRA<br><br>
+  <qrcode [qrdata]="myAngularxQrCode" [size]="256" style="display:inline-block" [level]="'M'"></qrcode><br>
+  <span style="font-size:11px">{{ address }}</span><br>
+  <button class='buttonsBut' (click)="copyAddress()" style='margin:0 auto; width:100%; opacity: 1'>Copy Address</button><br><br>
+  <h2>Transactions</h2>
+  <ion-list>
+    <div *ngIf="transactions.length==0">No Transactions</div>
+    <div *ngIf="transactions.length!=0">
+      <ion-item *ngFor="let transaction of transactions; let i=index" [attr.data-index]="i"
+        (click)='openDetails(transaction)'>
+        {{ transaction.value }} LYRA
+        <span *ngIf="transaction.value > 0" style="margin-left:5px; font-size: 11px">
+          from {{ transaction.from[0] }}
+        </span> 
+        <span *ngIf="transaction.value < 0" style="margin-left:5px; font-size: 11px">
+          to {{ transaction.to[1] }}
+        </span>
+      </ion-item>
+    </div>
+  </ion-list>
+
+  <button class='buttonsBut' (click)="openInExplorer()" style='margin:0 auto; width:100%; opacity: 1'>Open in block explorer</button>
+</ion-content>

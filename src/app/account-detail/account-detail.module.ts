@@ -3,18 +3,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
-import { QRCodeModule } from 'angularx-qrcode';
 import { IonicModule } from '@ionic/angular';
 
-import { AccountPage } from './account.page';
-import { ModaltransactionPage } from '../modaltransaction/modaltransaction.page';
-import { AccountDetailPage } from '../account-detail/account-detail.page';
-
+import { QRCodeModule } from 'angularx-qrcode';
+import { AccountDetailPage } from './account-detail.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: AccountPage
+    component: AccountDetailPage
   }
 ];
 
@@ -26,8 +23,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AccountPage,AccountDetailPage],
-  entryComponents:[AccountDetailPage]
+  // declarations: [AccountDetailPage]
 })
-
-export class AccountPageModule {}
+export class AccountDetailPageModule { }

@@ -190,20 +190,7 @@ export class DashboardPage implements OnInit {
     }, 2000);
   }
 
-  async openDetails(response) {
-    console.log(response)
-    const modal = await this.modalCtrl.create({
-      component: ModaltransactionPage,
-      componentProps: {
-        response: response
-      }
-    });
-    modal.onDidDismiss().then((detail: OverlayEventDetail) => {
-      if (detail != null) {
-        console.log(detail);
-
-      }
-    })
-    await modal.present()
+  openDetails(response) {
+    window.open('https://explorer.scryptachain.org/transaction/' + response.txid, '_system', 'location=yes'); return false;
   }
 }

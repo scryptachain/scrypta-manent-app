@@ -4,16 +4,18 @@ import { Clipboard } from '@ionic-native/clipboard/ngx'
 import { ToastController, ModalController } from '@ionic/angular';
 import { ModaltransactionPage } from '../modaltransaction/modaltransaction.page';
 import { OverlayEventDetail } from '@ionic/core';
-import { AccountTransactionsDetailPage } from '../account-transactions-detail/account-transactions-detail.page';
+import { AccountDetailPage } from '../account-detail/account-detail.page';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.page.html',
   styleUrls: ['./account.page.scss'],
 })
+
 export class AccountPage implements OnInit {
   balance: string = '-'
   wallet: ''
+  accounts = []
   encrypted: string = ''
   selected: number = 0
   address: string
@@ -29,11 +31,28 @@ export class AccountPage implements OnInit {
     let payload = app.wallet[app.selected].split(':')
     app.address = payload[0]
     app.encrypted = payload[1]
+    app.parseWallet()
+  }
+  
+  async parseWallet() {
+    const app = this
+    for (let i = 0; i < app.wallet.length; i++) {
+      let transactions = await axios.get('https://microexplorer.scryptachain.org/transactions/' + app.address)
+      let balance = await axios.get('https://microexplorer.scryptachain.org/balance/' + app.address)
+      let payload = app.wallet[i].split(':')
+      let address = {
+        address: payload[0],
+        balance: balance.data.balance,
+        transactions: transactions.data.data,
+        index: i
+      }
+      app.accounts.push(address)
+    }
+
   }
 
-  copyAddress() {
-    this.clipboard.copy(this.address)
-    alert('Address copied!')
+  addAccount() {
+    //TODO: ADD MORE ACCOUNTS
   }
 
   async fetchTransactions() {
@@ -44,12 +63,11 @@ export class AccountPage implements OnInit {
       })
   }
 
-  async openDetails(response) {
-    console.log(response)
+  async openDetails(index) {
     const modal = await this.modalCtrl.create({
-      component: AccountTransactionsDetailPage,
+      component: AccountDetailPage,
       componentProps: {
-        response: response
+        index: index
       }
     });
     modal.onDidDismiss().then((detail: OverlayEventDetail) => {

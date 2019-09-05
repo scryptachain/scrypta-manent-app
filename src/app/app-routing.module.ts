@@ -32,7 +32,8 @@ const routes: Routes = [
   { path: 'archivedetail', loadChildren: './archivedetail/archivedetail.module#ArchivedetailPageModule' },
   { path: 'upload-modal', loadChildren: './upload-modal/upload-modal.module#UploadModalPageModule' },
   { path: 'modaltransaction', loadChildren: './modaltransaction/modaltransaction.module#ModaltransactionPageModule' },
-  { path: 'account-transactions-detail', loadChildren: './account-transactions-detail/account-transactions-detail.module#AccountTransactionsDetailPageModule' }
+  { path: 'account-transactions-detail', loadChildren: './account-transactions-detail/account-transactions-detail.module#AccountTransactionsDetailPageModule' },
+  { path: 'account-detail', loadChildren: './account-detail/account-detail.module#AccountDetailPageModule' }
 ];
 
 @NgModule({
