@@ -15,17 +15,12 @@ const routes: Routes = [
     path: 'home/:add',
     loadChildren: './home/home.module#HomePageModule'
   },
-  {
-    path: 'list',
-    loadChildren: './list/list.module#ListPageModule'
-  },
   { path: 'congratulations', loadChildren: './congratulations/congratulations.module#CongratulationsPageModule' },
   { path: 'login-to-wallet', loadChildren: './login-to-wallet/login-to-wallet.module#LoginToWalletPageModule' },
   { path: 'login-to-wallet/:add', loadChildren: './login-to-wallet/login-to-wallet.module#LoginToWalletPageModule' },
   { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardPageModule' },
   { path: 'account', loadChildren: './account/account.module#AccountPageModule' },
   { path: 'send', loadChildren: './send/send.module#SendPageModule' },
-  { path: 'converter', loadChildren: './converter/converter.module#ConverterPageModule' },
   { path: 'backup', loadChildren: './backup/backup.module#BackupPageModule' },
   { path: 'successfulsend', loadChildren: './successfulsend/successfulsend.module#SuccessfulsendPageModule' },
   { path: 'receive', loadChildren: './receive/receive.module#ReceivePageModule' },
@@ -36,7 +31,6 @@ const routes: Routes = [
   { path: 'archivedetail', loadChildren: './archivedetail/archivedetail.module#ArchivedetailPageModule' },
   { path: 'upload-modal', loadChildren: './upload-modal/upload-modal.module#UploadModalPageModule' },
   { path: 'modaltransaction', loadChildren: './modaltransaction/modaltransaction.module#ModaltransactionPageModule' },
-  { path: 'account-transactions-detail', loadChildren: './account-transactions-detail/account-transactions-detail.module#AccountTransactionsDetailPageModule' },
   { path: 'account-detail', loadChildren: './account-detail/account-detail.module#AccountDetailPageModule' }
 ];
 

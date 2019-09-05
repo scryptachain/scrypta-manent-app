@@ -1,7 +1,7 @@
 <ion-header *ngIf="add !== null">
   <ion-toolbar>
     <ion-buttons>
-      <ion-menu-button></ion-menu-button>
+      <ion-icon style="margin: 0 10px" (click)="goBack()" name="arrow-back"></ion-icon>
       <ion-title>Add new account</ion-title>
     </ion-buttons>
   </ion-toolbar>
@@ -21,8 +21,4 @@
     <h3>- OR -</h3>
     <a style="color:#d8273a" routerLink='/create-wallet'>Create a new wallet</a>
   </div>
-  <div *ngIf="add !== null">
-      <h3>- OR -</h3>
-      <a style="color:#d8273a" routerLink='/account'>Back to your accounts</a>
-    </div>
 </ion-content>

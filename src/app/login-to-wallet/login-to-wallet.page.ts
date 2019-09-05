@@ -14,6 +14,7 @@ import { File } from '@ionic-native/file/ngx'
 import { HTTP } from '@ionic-native/http/ngx'
 import { ModalLoginPage } from '../modal-login/modal-login.page';
 import { OverlayEventDetail } from '@ionic/core';
+import {Location} from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -30,12 +31,16 @@ export class LoginToWalletPage implements OnInit {
   private _window: ICustomWindow;
 
   constructor(private nfc: NFC, private ndef: Ndef, private qrScanner: BarcodeScanner, public platform: Platform, windowRef: WindowRefService, public router: Router, private fileChooser: FileChooser, private fileOpener: FileOpener, private filePath: FilePath, private file: File, private http: HTTP, private modalCtrl: ModalController, private loadingController: LoadingController,
-    public activatedRoute:ActivatedRoute) {
+    public activatedRoute:ActivatedRoute, private _location: Location) {
     this._window = windowRef.nativeWindow;
   }
 
   ngOnInit() {
     this.add = this.activatedRoute.snapshot.paramMap.get('add')
+  }
+  
+  goBack(){
+    this._location.back()
   }
 
   loginCard() {
