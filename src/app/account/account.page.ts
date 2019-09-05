@@ -5,6 +5,7 @@ import { ToastController, ModalController } from '@ionic/angular';
 import { ModaltransactionPage } from '../modaltransaction/modaltransaction.page';
 import { OverlayEventDetail } from '@ionic/core';
 import { AccountDetailPage } from '../account-detail/account-detail.page';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account',
@@ -20,7 +21,7 @@ export class AccountPage implements OnInit {
   selected: number = 0
   address: string
   transactions = []
-  constructor(private clipboard: Clipboard, private toast: ToastController, private modalCtrl: ModalController) { }
+  constructor(private clipboard: Clipboard, private toast: ToastController, private modalCtrl: ModalController, public router:Router) { }
 
   ngOnInit() {
     const app = this
@@ -37,9 +38,9 @@ export class AccountPage implements OnInit {
   async parseWallet() {
     const app = this
     for (let i = 0; i < app.wallet.length; i++) {
-      let transactions = await axios.get('https://microexplorer.scryptachain.org/transactions/' + app.address)
-      let balance = await axios.get('https://microexplorer.scryptachain.org/balance/' + app.address)
       let payload = app.wallet[i].split(':')
+      let transactions = await axios.get('https://microexplorer.scryptachain.org/transactions/' + payload[0])
+      let balance = await axios.get('https://microexplorer.scryptachain.org/balance/' + payload[0])
       let address = {
         address: payload[0],
         balance: balance.data.balance,
@@ -52,7 +53,8 @@ export class AccountPage implements OnInit {
   }
 
   addAccount() {
-    //TODO: ADD MORE ACCOUNTS
+    const app = this
+    app.router.navigate(['/login-to-wallet/add'])
   }
 
   async fetchTransactions() {
@@ -71,10 +73,7 @@ export class AccountPage implements OnInit {
       }
     });
     modal.onDidDismiss().then((detail: OverlayEventDetail) => {
-      if (detail != null) {
-        console.log(detail);
-
-      }
+      
     })
     await modal.present()
   }

@@ -1,8 +1,14 @@
-
+<ion-header *ngIf="add !== null">
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-menu-button></ion-menu-button>
+      <ion-title>Create new address</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content text-center>
-    <div id="splash" 
-      style="position:fixed; 
+  <div id="splash" style="position:fixed; 
         top:0; 
         left:0; 
         background-color:#fff; 
@@ -13,31 +19,36 @@
         background-size:25%;
         width:100%; 
         height: 100%;">
-    </div>
+  </div>
+  <div *ngIf="add === null" >
     <img src="/assets/imgs/scrypta_ce.png" class="scrypta_ce" style='margin-top: 10%'><br><br>
     Welcome on Manent<br>
-    A secure Lyra Wallet
-    <form (ngSubmit)=createWallet()>
-      <ion-item>
-        <ion-label position="floating">
-         
-            Password
-          </ion-label> 
-   <ion-input type="password" [(ngModel)]='password' name='password'></ion-input>
-   </ion-item>
-   <ion-item>
-     
-   <ion-label position="floating">
-     Repeat Password
-    </ion-label>
-   <ion-input type="password"  [(ngModel)]='repassword'  name='repassword' class="inputForms"></ion-input>
-</ion-item>
-
+    A secure Lyra Wallet<br><br>
+    Choose a strong password to start.
+  </div>
+  <div *ngIf="add !== null" padding><br><br>
+    Please choose a strong password<br>in order to secure your wallet.
+  </div>
+  <form (ngSubmit)=createWallet()>
+    <ion-item>
+      <ion-label position="floating">
+        Password
+      </ion-label>
+      <ion-input type="password" [(ngModel)]='password' name='password'></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        Repeat Password
+      </ion-label>
+      <ion-input type="password" [(ngModel)]='repassword' name='repassword' class="inputForms"></ion-input>
+    </ion-item>
     <button type="submit" expand="full" class='buttonsBut' style="margin-top:5%;">CREATE NEW WALLET</button>
-    </form><br><br>
+  </form><br><br>
+  <div *ngIf="add === null" >
     <h3>Do you want to restore a wallet?</h3>
     <a style="color:#d8273a" routerLink='/login-to-wallet'>Import exsisting wallet or a Lyra Card</a>
-  
-  </ion-content>
-
-
+  </div>
+  <div *ngIf="add !== null" >
+    <a style="color:#d8273a" routerLink='/login-to-wallet/add'>Go Back</a>
+  </div>
+</ion-content>

@@ -12,12 +12,16 @@ const routes: Routes = [
     loadChildren: './home/home.module#HomePageModule'
   },
   {
+    path: 'home/:add',
+    loadChildren: './home/home.module#HomePageModule'
+  },
+  {
     path: 'list',
     loadChildren: './list/list.module#ListPageModule'
   },
   { path: 'congratulations', loadChildren: './congratulations/congratulations.module#CongratulationsPageModule' },
   { path: 'login-to-wallet', loadChildren: './login-to-wallet/login-to-wallet.module#LoginToWalletPageModule' },
-  
+  { path: 'login-to-wallet/:add', loadChildren: './login-to-wallet/login-to-wallet.module#LoginToWalletPageModule' },
   { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardPageModule' },
   { path: 'account', loadChildren: './account/account.module#AccountPageModule' },
   { path: 'send', loadChildren: './send/send.module#SendPageModule' },

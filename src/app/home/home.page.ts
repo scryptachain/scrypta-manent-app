@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController, MenuController, ToastController, AlertController, LoadingController } from '@ionic/angular';
 import { WindowRefService, ICustomWindow } from '../windowservice';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
 @Component({
   selector: 'app-home',
@@ -14,7 +15,7 @@ export class HomePage {
   repassword:string;
   nodes:string[]=[];
   backupAlert:boolean=true;
-  
+  add: string = '';
   connected:string="";
   encrypted_wallet: 'NO WALLET'; 
   unlockPwd: '';
@@ -37,45 +38,40 @@ export class HomePage {
   constructor(
     windowRef: WindowRefService,
     navCtrl:NavController,
-    public router:Router
-   
+    public router:Router,
+    public activatedRoute:ActivatedRoute
   ){
     this._window = windowRef.nativeWindow;
     //this.create()
   }
+
   ngOnInit()
   {
-    this.checkUser();
+    this.add = this.activatedRoute.snapshot.paramMap.get('add')
     this.checkIdaNodes();
+    this.checkUser();
     setTimeout(function(){
       this.backupAlert=false;
     })
   }
 
-
-  checkIdaNodes()
-  {
-    var checkNodes=this._window.ScryptaCore.returnNodes();
-    const app =this;
-    for(var i =0;i<checkNodes.length;i++)
-    {
-      axios.get('https://'+checkNodes[i]+'/check')
-      .then(function(response){
+  checkIdaNodes() {
+    var checknodes = this._window.ScryptaCore.returnNodes();
+    const app = this
+    for (var i = 0; i < checknodes.length; i++) {
+      axios.get('https://' + checknodes[i] + '/check').then(function (response) {
         app.nodes.push(response.data.name)
-        if(i==checkNodes.length){
-          app.connectToNode();
+        if (i == checknodes.length) {
+          app.connectToNode()
         }
       })
     }
   }
-  connectToNode()
-  {
-    var app=this
-    if(app.connected=='')
-    {
-      app.connected = app.nodes[Math.floor(Math.random()*app.nodes.length)];
-          //app.checkBalance()
-          //app.fetchTransactions()
+
+  connectToNode() {
+    var app = this
+    if (app.connected == '') {
+      app.connected = app.nodes[Math.floor(Math.random() * app.nodes.length)]
     }
   }
 
@@ -83,7 +79,7 @@ export class HomePage {
     var app=this
     if(localStorage.getItem('wallet') !== null){
       let wallet = JSON.parse(localStorage.getItem('wallet'))
-      if(wallet.length > 0){
+      if(wallet.length > 0 && this.add === null){
         app.router.navigate(['/dashboard'])
       }else{
         document.getElementById('splash').style.display = 'none';
