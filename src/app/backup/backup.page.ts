@@ -62,12 +62,12 @@ export class BackupPage implements OnInit {
     alert('File .sid salvato con Successo!')
   }
 
-  unlock(){
+  unlock() {
     const app = this
     app.showUnlock = true
   }
 
-  lock(){
+  lock() {
     const app = this
     app.showUnlock = false
   }
@@ -93,7 +93,7 @@ export class BackupPage implements OnInit {
   getQRCode() {
 
     var QrCode = new QRious({ value: this.encrypted, size: 500 })
-    
+
     var pdf = new jsPdf("p", "mm", "a4")
     pdf.text("Encrypted Wallet.", 57, 38)
 
