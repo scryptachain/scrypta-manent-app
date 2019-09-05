@@ -3,7 +3,10 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { WindowRefService, ICustomWindow } from '../windowservice';
 import { File } from '@ionic-native/file/ngx';
+import {Router} from '@angular/router'
 import * as jsPdf from 'jspdf'
+import {Location} from '@angular/common';
+
 declare var QRious: any
 @Component({
   selector: 'app-backup',
@@ -22,8 +25,12 @@ export class BackupPage implements OnInit {
   selected: any = 0
   pdfDownload: Blob
   showUnlock: boolean = false
-  constructor(private permission: AndroidPermissions, private file: File, private transfer: FileTransfer, windowRef: WindowRefService) {
+  constructor(private permission: AndroidPermissions, private file: File, private transfer: FileTransfer, windowRef: WindowRefService, private router:Router, private _location: Location) {
     this._window = windowRef.nativeWindow;
+  }
+
+  goBack(){
+    this._location.back()
   }
 
   ngOnInit() {

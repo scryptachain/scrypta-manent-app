@@ -6,6 +6,7 @@ import { ModaltransactionPage } from '../modaltransaction/modaltransaction.page'
 import { OverlayEventDetail } from '@ionic/core';
 import { AccountDetailPage } from '../account-detail/account-detail.page';
 import { Router } from '@angular/router';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-account',
@@ -21,7 +22,7 @@ export class AccountPage implements OnInit {
   selected: number = 0
   address: string
   transactions = []
-  constructor(private clipboard: Clipboard, private toast: ToastController, private modalCtrl: ModalController, public router:Router) { }
+  constructor(private clipboard: Clipboard, private toast: ToastController, private modalCtrl: ModalController, public router:Router, private _location: Location) { }
 
   ngOnInit() {
     const app = this
@@ -50,6 +51,10 @@ export class AccountPage implements OnInit {
       app.accounts.push(address)
     }
 
+  }
+  
+  goBack(){
+    this._location.back()
   }
 
   addAccount() {

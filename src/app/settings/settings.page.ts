@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router'
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-settings',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsPage implements OnInit {
   currency:string
-  constructor() { 
+  constructor(private router:Router, private _location: Location) { 
     if(localStorage.getItem('currency')!=null)
     {
       this.currency=localStorage.getItem('currency')
@@ -15,6 +17,10 @@ export class SettingsPage implements OnInit {
     else{
       this.currency=null
     }
+  }
+  
+  goBack(){
+    this._location.back()
   }
 
   ngOnInit() {
