@@ -9,17 +9,31 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
-
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
 
 title-toolbar{
     text-align: center;
 }
+*, .native-input{
+  font-family: 'Poppins';
+}
+.unlockModal{
+  position:fixed;
+  text-align:center;
+  top:0; 
+  left:0; 
+  width:100%;
+  height:100%;
+  background:#fff;
+  z-index:99999;
+}
 
 .buttonsBut {
     width: 290px;
-  height: 50px;
+    text-transform: uppercase;
+    height: 50px;
     background:#d8273a;
-    font-family: Poppins;
+    font-family: 'Poppins';
     line-height: 35px;
     color:white;
     border-radius: 15px 15px 15px 15px;
@@ -29,7 +43,7 @@ title-toolbar{
     width: 215px;
     height: 19px;
     color: #555555;
-    font-family: Poppins;
+    font-family: 'Poppins';
     font-size: 12px;
     font-weight: 500;
     line-height: 18px;

@@ -10,8 +10,29 @@
 <ion-content padding style="text-align: center">
   <strong>Balance</strong> {{ balance }} LYRA<br><br>
   <qrcode [qrdata]="myAngularxQrCode" [size]="256" style="display:inline-block" [level]="'M'"></qrcode><br>
-  <span style="font-size:11px">{{ address }}</span><br>
-  <button class='buttonsBut' (click)="copyAddress()" style='margin:0 auto; width:100%; opacity: 1'>Copy Address</button><br><br>
+  <span style="font-size:11px">{{ address }}</span> <span style="font-size:25"><ion-icon (click)="copyAddress()" name="copy"></ion-icon></span><br>
+  <button class='buttonsBut' (click)="useAddress()" style='margin:0 auto; width:100%; opacity: 1'>Use this Address</button><br><br>
+  
+  <div *ngIf="private_key === ''">
+      <div *ngIf="showUnlock === true" class="unlockModal" padding>
+          <ion-icon name='close' style="position:absolute; top:10px; right:10px; font-size:25px" (click)='lock()'></ion-icon>
+          <h2 style="margin-top:30vh">Please enter wallet password</h2>
+          <ion-item text-center>
+            <ion-input [(ngModel)]='password' type='password'></ion-input>
+          </ion-item>
+          <div text-center>
+            <button text-center (click)='unlockWallet()' class='buttonsBut' style='margin:10% auto 0 auto;'>Unlock wallet</button>
+          </div>
+        </div>
+        <span *ngIf="showUnlock === false" style="color:#d8273a; text-decoration: underline" (click)="unlock()">Show Private Key</span><br>
+  </div>
+
+  <div *ngIf="private_key !== ''">
+    <h2>Your private key is</h2>
+    <span style="font-size:11px">{{ private_key }}</span>
+    <button class='buttonsBut' (click)="copyPrivKey()" style='margin:0 auto; width:100%; opacity: 1'>Copy Private Key</button><br>
+  </div>
+
   <h2>Transactions</h2>
   <ion-list>
     <div *ngIf="transactions.length==0">No Transactions</div>

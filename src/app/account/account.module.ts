@@ -10,7 +10,6 @@ import { AccountPage } from './account.page';
 import { ModaltransactionPage } from '../modaltransaction/modaltransaction.page';
 import { AccountDetailPage } from '../account-detail/account-detail.page';
 
-
 const routes: Routes = [
   {
     path: '',

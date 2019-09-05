@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import axios from 'axios';
+import { WindowRefService, ICustomWindow } from '../windowservice';
 import { Clipboard } from '@ionic-native/clipboard/ngx'
+import { OverlayEventDetail } from '@ionic/core';
 
 @Component({
   selector: 'app-account-detail',
@@ -12,14 +14,18 @@ import { Clipboard } from '@ionic-native/clipboard/ngx'
 export class AccountDetailPage implements OnInit {
   @Input() response: any
   index
+  private _window: ICustomWindow;
   wallet: any
   address: any = ''
   public myAngularxQrCode: string = null;
   encrypted: any
   balance: any = 0
   transactions: any = []
-  constructor(private clipboard: Clipboard, private modalCtrl: ModalController) {
-    
+  password: any = ''
+  private_key: any = ''
+  showUnlock:boolean = false
+  constructor(private clipboard: Clipboard, windowRef: WindowRefService, private modalCtrl: ModalController) {
+    this._window = windowRef.nativeWindow;
   }
 
   ngOnInit() {
@@ -41,14 +47,50 @@ export class AccountDetailPage implements OnInit {
     this.modalCtrl.dismiss()
   }
 
-
-
   copyAddress() {
     const app = this
     app.clipboard.copy(app.address)
     alert('Address copied!')
   }
 
+  useAddress(){
+    const app = this
+    localStorage.setItem('selected', app.index)
+    alert('Address selected!')
+  }
+
+  copyPrivKey() {
+    const app = this
+    app.clipboard.copy(app.private_key)
+    alert('Private key copied!')
+  }
+
+  unlock(){
+    const app = this
+    app.showUnlock = true
+  }
+
+  lock(){
+    const app = this
+    app.showUnlock = false
+  }
+
+  unlockWallet() {
+    const app = this
+    if (app.password !== '') {
+      app._window.ScryptaCore.readKey(app.password, app.address + ':' + app.encrypted).then(function (response) {
+        if (response !== false) {
+          app.lock()
+          app.private_key = response.prv
+          app.password = ''
+        } else {
+          alert('Wrong Password')
+        }
+      })
+    } else {
+      alert('Fill all the fields!')
+    }
+  }
 
   openInExplorer() {
     const app = this

@@ -20,21 +20,7 @@ export class ModalLoginPage implements OnInit {
   closeModal()
   {
     
-       this.setLocalStorage()
-    console.log(this.password)
-    localStorage.setItem('unlockPassword',this.password);
     this.modalCtrl.dismiss(this.password)
-
   }
 
-  async setLocalStorage()
-  {
-    var date=new Date();
-      console.log('DATE',date.toString())
-      await localStorage.removeItem('transactions')
-      await localStorage.removeItem('transactions2')
-    await localStorage.removeItem('loginDate')
-   await localStorage.setItem('loginDate',date.toString());
-   
-  }
 }
