@@ -1,23 +1,31 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-buttons>
-            <ion-icon style="margin: 0 10px" (click)="goBack()" name="arrow-back"></ion-icon>
-            <ion-title>Settings</ion-title>
-        </ion-buttons>
-      
-    </ion-toolbar>
-  </ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-icon style="margin: 0 10px" (click)="goBack()" name="arrow-back"></ion-icon>
+      <ion-title>Settings</ion-title>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
 
 <ion-content padding>
-Scrypta Manent App is an open-source project by Scrypta Foundation.<br>
-1.0.0<br><br>
+  <div style="text-align: center">
+    <img src="/assets/imgs/scrypta_ce.png" class="scrypta_ce" width="40%"><br><br>
+    Scrypta Manent is an open-source<br>project by Scrypta Task Force.<br>
+    <strong>v1.0.0</strong>
+    <br><br>
+    <a href="https://github.com/scryptachain" target="_blank">GitHub</a><br>
+    <a href="https://scrypta.foundation">Foundation Website</a><br>
+    <a href="https://scryptachain.org">ScryptaChain Website</a><br>
+    <a href="https://explorer.scryptachain.org">Block Explorer</a>
+  </div>
 
-<ion-item style="margin-top:10%">
-  <ion-label style="font-size:14px;color:#d43f51"> Preferred Currency</ion-label>
-  <ion-select [(ngModel)]='currency' value={{currency}} (ngModelChange)='changeCurrency()'>
-    <ion-select-option value='usd'>USD</ion-select-option>
-    <ion-select-option value='eur'>EUR</ion-select-option>
-    <ion-select-option value='gbp'>GBP</ion-select-option>
-  </ion-select>
-</ion-item>
+  <ion-item style="margin-top:10%">
+    <ion-label style="font-size:14px;color:#d43f51"> Preferred Currency</ion-label>
+    <ion-select [(ngModel)]='currency' value={{currency}} (ngModelChange)='changeCurrency()'>
+      <ion-select-option value='usd'>USD</ion-select-option>
+      <ion-select-option value='eur'>EUR</ion-select-option>
+      <ion-select-option value='gbp'>GBP</ion-select-option>
+    </ion-select>
+  </ion-item>
 </ion-content>

@@ -14,7 +14,7 @@ import { File } from '@ionic-native/file/ngx'
 import { HTTP } from '@ionic-native/http/ngx'
 import { ModalLoginPage } from '../modal-login/modal-login.page';
 import { OverlayEventDetail } from '@ionic/core';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -31,98 +31,47 @@ export class LoginToWalletPage implements OnInit {
   private _window: ICustomWindow;
 
   constructor(private nfc: NFC, private ndef: Ndef, private qrScanner: BarcodeScanner, public platform: Platform, windowRef: WindowRefService, public router: Router, private fileChooser: FileChooser, private fileOpener: FileOpener, private filePath: FilePath, private file: File, private http: HTTP, private modalCtrl: ModalController, private loadingController: LoadingController,
-    public activatedRoute:ActivatedRoute, private _location: Location) {
+    public activatedRoute: ActivatedRoute, private _location: Location) {
     this._window = windowRef.nativeWindow;
   }
 
   ngOnInit() {
     this.add = this.activatedRoute.snapshot.paramMap.get('add')
   }
-  
-  goBack(){
+
+  goBack() {
     this._location.back()
   }
 
   loginCard() {
-
     var nfcreader;
     this.platform.ready().then(() => {
       nfcreader = this.nfc.addNdefListener(() => {
         alert('We\'re ready, read the card with your phone now!');
       }, (err) => {
         alert('NFC is not enabled, please activate it now!');
-
       }).subscribe(async (event) => {
-
-        alert('Inserisci la password ed entra nel tuo wallet');
-        console.log('precedente', localStorage.getItem('lyraWallet'))
-        await localStorage.removeItem('lyraWallet')
-
-        await localStorage.setItem('lyraWallet', this.nfc.bytesToString(event.tag.ndefMessage[0].payload).substr(3));
-        console.log(localStorage.getItem('lyraWallet'))
-
+        if (localStorage.getItem('wallet') === null) {
+          let wallet = [this.nfc.bytesToString(event.tag.ndefMessage[0].payload).substr(3)]
+          localStorage.setItem('wallet', JSON.stringify(wallet))
+        } else {
+          let wallet = JSON.parse(localStorage.getItem('wallet'))
+          wallet.push(this.nfc.bytesToString(event.tag.ndefMessage[0].payload).substr(3))
+          localStorage.setItem('wallet', JSON.stringify(wallet))
+        }
         nfcreader.unsubscribe();
-
-        this.openModal().then((result) => {
-          console.log(result)
-        }).catch((err) => {
-          console.log(err)
-        })
-
+        this.router.navigate(['/account'])
       });
 
-
-      let message = this.ndef.textRecord('Hello world');
-      this.nfc.share([message]).then().catch();
+      //let message = this.ndef.textRecord('Hello world');
+      //this.nfc.share([message]).then().catch();
 
     })
-
-
-
   }
 
-
-  async openModal() {
-    const modal = await this.modalCtrl.create({
-      component: ModalLoginPage
-    });
-
-    modal.onDidDismiss().then((detail: OverlayEventDetail) => {
-      if (detail != null) {
-        this.password = detail.data;
-        this.unlockWallet()
-
-      }
-    })
-    await modal.present()
-
-  }
-
-  createNewAddress(){
+  createNewAddress() {
     const app = this
     app.router.navigate(['/home/add'])
-  }
-
-  async unlockWallet() {
-    var unlockPasswd = localStorage.getItem('lyraWallet');
-
-    var decrypted_wallet = this.decrypted_wallet
-    localStorage.setItem('decrypted_wallet', decrypted_wallet);
-
-    decrypted_wallet = 'WALLET LOCKED';
-
-
-    await this._window.ScryptaCore.readKey(this.password, unlockPasswd).then(function (response) {
-
-      if (response !== false) {
-
-        decrypted_wallet = response.prv
-
-      } else {
-        alert('Wrong Password')
-        location.reload();
-      }
-    })
   }
 
   async loading() {
@@ -133,22 +82,25 @@ export class LoginToWalletPage implements OnInit {
       translucent: true,
     })
     await loading.present();
-
   }
 
   async readQrCode() {
     await this.qrScanner.scan().then(async barcodeData => {
-      await localStorage.removeItem('lyraWallet')
-      await localStorage.setItem('lyraWallet', barcodeData.text);
-
-      this.openModal()
+      if(localStorage.getItem('wallet') === null){
+        let wallet = [barcodeData.text]
+        localStorage.setItem('wallet',JSON.stringify(wallet))
+      }else{
+        let wallet = JSON.parse(localStorage.getItem('wallet'))
+        wallet.push(barcodeData.text)
+        localStorage.setItem('wallet',JSON.stringify(wallet))
+      } 
+      this.router.navigate(['/account'])
     }).catch(err => {
       console.log(err)
     })
   }
 
   async openSidFile() {
-
     this.fileChooser.open().then(uploadfile => {
       console.log(uploadfile)
       this.filePath.resolveNativePath(uploadfile).then(resolvedFilePath => {
@@ -156,19 +108,18 @@ export class LoginToWalletPage implements OnInit {
         this.file.resolveLocalFilesystemUrl(resolvedFilePath).then(fileinfo => {
           console.log(fileinfo)
           this.file.readAsText(this.file.externalRootDirectory + '/Download/', fileinfo.name).then(async result => {
-
-            await localStorage.removeItem('lyraWallet')
-            await localStorage.setItem('lyraWallet', result);
-
-            this.openModal()
+            if(localStorage.getItem('wallet') === null){
+              let wallet = [result]
+              localStorage.setItem('wallet',JSON.stringify(wallet))
+            }else{
+              let wallet = JSON.parse(localStorage.getItem('wallet'))
+              wallet.push(result)
+              localStorage.setItem('wallet',JSON.stringify(wallet))
+            } 
+            this.router.navigate(['/account'])
           })
         })
-
-
       })
-
     })
-
-
   }
 }

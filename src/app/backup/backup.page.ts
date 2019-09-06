@@ -66,7 +66,7 @@ export class BackupPage implements OnInit {
     const fileTransfer: FileTransferObject = this.transfer.create();
     this.file.writeFile(this.file.externalRootDirectory + '/Download/', this.address + '.sid', this.filedownload)
     //console.log(this.file.externalDataDirectory)
-    alert('File .sid salvato con Successo!')
+    alert('Backup saved correctly!')
   }
 
   unlock() {
@@ -98,8 +98,8 @@ export class BackupPage implements OnInit {
   }
 
   getQRCode() {
-
-    var QrCode = new QRious({ value: this.encrypted, size: 500 })
+    const app = this
+    var QrCode = new QRious({ value: app.address + ':' + app.encrypted, size: 500 })
 
     var pdf = new jsPdf("p", "mm", "a4")
     pdf.text("Encrypted Wallet.", 57, 38)
