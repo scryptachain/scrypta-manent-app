@@ -15,8 +15,6 @@ import { WindowRefService, ICustomWindow } from '../windowservice';
   selector: 'app-dashboard',
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
-
-
 })
 
 
@@ -32,7 +30,7 @@ export class DashboardPage implements OnInit {
   options: any;
   dati: any;
   transactions = []
-  currency: string
+  currency: string = 'eur'
   current_price: any = 0
   private _window: ICustomWindow;
   constructor(
@@ -55,7 +53,7 @@ export class DashboardPage implements OnInit {
     app.encrypted = payload[1]
 
     await this.getBalance()
-    this.fetchTransactions()
+    await this.fetchTransactions()
     this.fetchGraph()
 
   }
