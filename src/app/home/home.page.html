@@ -43,7 +43,7 @@
       <ion-input type="password" [(ngModel)]='repassword' name='repassword' class="inputForms"></ion-input>
     </ion-item>
     <button *ngIf="isCreating === false" type="submit" expand="full" class='buttonsBut' style="margin-top:5%;">CREATE NEW WALLET</button>
-    <div style="width:100%; text-align:center" *ngIf="isCreating === true">
+    <div style="width:100%; text-align:center; margin-top:15px" *ngIf="isCreating === true">
       Creating wallet...
     </div>
   </form><br><br>

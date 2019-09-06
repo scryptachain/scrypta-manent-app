@@ -98,6 +98,7 @@ export class HomePage {
       if(app.password.length >= 6){
         app.isCreating = true
         await app._window.ScryptaCore.createAddress(app.password,false).then(async function(response){
+          console.log(response)
           axios.post('https://'+app.connected+'/init',{
             address: response.pub,
             airdrop: true
@@ -113,17 +114,17 @@ export class HomePage {
                   localStorage.setItem('wallet',JSON.stringify(wallet))
                 }
                 app.isCreating = false
-                if(this.add === null){
-                  app.router.navigate(['/congratulations'])
-                }else{
+                if(app.add !== null){
                   app.router.navigate(['/account'])
+                }else{
+                  app.router.navigate(['/congratulations'])
                 }
               }
             })
           }).catch((err)=>{
             console.log(err)
             app.isCreating = false
-            alert("Seems there's a problem, please retry or change node!")
+            alert("Seems there's a problem with the node, please retry!")
           });
         })
       }else{

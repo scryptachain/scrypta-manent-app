@@ -12,16 +12,37 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <div style="width:100%; display:block; height:30px;"> 
+    <h2 style='font-size:14px; margin-top:0px'>
+      Hide empty accounts
+      <div style="float:right; margin-top:-10px;">
+        <ion-toggle [(ngModel)]='toggleNoBalance'></ion-toggle>
+      </div>
+    </h2>
+  </div>
   <div padding style="text-align: center" *ngIf="accounts.length === 0">
     Loading wallet...
   </div>
-  <ion-card *ngFor="let address of accounts; let i=index" [attr.data-index]="i" (click)='openDetails(address.index)' style="margin:15px 0">
-    <ion-card-header>
-      <ion-card-title style="font-size:36px; font-weight:bold;">{{ address.balance }} LYRA</ion-card-title>
-      <ion-card-subtitle>{{ address.address }}</ion-card-subtitle>
-    </ion-card-header>
-  </ion-card>
-
+  <div *ngIf="toggleNoBalance === true">
+    <div *ngFor="let address of accounts; let i=index" [attr.data-index]="i">
+        <ion-card (click)='openDetails(address.index)' *ngIf="address.balance > 0" style="margin:15px 0">
+            <ion-card-header>
+              <ion-card-title style="font-size:36px; font-weight:bold;">{{ address.balance }} LYRA</ion-card-title>
+              <ion-card-subtitle>{{ address.address }}</ion-card-subtitle>
+            </ion-card-header>
+        </ion-card>
+      </div>
+  </div>
+  <div *ngIf="toggleNoBalance === false">
+    <div *ngFor="let address of accounts; let i=index" [attr.data-index]="i">
+        <ion-card (click)='openDetails(address.index)' style="margin:15px 0">
+            <ion-card-header>
+              <ion-card-title style="font-size:36px; font-weight:bold;">{{ address.balance }} LYRA</ion-card-title>
+              <ion-card-subtitle>{{ address.address }}</ion-card-subtitle>
+            </ion-card-header>
+        </ion-card>
+      </div>
+  </div>
   <button class='buttonsBut' (click)='addAccount()' style='margin:0 auto; width:100%; opacity: 1'>Add account</button>
 
 </ion-content>

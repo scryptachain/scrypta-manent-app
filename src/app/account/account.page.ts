@@ -18,6 +18,7 @@ export class AccountPage implements OnInit {
   balance: string = '-'
   wallet: ''
   accounts = []
+  toggleNoBalance: boolean = true
   encrypted: string = ''
   selected: number = 0
   address: string
