@@ -54,40 +54,31 @@ export class DashboardPage implements OnInit {
     app.address = payload[0]
     app.encrypted = payload[1]
 
-    await this.returnLyraPrice()
     await this.getBalance()
     this.fetchTransactions()
     this.fetchGraph()
 
   }
 
-  returnLyraPrice(){
-    const app = this
-    return new Promise(response => {
-      if (localStorage.getItem('currency') !== null) {
-        app.currency = localStorage.getItem('currency')
-      }
-    
-      let url = 'https://api.coingecko.com/api/v3/simple/price?ids=scrypta&vs_currencies=' + app.currency
-
-      axios.get(url)
-        .then(function (result) {
-          let price:number = result.data.scrypta[app.currency]
-          app.current_price = price
-          response(price)
-        })
-    })
-  }
-
   async getBalance() {
     const app = this
-    app._window.ScryptaCore.connectNode().then(async function (response) {
-      axios.get('https://microexplorer.scryptachain.org/balance/' + app.address)
-        .then(function (response) {
-          app.balance = response.data['balance'].toFixed(4)
-          app.value =(parseFloat(app.balance) * parseFloat(app.current_price)).toFixed(4)
-        })
-    })
+    if (localStorage.getItem('currency') !== null) {
+      app.currency = localStorage.getItem('currency')
+    }
+
+    let url = 'https://api.coingecko.com/api/v3/simple/price?ids=scrypta&vs_currencies=' + app.currency
+    axios.get(url)
+      .then(function (result) {
+        let price: number = result.data.scrypta[app.currency]
+        app.current_price = price
+        axios.get('https://microexplorer.scryptachain.org/balance/' + app.address)
+          .then(function (response) {
+            app.balance = response.data['balance'].toFixed(4)
+            app.value = (parseFloat(app.balance) * parseFloat(app.current_price)).toFixed(4)
+          })
+      }).catch(error => {
+        this.getBalance()
+      })
   }
 
   async fetchTransactions() {
@@ -168,7 +159,6 @@ export class DashboardPage implements OnInit {
 
   async doRefresh(event) {
     const app = this
-    await app.returnLyraPrice()
     await app.getBalance()
     app.fetchGraph()
     app.fetchTransactions()

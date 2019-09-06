@@ -20,6 +20,7 @@ export class HomePage {
   encrypted_wallet: 'NO WALLET'; 
   unlockPwd: '';
   createPwd: '';
+  isCreating:boolean = false;
   createPwdRepeat: '';
   public_address: string;
   public_qrcode: '';
@@ -93,32 +94,41 @@ export class HomePage {
     
     var app=this
     
-    if(app.password!==''&& app.password==app.repassword)
-    {
-      await app._window.ScryptaCore.createAddress(app.password,false).then(async function(response){
-        axios.post('https://'+app.connected+'/init',{
-          address: response.pub,
-          airdrop: true
-        }).then(function(){
-          app._window.ScryptaCore.readKey(app.password, response.walletstore).then(function (check) {
-            if (check !== false) {
-              if(localStorage.getItem('wallet') === null){
-                let wallet = [response.walletstore]
-                localStorage.setItem('wallet',JSON.stringify(wallet))
-              }else{
-                let wallet = JSON.parse(localStorage.getItem('wallet'))
-                wallet.push(response.walletstore)
-                localStorage.setItem('wallet',JSON.stringify(wallet))
+    if(app.password!==''&& app.password==app.repassword && app.isCreating === false){
+      if(app.password.length >= 6){
+        app.isCreating = true
+        await app._window.ScryptaCore.createAddress(app.password,false).then(async function(response){
+          axios.post('https://'+app.connected+'/init',{
+            address: response.pub,
+            airdrop: true
+          }).then(function(){
+            app._window.ScryptaCore.readKey(app.password, response.walletstore).then(function (check) {
+              if (check !== false) {
+                if(localStorage.getItem('wallet') === null){
+                  let wallet = [response.walletstore]
+                  localStorage.setItem('wallet',JSON.stringify(wallet))
+                }else{
+                  let wallet = JSON.parse(localStorage.getItem('wallet'))
+                  wallet.push(response.walletstore)
+                  localStorage.setItem('wallet',JSON.stringify(wallet))
+                }
+                app.isCreating = false
+                if(this.add === null){
+                  app.router.navigate(['/congratulations'])
+                }else{
+                  app.router.navigate(['/account'])
+                }
               }
-              app.router.navigate(['/congratulations'])
-            }
-          })
-        }).catch((err)=>{
-          console.log(err)
-          alert("Seems there's a problem, please retry or change node!")
-        });
-      })
-
+            })
+          }).catch((err)=>{
+            console.log(err)
+            app.isCreating = false
+            alert("Seems there's a problem, please retry or change node!")
+          });
+        })
+      }else{
+        alert('Password should be at least 6 characters!')
+      }
     }else{
       alert('Password is incorrect!')
     }
