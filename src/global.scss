@@ -17,6 +17,9 @@ title-toolbar{
 *, .native-input{
   font-family: 'Poppins';
 }
+input{
+  font-family: 'Poppins'!important;
+}
 .unlockModal{
   position:fixed;
   text-align:center;

@@ -23,30 +23,57 @@ export class SendPage implements OnInit {
   connected: string = '';
   public_address: string;
   encrypted_wallet: string;
-  amountToSend: number;
+  amountToSend: any = 0;
   addressToSend: string;
   unlockPwd: string;
   decrypted_wallet: string;
   private_key: any;
   api_secret: any;
-  isSending: boolean;
+  focus: any = '';
   messageToSend: any;
+  amountFIAT: any = 0;
+  currency_placeholder: any = ''
+  price: any = 0
   balance: any = '-';
+  isSending: boolean = false;
+  currency: string = 'eur'
   @ViewChild('passwordSend') mypassword;
   constructor(windowRef: WindowRefService, private qrScanner: BarcodeScanner, private router: Router) {
     this._window = windowRef.nativeWindow;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const app = this
     if (localStorage.getItem('selected') !== null) {
       app.selected = parseInt(localStorage.getItem('selected'))
     }
+    if (localStorage.getItem('currency') !== null) {
+      app.currency = localStorage.getItem('currency')
+    }
+    app.currency_placeholder = 'Calculate in ' + app.currency.toUpperCase()
     app.wallet = JSON.parse(localStorage.getItem('wallet'))
     let payload = app.wallet[app.selected].split(':')
     app.address = payload[0]
     app.encrypted = payload[1]
     app.getBalance()
+    app.price = await app.returnLyraPrice()
+  }
+
+  returnLyraPrice(){
+    const app = this
+    return new Promise(response => {
+    if (localStorage.getItem('currency') !== null) {
+      app.currency = localStorage.getItem('currency')
+    }
+  
+    let url = 'https://api.coingecko.com/api/v3/simple/price?ids=scrypta&vs_currencies=' + app.currency
+
+    axios.get(url)
+      .then(function (result) {
+        let price:number = result.data.scrypta[app.currency]
+        response(price)
+      })
+    })
   }
 
   async getBalance() {
@@ -57,6 +84,44 @@ export class SendPage implements OnInit {
           app.balance = response.data['balance']
         })
     })
+  }
+
+  fixInputs(what){
+    const app = this
+    app.focus = what
+    if(what === 'lyra'){
+      if(app.amountToSend === 0){
+        app.amountToSend = ''
+      }
+      if(app.amountFIAT === ''){
+        app.amountFIAT = 0
+      }
+    }else{
+      if(app.amountFIAT === 0){
+        app.amountFIAT = ''
+      }
+      if(app.amountToSend === ''){
+        app.amountToSend = 0
+      }
+    }
+  }
+
+  async calculateFIAT() {
+    const app = this
+    if(app.focus === 'lyra'){
+      app.price = await this.returnLyraPrice()
+      app.amountFIAT = parseFloat(app.amountToSend) * parseFloat(app.price)
+      app.amountFIAT = app.amountFIAT.toFixed(2)
+    }
+  }
+
+  async calculateLyra() {
+    const app = this
+    if(app.focus === 'fiat'){
+      app.price = await this.returnLyraPrice()
+      app.amountToSend = parseFloat(app.amountFIAT) / parseFloat(app.price)
+      app.amountToSend = app.amountToSend.toFixed(4)
+    }
   }
 
   checkIdaNodes() {
@@ -107,15 +172,23 @@ export class SendPage implements OnInit {
 
   async sendLyra() {
     const app = this
-    await this._window.ScryptaCore.send(app.unlockPwd, '', app.addressToSend, app.amountToSend, '', '', app.address + ':' + app.encrypted).then((result) => {
-      if(result !== false){
-        this.router.navigate(['/successfulsend'])
-      }else{
-        alert('Transaction failed, please retry!')
-      }
-    }).catch((err) => {
-      console.log(err)
-    });
+    if(app.isSending === false){
+      app.isSending = true
+      await this._window.ScryptaCore.send(app.unlockPwd, '', app.addressToSend, app.amountToSend, '', '', app.address + ':' + app.encrypted).then((result) => {
+        if(result !== false){
+          app.amountFIAT = 0
+          app.amountToSend = 0
+          app.addressToSend = ''
+          app.unlockPwd = ''
+          this.router.navigate(['/successfulsend'])
+        }else{
+          alert('Transaction failed, please retry!')
+        }
+        app.isSending = false
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
   }
 
   scanQRCode() {

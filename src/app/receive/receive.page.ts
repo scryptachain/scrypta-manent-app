@@ -68,9 +68,15 @@ export class ReceivePage implements OnInit {
       if(app.amountLyra === 0){
         app.amountLyra = ''
       }
+      if(app.amountFIAT === ''){
+        app.amountFIAT = 0
+      }
     }else{
       if(app.amountFIAT === 0){
         app.amountFIAT = ''
+      }
+      if(app.amountLyra === ''){
+        app.amountLyra = 0
       }
     }
   }
