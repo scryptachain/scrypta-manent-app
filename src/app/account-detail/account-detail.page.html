@@ -45,7 +45,7 @@
           from {{ transaction.from[0] }}
         </span> 
         <span *ngIf="transaction.value < 0" style="margin-left:5px; font-size: 11px">
-          to {{ transaction.to[1] }}
+            to <span *ngIf="transaction.to[1] === undefined">{{ transaction.to[0] }}</span>{{ transaction.to[1] }}
         </span>
       </ion-item>
     </div>

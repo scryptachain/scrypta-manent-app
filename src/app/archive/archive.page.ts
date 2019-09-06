@@ -22,6 +22,7 @@ export class ArchivePage implements OnInit {
   selected: number = 0
   balance: string = '-'
   encrypted: string = ''
+  isUploading: boolean = false
   private _window: ICustomWindow;
   readerror: string;
   api_secret: string;
@@ -164,7 +165,8 @@ export class ArchivePage implements OnInit {
     })
 
     modal.onDidDismiss().then(async (detail: OverlayEventDetail) => {
-      if (detail.data !== undefined) {
+      if (detail.data !== undefined && this.isUploading === false) {
+        this.isUploading = true
         var form = new FormData()
         form.append('file', detail.data.fileObject.fileBuffer)
         form.append('dapp_address', app.address)
@@ -178,9 +180,16 @@ export class ArchivePage implements OnInit {
             'Content-Type': 'multipart/form-data'
           }
         }).then(res => {
-          alert('Data written correctly into the blockchain, wait at least 2 minutes and refresh the page!')
+          if(res.data.data.uuid !== undefined){
+            alert('Data written correctly into the blockchain, wait at least 2 minutes and refresh the page!')
+            this.isUploading = false
+          }else{
+            alert('There\'s an error in the upload, please retry!')
+            this.isUploading = false
+          }
         }).catch(error => {
           alert('There\'s an error in the upload, please retry!')
+          this.isUploading = false
         })
 
       }

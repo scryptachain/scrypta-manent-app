@@ -11,9 +11,12 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <div>
+  <div *ngIf="isUploading === false">
     Upload a text or a file directly into the Scrypta Blockchain.<br>
     <button class='buttonsBut' (click)='openModalUpload()' style='margin:0 auto;margin-top:5%'>Upload new file</button>
+  </div>
+  <div *ngIf="isUploading === true">
+    Uploading data, please wait and don't refresh the page.
   </div>
   <h2 style='font-size:16px'>Archive history</h2>
   <div *ngIf="readreturn.length==0">No data to show</div>
