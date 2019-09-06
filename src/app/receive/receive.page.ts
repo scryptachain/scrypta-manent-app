@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import axios from 'axios';
+import { Clipboard } from '@ionic-native/clipboard/ngx'
 
 declare var QRious: any
 @Component({
@@ -20,6 +21,7 @@ export class ReceivePage implements OnInit {
   address: string
   encodedData: {}
   public myAngularxQrCode: string = null;
+  constructor(private clipboard: Clipboard) { }
 
   async ngOnInit() {
     const app = this
@@ -34,6 +36,12 @@ export class ReceivePage implements OnInit {
     app.price = await app.returnLyraPrice()
   }
 
+  copyAddress() {
+    const app = this
+    app.clipboard.copy(app.address)
+    alert('Address copied!')
+  }
+  
   calculateQRCode() {
     const app = this
     if (app.amountLyra === 0) {
