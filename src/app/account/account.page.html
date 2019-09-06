@@ -9,10 +9,13 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div padding style="text-align: center" *ngIf="accounts.length === 0">
     Loading wallet...
   </div>
-  <ion-card *ngFor="let address of accounts; let i=index" [attr.data-index]="i" (click)='openDetails(address.index)'>
+  <ion-card *ngFor="let address of accounts; let i=index" [attr.data-index]="i" (click)='openDetails(address.index)' style="margin:15px 0">
     <ion-card-header>
       <ion-card-title style="font-size:36px; font-weight:bold;">{{ address.balance }} LYRA</ion-card-title>
       <ion-card-subtitle>{{ address.address }}</ion-card-subtitle>

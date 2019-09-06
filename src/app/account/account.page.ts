@@ -53,6 +53,16 @@ export class AccountPage implements OnInit {
 
   }
   
+  async doRefresh(event) {
+    const app = this
+    app.accounts = []
+    app.parseWallet()
+
+    setTimeout(() => {
+      event.target.complete();
+    }, 2000);
+  }
+
   goBack(){
     this._location.back()
   }
