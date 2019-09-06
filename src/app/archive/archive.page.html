@@ -7,43 +7,29 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding text-center>
+<ion-content padding style="text-align: center">
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  Upload a text or a photo directly into the Scrypta Blockchain.<br>
-  <button class='buttonsBut' (click)='openModalUpload()' style='margin:0 auto;margin-top:5%'>Upload</button>
-  <ion-item lines='none' style='margin-top:5%'>
-    <h2 style='font-size:16px'>Archive history</h2>
-  </ion-item>
-  <div *ngIf="readreturn.length==0" padding>No data to show</div>
-  <div *ngIf="readreturn.length!=0" padding>
+  <div>
+    Upload a text or a file directly into the Scrypta Blockchain.<br>
+    <button class='buttonsBut' (click)='openModalUpload()' style='margin:0 auto;margin-top:5%'>Upload new file</button>
+  </div>
+  <h2 style='font-size:16px'>Archive history</h2>
+  <div *ngIf="readreturn.length==0">No data to show</div>
+  <div *ngIf="readreturn.length!=0">
 
-    <ion-item *ngFor="let readreturn of readreturn2  ;let i=index" [attr.data-index]="i" lines='nolines'>
-      <ion-item (click)="generic(readreturn)" lines='nolines'>
-        <div slot='start'>
-          <p style='font-size: 10px;'>Title: {{readreturn.text}}</p>
-          <p style="font-size: 10px;color:#a7a7a7">{{readreturn.datetime}}</p>
+    <div *ngFor="let readreturn of readreturn2  ;let i=index" (click)="generic(readreturn)" [attr.data-index]="i">
+      <ion-card>
+        <div style="padding:10px">
+            <p *ngIf="readreturn.title">{{readreturn.title}}</p>
+            <p *ngIf="readreturn.text">{{readreturn.text}}</p>
+            <p *ngIf="readreturn.data && !readreturn.is_file">{{readreturn.data}}</p>
+            <img *ngIf="readreturn.is_file" src="{{readreturn.data}}" width="100%">
+            <p style="font-size:10px;color:#a7a7a7"><strong>Written at Block:</strong> {{readreturn.block}}</p>
         </div>
-        <div slot='end' lines='nolines'>
-          <p style="font-size:10px;color:#a7a7a7">Block: {{readreturn.block}}</p>
-        </div>
-      </ion-item>
-
-    </ion-item>
-
-
-
-
-
-
-
-
-
-
-
-
-
+      </ion-card>
+    </div>
   </div>
 
 </ion-content>

@@ -29,7 +29,7 @@
           from {{ transaction.from[0] }}
         </span> 
         <span *ngIf="transaction.value < 0" style="margin-left:5px; font-size: 11px">
-          to {{ transaction.to[1] }}
+          to <span *ngIf="transaction.to[1] === undefined">{{ transaction.to[0] }}</span>{{ transaction.to[1] }}
         </span>
       </ion-item>
     </div>
@@ -58,7 +58,7 @@
       <ion-icon name="add" style='color:#a7a7a7'></ion-icon>
     </ion-tab-button>
 
-    <ion-tab-button [routerLink]="'/notify'">
+    <ion-tab-button [routerLink]="'/archive'">
       <ion-label style='color:#a7a7a7'>Notify</ion-label>
       <ion-icon name="archive" style='color:#a7a7a7'></ion-icon>
     </ion-tab-button>

@@ -1,9 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Transaction Detail</ion-title>
+    <ion-title>Details</ion-title>
     <div slot='end'>
-
-    <button ion-button icon-only (click)="closemodal()">
+    <button ion-button style="background:transparent" icon-only (click)="closemodal()">
         <ion-icon name="close" style="background:transparent"></ion-icon>
       </button>
     </div>
@@ -11,15 +10,15 @@
 </ion-header>
 
 <ion-content padding>
-<h2 style="font-size:16px;color:#d43f51">Title</h2>
-<ion-item>
+<h2 *ngIf="risposta.title !== '' && risposta.title !== undefined" style="font-size:16px;color:#d43f51">Title</h2>
+<ion-item *ngIf="risposta.title !== '' && risposta.title !== undefined">
+  <p style='font-size:14px'>{{risposta.title}}</p>
+</ion-item>
+<h2 *ngIf="risposta.text !== '' && risposta.text !== undefined" style="font-size:16px;color:#d43f51">Title</h2>
+<ion-item *ngIf="risposta.text !== '' && risposta.text !== undefined">
   <p style='font-size:14px'>{{risposta.text}}</p>
 </ion-item>
-<h2 style="font-size:16px;color:#d43f51">Time</h2>
-<ion-item>
-  <p style='font-size:14px'>{{risposta.datetime}}</p>
-</ion-item>
-<h2 style="font-size:16px;color:#d43f51">Unique Identifier</h2>
+<h2 style="font-size:16px;color:#d43f51">Unique Identifier (UUID)</h2>
 <ion-item>
   <p style='font-size:14px'>{{risposta.uuid}}</p>
 </ion-item>
@@ -27,19 +26,17 @@
 <ion-item>
   <p style='font-size:14px'>{{risposta.block}}</p>
 </ion-item>
-<h2 style="font-size:16px;color:#d43f51">Message</h2>
-<ion-item>
+<h2 *ngIf="risposta.message !== '' && risposta.message !== undefined" style="font-size:16px;color:#d43f51">Message</h2>
+<ion-item *ngIf="risposta.message !== '' && risposta.message !== undefined">
   <p style='font-size:14px'>{{risposta.message}}</p>
 </ion-item>
-<h2 style="font-size:16px;color:#d43f51">Preview</h2>
+<h2 style="font-size:16px;color:#d43f51">Content</h2>
 <ion-item>
-    <div *ngIf="risposta.mimetype=='image'">
-        <img src='{{risposta.data}}' style='width:100%'> <br>
-        <a href='{{risposta.data}}'>Download Image</a>
+    <div *ngIf="risposta.mimetype=='image'" style="text-align:center; width:100%">
+    <img src='{{risposta.data}}' width="100%">
   </div>
   <div *ngIf="risposta.mimetype!='image'">
-  <p  style='font-size:14px'><a href='{{risposta.data}}'>{{risposta.data}}</a></p>
+    <p style='font-size:14px'>{{risposta.data}}</p>
   </div>
 </ion-item>
-
 </ion-content>

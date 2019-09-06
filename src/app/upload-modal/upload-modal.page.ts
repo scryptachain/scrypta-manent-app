@@ -38,8 +38,8 @@ export class UploadModalPage implements OnInit {
     title: '',
     file: '',
     message: '',
-    Encrypt: this.toggleChecked,
-    password: '',
+    encrypt: this.toggleChecked,
+    private_key: '',
     fileBuffer: ''
   }
   private _window: ICustomWindow;
@@ -49,7 +49,14 @@ export class UploadModalPage implements OnInit {
   }
 
   ngOnInit() {
-
+    const app = this
+    if (localStorage.getItem('selected') !== null) {
+      app.selected = parseInt(localStorage.getItem('selected'))
+    }
+    app.wallet = JSON.parse(localStorage.getItem('wallet'))
+    let payload = app.wallet[app.selected].split(':')
+    app.address = payload[0]
+    app.encrypted = payload[1]
   }
 
   close() {
@@ -58,20 +65,12 @@ export class UploadModalPage implements OnInit {
 
   selectFile() {
     this.fileChooser.open().then(fileUri => {
-      //this.fileName=fileUri
       this.filePath.resolveNativePath(fileUri).then(resolveFilePath => {
-        console.log('filepathresolve', resolveFilePath)
-
         this.fileUpload.resolveLocalFilesystemUrl(resolveFilePath).then(fileInfo => {
           var metadata = fileInfo.getMetadata(resp => {
-            console.log('MEtadada', resp)
-
           })
-
-          console.log('FileInfo', fileInfo)
           this.fileName = fileInfo.name
           this.file = fileInfo.nativeURL
-          
         })
       })
     })
@@ -88,12 +87,11 @@ export class UploadModalPage implements OnInit {
 
   unlockWallet() {
     const app = this
-    if (app.unlockPwd !== '') {
+    if (app.unlockPwd !== undefined) {
       app.decrypted_wallet = 'Wallet Locked'
       app._window.ScryptaCore.readKey(app.unlockPwd, app.address + ':' + app.encrypted).then(function (response) {
         if (response !== false) {
-          app.private_key = response.key
-          app.save();
+          app.save(response.prv);
         } else {
           alert('Wrong Password')
         }
@@ -103,16 +101,16 @@ export class UploadModalPage implements OnInit {
     }
   }
 
-  save() {
+  save(privkey) {
+    const app = this
     this.uploadForm.title = this.title
     this.uploadForm.file = this.file
-    this.uploadForm.Encrypt = this.toggleChecked
-    this.uploadForm.password = this.passwordEncrypt
+    this.uploadForm.encrypt = this.toggleChecked
+    this.uploadForm.private_key = privkey
     this.uploadForm.message = this.message
     this.uploadForm.fileBuffer = this.fileBuffer
     this.modalCtrl.dismiss({
       fileObject: this.uploadForm
     })
-    console.log(this.uploadForm)
   }
 }

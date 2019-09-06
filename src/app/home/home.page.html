@@ -23,7 +23,7 @@
   <div *ngIf="add === null" >
     <img src="/assets/imgs/scrypta_ce.png" class="scrypta_ce" style='margin-top: 10%'><br><br>
     Welcome on Manent<br>
-    A secure Lyra Wallet<br><br>
+    The Official Lyra Wallet<br><br>
     Choose a strong password to start.
   </div>
   <div *ngIf="add !== null" padding><br><br>
@@ -42,14 +42,13 @@
       </ion-label>
       <ion-input type="password" [(ngModel)]='repassword' name='repassword' class="inputForms"></ion-input>
     </ion-item>
-    <button *ngIf="isCreating === false" type="submit" expand="full" class='buttonsBut' style="margin-top:5%;">CREATE NEW WALLET</button>
+    <button *ngIf="isCreating === false" type="submit" expand="full" class='buttonsBut' style="margin-top:5%;">CREATE NEW ACCOUNT</button>
     <div style="width:100%; text-align:center; margin-top:15px" *ngIf="isCreating === true">
-      Creating wallet...
+      Creating account...
     </div>
   </form><br><br>
   <div *ngIf="add === null" >
-    <h3>Do you want to restore a wallet?</h3>
-    <a style="color:#d8273a" routerLink='/login-to-wallet'>Import existing wallet or a Lyra Card</a>
+    <a style="color:#d8273a" routerLink='/login-to-wallet'>Import existing account</a>
   </div>
   <div *ngIf="add !== null" >
     <a style="color:#d8273a" routerLink='/login-to-wallet/add'>Go Back</a>
