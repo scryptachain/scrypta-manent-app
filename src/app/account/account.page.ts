@@ -26,6 +26,11 @@ export class AccountPage implements OnInit {
 
   ngOnInit() {
     const app = this
+    app.parseWallet()
+  }
+  
+  async parseWallet() {
+    const app = this
     if (localStorage.getItem('selected') !== null) {
       app.selected = parseInt(localStorage.getItem('selected'))
     }
@@ -33,11 +38,6 @@ export class AccountPage implements OnInit {
     let payload = app.wallet[app.selected].split(':')
     app.address = payload[0]
     app.encrypted = payload[1]
-    app.parseWallet()
-  }
-  
-  async parseWallet() {
-    const app = this
     for (let i = 0; i < app.wallet.length; i++) {
       let payload = app.wallet[i].split(':')
       let transactions = await axios.get('https://microexplorer.scryptachain.org/transactions/' + payload[0])

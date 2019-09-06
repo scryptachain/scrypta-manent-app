@@ -51,16 +51,13 @@ export class LoginToWalletPage implements OnInit {
       }, (err) => {
         alert('NFC is not enabled, please activate it now!');
       }).subscribe(async (event) => {
-        if (localStorage.getItem('wallet') === null) {
-          let wallet = [this.nfc.bytesToString(event.tag.ndefMessage[0].payload).substr(3)]
-          localStorage.setItem('wallet', JSON.stringify(wallet))
-        } else {
-          let wallet = JSON.parse(localStorage.getItem('wallet'))
-          wallet.push(this.nfc.bytesToString(event.tag.ndefMessage[0].payload).substr(3))
-          localStorage.setItem('wallet', JSON.stringify(wallet))
-        }
+        this.addAddress(event.tag.ndefMessage[0].payload)
         nfcreader.unsubscribe();
-        this.router.navigate(['/account'])
+        if(this.add !== null){
+          this.router.navigate(['/account'])
+        }else{
+          this.router.navigate(['/dashboard'])
+        }
       });
 
       //let message = this.ndef.textRecord('Hello world');
@@ -72,6 +69,31 @@ export class LoginToWalletPage implements OnInit {
   createNewAddress() {
     const app = this
     app.router.navigate(['/home/add'])
+  }
+
+  addAddress(address){
+    let payload = address.split(':')
+    if(payload[0] !== undefined && payload[1] !== undefined){
+      if(payload[0].length === 34){
+        if(localStorage.getItem('wallet') === null){
+          let wallet = [address]
+          localStorage.setItem('wallet',JSON.stringify(wallet))
+        }else{
+          let wallet = JSON.parse(localStorage.getItem('wallet'))
+          if(wallet.indexOf(address) === -1){
+            wallet.push(address)
+            localStorage.setItem('wallet',JSON.stringify(wallet))
+            alert('Address ' + payload[0] + ' imported!')
+          }else{
+            alert('This address exsist yet!')
+          }
+        }
+      }else{
+        alert('This isn\'t a backup payload!')
+      }
+    }else{
+      alert('This isn\'t a backup payload!')
+    }
   }
 
   async loading() {
@@ -86,15 +108,12 @@ export class LoginToWalletPage implements OnInit {
 
   async readQrCode() {
     await this.qrScanner.scan().then(async barcodeData => {
-      if(localStorage.getItem('wallet') === null){
-        let wallet = [barcodeData.text]
-        localStorage.setItem('wallet',JSON.stringify(wallet))
+      this.addAddress(barcodeData.text)
+      if(this.add !== null){
+        this.router.navigate(['/account'])
       }else{
-        let wallet = JSON.parse(localStorage.getItem('wallet'))
-        wallet.push(barcodeData.text)
-        localStorage.setItem('wallet',JSON.stringify(wallet))
-      } 
-      this.router.navigate(['/account'])
+        this.router.navigate(['/dashboard'])
+      }
     }).catch(err => {
       console.log(err)
     })
@@ -108,15 +127,12 @@ export class LoginToWalletPage implements OnInit {
         this.file.resolveLocalFilesystemUrl(resolvedFilePath).then(fileinfo => {
           console.log(fileinfo)
           this.file.readAsText(this.file.externalRootDirectory + '/Download/', fileinfo.name).then(async result => {
-            if(localStorage.getItem('wallet') === null){
-              let wallet = [result]
-              localStorage.setItem('wallet',JSON.stringify(wallet))
+            this.addAddress(result)
+            if(this.add !== null){
+              this.router.navigate(['/account'])
             }else{
-              let wallet = JSON.parse(localStorage.getItem('wallet'))
-              wallet.push(result)
-              localStorage.setItem('wallet',JSON.stringify(wallet))
-            } 
-            this.router.navigate(['/account'])
+              this.router.navigate(['/dashboard'])
+            }
           })
         })
       })

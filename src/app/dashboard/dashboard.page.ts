@@ -55,7 +55,7 @@ export class DashboardPage implements OnInit {
     app.encrypted = payload[1]
 
     await this.returnLyraPrice()
-    this.getBalance()
+    await this.getBalance()
     this.fetchTransactions()
     this.fetchGraph()
 
@@ -168,10 +168,10 @@ export class DashboardPage implements OnInit {
 
   async doRefresh(event) {
     const app = this
+    await app.returnLyraPrice()
     await app.getBalance()
-    await app.fetchGraph()
+    app.fetchGraph()
     app.fetchTransactions()
-    app.returnLyraPrice()
 
     setTimeout(() => {
       event.target.complete();
