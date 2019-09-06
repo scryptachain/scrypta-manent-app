@@ -44,7 +44,7 @@ export class AccountPage implements OnInit {
       let balance = await axios.get('https://microexplorer.scryptachain.org/balance/' + payload[0])
       let address = {
         address: payload[0],
-        balance: balance.data.balance,
+        balance: balance.data.balance.toFixed(4),
         transactions: transactions.data.data,
         index: i
       }

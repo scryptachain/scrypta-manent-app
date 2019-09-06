@@ -39,7 +39,7 @@ export class AccountDetailPage implements OnInit {
       app.transactions = response.data.data
     })
     axios.get('https://microexplorer.scryptachain.org/balance/' + app.address).then(response => {
-      app.balance = response.data.balance
+      app.balance = response.data.balance.toFixed(4)
     })
   }
 

@@ -7,33 +7,33 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <h3 style="text-align:center; margin:20px 0; width: 100%">Your balance is<br>{{balance}} LYRA</h3>
-  <div class='walletbala' style="width:100%;border-bottom-right-radius: 29px;">
-    <chart [options]="options" style="display:block;width:auto; height:100%;margin:0 auto;" type="chart"> </chart>
-  </div>
+  
+  <h3 style="text-align:left; margin:20px 0 0 0; width: 100%; font-weight:bold; font-size:36px">{{balance}} LYRA</h3>
+  <h4 style="font-size:24px; color:#d8273a; margin-top:-5px;">{{ value }} {{ currency.toUpperCase() }}</h4>
+  <ion-card style="height:40vh;border-radius:15px; margin:20px 0; position:relative; overflow:hidden;">
+    <chart [options]="options" style="display:block;width:100%; height:40vh;margin:0 auto;" type="chart"> </chart>
+  </ion-card>
 
-  <div padding>
-    <h2>Activity</h2>
-    <ion-list>
-      <div *ngIf="transactions.length==0">No Transactions</div>
-      <div *ngIf="transactions.length!=0">
-        <ion-item *ngFor="let transaction of transactions; let i=index" [attr.data-index]="i"
-          (click)='openDetails(transaction)'>
-          {{ transaction.value }} LYRA
-          <span *ngIf="transaction.value > 0" style="margin-left:5px; font-size: 11px">
-            from {{ transaction.from[0] }}
-          </span> 
-          <span *ngIf="transaction.value < 0" style="margin-left:5px; font-size: 11px">
-            to {{ transaction.to[1] }}
-          </span>
-        </ion-item>
-      </div>
-    </ion-list>
-  </div>
+  <h2>Latest Activities</h2>
+  <ion-list>
+    <div *ngIf="transactions.length==0">No Transactions</div>
+    <div *ngIf="transactions.length!=0">
+      <ion-item *ngFor="let transaction of transactions | slice:0:5; let i=index" [attr.data-index]="i"
+        (click)='openDetails(transaction)'>
+        <span *ngIf="transaction.value > 0">+</span>{{ transaction.value.toFixed(4) }}
+        <span *ngIf="transaction.value > 0" style="margin-left:5px; font-size: 11px">
+          from {{ transaction.from[0] }}
+        </span> 
+        <span *ngIf="transaction.value < 0" style="margin-left:5px; font-size: 11px">
+          to {{ transaction.to[1] }}
+        </span>
+      </ion-item>
+    </div>
+  </ion-list>
 
 
 </ion-content>

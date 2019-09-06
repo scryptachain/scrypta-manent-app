@@ -11,7 +11,8 @@
   <strong>Balance</strong> {{ balance }} LYRA<br><br>
   <qrcode [qrdata]="myAngularxQrCode" [size]="256" style="display:inline-block" [level]="'M'"></qrcode><br>
   <span style="font-size:11px">{{ address }}</span> <span style="font-size:25px; margin-left:5px"><ion-icon (click)="copyAddress()" name="copy"></ion-icon></span><br>
-  <button class='buttonsBut' (click)="useAddress()" style='margin:0 auto; width:100%; opacity: 1'>Use this Address</button><br><br>
+  <button class='buttonsBut' (click)="useAddress()" style='margin:10px auto; width:100%; opacity: 1'>Use this Address</button><br>
+  <button class='buttonsBut' (click)="openInExplorer()" style='margin:0 auto; width:100%; opacity: 1'>Open in block explorer</button>
   
   <div *ngIf="private_key === ''">
       <div *ngIf="showUnlock === true" class="unlockModal" padding>
@@ -39,7 +40,7 @@
     <div *ngIf="transactions.length!=0">
       <ion-item *ngFor="let transaction of transactions; let i=index" [attr.data-index]="i"
         (click)='openDetails(transaction)'>
-        {{ transaction.value }} LYRA
+        <span *ngIf="transaction.value > 0">+</span>{{ transaction.value.toFixed(4) }}
         <span *ngIf="transaction.value > 0" style="margin-left:5px; font-size: 11px">
           from {{ transaction.from[0] }}
         </span> 
@@ -49,6 +50,4 @@
       </ion-item>
     </div>
   </ion-list>
-
-  <button class='buttonsBut' (click)="openInExplorer()" style='margin:0 auto; width:100%; opacity: 1'>Open in block explorer</button>
 </ion-content>

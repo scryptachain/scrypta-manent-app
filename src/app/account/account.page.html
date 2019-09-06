@@ -14,8 +14,8 @@
   </div>
   <ion-card *ngFor="let address of accounts; let i=index" [attr.data-index]="i" (click)='openDetails(address.index)'>
     <ion-card-header>
+      <ion-card-title style="font-size:36px; font-weight:bold;">{{ address.balance }} LYRA</ion-card-title>
       <ion-card-subtitle>{{ address.address }}</ion-card-subtitle>
-      <ion-card-title>{{ address.balance }} LYRA</ion-card-title>
     </ion-card-header>
   </ion-card>
 

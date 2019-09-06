@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router'
-import {Location} from '@angular/common';
+import { Router } from '@angular/router'
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-settings',
@@ -8,18 +8,14 @@ import {Location} from '@angular/common';
   styleUrls: ['./settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
-  currency:string
-  constructor(private router:Router, private _location: Location) { 
-    if(localStorage.getItem('currency')!=null)
-    {
-      this.currency=localStorage.getItem('currency')
-    }
-    else{
-      this.currency=null
+  currency: string = 'eur'
+  constructor(private router: Router, private _location: Location) {
+    if (localStorage.getItem('currency') != null) {
+      this.currency = localStorage.getItem('currency')
     }
   }
-  
-  goBack(){
+
+  goBack() {
     this._location.back()
   }
 
@@ -27,10 +23,9 @@ export class SettingsPage implements OnInit {
     //this.currency='eur';
   }
 
-  changeCurrency()
-  {
-    localStorage.setItem('currency',this.currency)
-    this.currency=this.currency
+  changeCurrency() {
+    localStorage.setItem('currency', this.currency)
+    this.currency = this.currency
   }
 
 }

@@ -81,7 +81,7 @@ export class SendPage implements OnInit {
     app._window.ScryptaCore.connectNode().then(async function (response) {
       axios.get('https://microexplorer.scryptachain.org/balance/' + app.address)
         .then(function (response) {
-          app.balance = response.data['balance']
+          app.balance = response.data['balance'].toFixed(4)
         })
     })
   }
@@ -174,8 +174,8 @@ export class SendPage implements OnInit {
     const app = this
     if(app.isSending === false){
       app.isSending = true
-      await this._window.ScryptaCore.send(app.unlockPwd, '', app.addressToSend, app.amountToSend, '', '', app.address + ':' + app.encrypted).then((result) => {
-        if(result !== false){
+      await this._window.ScryptaCore.send(app.unlockPwd, '', app.addressToSend, app.amountToSend, '', 0.001, app.address + ':' + app.encrypted).then((result) => {
+        if(result !== false && result !== undefined){
           app.amountFIAT = 0
           app.amountToSend = 0
           app.addressToSend = ''

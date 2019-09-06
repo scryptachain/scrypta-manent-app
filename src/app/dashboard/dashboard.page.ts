@@ -27,12 +27,13 @@ export class DashboardPage implements OnInit {
   balance: string = '-'
   encrypted: string = ''
   lyra: number;
-  value: number = 0;
+  value: string = '0';
   valore: number;
   options: any;
   dati: any;
   transactions = []
   currency: string
+  current_price: any = 0
   private _window: ICustomWindow;
   constructor(
     windowRef: WindowRefService,
@@ -43,7 +44,7 @@ export class DashboardPage implements OnInit {
 
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const app = this
     if (localStorage.getItem('selected') !== null) {
       app.selected = parseInt(localStorage.getItem('selected'))
@@ -53,9 +54,29 @@ export class DashboardPage implements OnInit {
     app.address = payload[0]
     app.encrypted = payload[1]
 
-    this.getBalance();
-    this.fetchGraph();
+    await this.returnLyraPrice()
+    this.getBalance()
+    this.fetchTransactions()
+    this.fetchGraph()
 
+  }
+
+  returnLyraPrice(){
+    const app = this
+    return new Promise(response => {
+      if (localStorage.getItem('currency') !== null) {
+        app.currency = localStorage.getItem('currency')
+      }
+    
+      let url = 'https://api.coingecko.com/api/v3/simple/price?ids=scrypta&vs_currencies=' + app.currency
+
+      axios.get(url)
+        .then(function (result) {
+          let price:number = result.data.scrypta[app.currency]
+          app.current_price = price
+          response(price)
+        })
+    })
   }
 
   async getBalance() {
@@ -63,8 +84,8 @@ export class DashboardPage implements OnInit {
     app._window.ScryptaCore.connectNode().then(async function (response) {
       axios.get('https://microexplorer.scryptachain.org/balance/' + app.address)
         .then(function (response) {
-          app.balance = response.data['balance']
-          app.checkValore();
+          app.balance = response.data['balance'].toFixed(4)
+          app.value =(parseFloat(app.balance) * parseFloat(app.current_price)).toFixed(4)
         })
     })
   }
@@ -79,18 +100,18 @@ export class DashboardPage implements OnInit {
 
   async fetchGraph() {
     var app = this;
-    var currency = 'eur'
+    app.currency = 'eur'
     if (localStorage.getItem('currency') !== null) {
-      currency = localStorage.getItem('currency')
+      app.currency = localStorage.getItem('currency')
     }
     var url: string
-    if (currency == 'eur') {
+    if (app.currency == 'eur') {
       url = 'https://api.coingecko.com/api/v3/coins/scrypta/market_chart?vs_currency=eur&days=30'
     }
-    else if (currency == 'usd') {
+    else if (app.currency == 'usd') {
       url = 'https://api.coingecko.com/api/v3/coins/scrypta/market_chart?vs_currency=usd&days=30'
     }
-    else if (currency == 'gbp') {
+    else if (app.currency == 'gbp') {
       url = 'https://api.coingecko.com/api/v3/coins/scrypta/market_chart?vs_currency=gbp&days=30'
     }
     axios.get(url)
@@ -105,11 +126,10 @@ export class DashboardPage implements OnInit {
               data: app.dati,
               type: "spline",
               zIndex: 0,
-
               marker: {
                 enabled: false
               },
-              name: "Price " + currency.toUpperCase()
+              name: "Price " + app.currency.toUpperCase()
             }
           ],
 
@@ -136,7 +156,7 @@ export class DashboardPage implements OnInit {
             style: { "color": "black", "font-size": "20px" }
           },
           subtitle: {
-            text: app.value + ' ' + currency.toUpperCase(),
+            text: app.current_price + ' ' + app.currency.toUpperCase(),
             style: { "font-size": "13px", "color": "#365ace", "margin-top": "-15%" }
           }
 
@@ -145,45 +165,13 @@ export class DashboardPage implements OnInit {
       });
   }
 
-  async checkValore() {
-
-    axios.get('https://api.coingecko.com/api/v3/coins/scrypta/').then((response => {
-      // console.log(response);
-      if (this.currency == null) {
-        //console.log(typeof(response.data.market_data.current_price.eur))
-        this.valore = response.data.market_data.current_price.eur
-      }
-
-      else if (this.currency == 'eur') {
-        //console.log(typeof(response.data.market_data.current_price.eur))
-        this.valore = response.data.market_data.current_price.eur
-
-      }
-      else if (this.currency == 'usd') {
-        //console.log(typeof(response.data.market_data.current_price.eur))
-        this.valore = response.data.market_data.current_price.usd
-      }
-      else if (this.currency == 'gbp') {
-        //console.log(typeof(response.data.market_data.current_price.eur))
-        this.valore = response.data.market_data.current_price.gbp
-      }
-      this.fetchTransactions();
-      this.calcolo();
-    }))
-
-
-
-  }
-
-  async calcolo() {
-    // console.log(this.valore)
-    this.value = parseFloat((Number(this.balance) * this.valore).toFixed(2))
-  }
 
   async doRefresh(event) {
     const app = this
     await app.getBalance()
-    await app.fetchGraph();
+    await app.fetchGraph()
+    app.fetchTransactions()
+    app.returnLyraPrice()
 
     setTimeout(() => {
       event.target.complete();
