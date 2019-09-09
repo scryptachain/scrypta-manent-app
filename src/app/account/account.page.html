@@ -3,6 +3,7 @@
     <ion-buttons>
       <ion-icon style="margin: 0 10px" (click)="goBack()" name="arrow-back"></ion-icon>
       <ion-title>Manage accounts</ion-title>
+      <ion-icon name="add" slot="right" (click)='addAccount()' style="padding-right:10px"></ion-icon>
     </ion-buttons>
 
   </ion-toolbar>
@@ -23,7 +24,6 @@
   <div padding style="text-align: center" *ngIf="accounts.length === 0">
     Loading wallet...
   </div>
-  <button class='buttonsBut' (click)='addAccount()' style='margin:0 auto; width:100%; opacity: 1'>Add account</button>
   <div *ngIf="toggleNoBalance === true">
     <div *ngFor="let address of accounts; let i=index" [attr.data-index]="i">
         <ion-card (click)='openDetails(address.index)' *ngIf="address.balance > 0" style="margin:15px 0">
