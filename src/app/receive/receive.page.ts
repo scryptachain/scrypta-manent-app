@@ -72,18 +72,17 @@ export class ReceivePage implements OnInit {
     const app = this
     app.focus = what
     if(what === 'lyra'){
-      console.log(app.amountLyra)
       if(app.amountLyra === 0){
         app.amountLyra = ''
       }
-      if(app.amountFIAT === ''){
+      if(app.amountFIAT === '' || app.amountFIAT === 'NaN'  || app.amountFIAT === null){
         app.amountFIAT = 0
       }
     }else{
       if(app.amountFIAT === 0){
         app.amountFIAT = ''
       }
-      if(app.amountLyra === ''){
+      if(app.amountLyra === '' || app.amountLyra === 'NaN'  || app.amountLyra === null){
         app.amountLyra = 0
       }
     }
@@ -92,20 +91,34 @@ export class ReceivePage implements OnInit {
   async calculateFIAT() {
     const app = this
     if(app.focus === 'lyra'){
-      app.price = await this.returnLyraPrice()
-      app.amountFIAT = parseFloat(app.amountLyra) * parseFloat(app.price)
-      app.amountFIAT = app.amountFIAT.toFixed(2)
-      app.calculateQRCode()
+      if(app.amountLyra !== null){
+        app.price = await this.returnLyraPrice()
+        let calculate = parseFloat(app.amountLyra) * parseFloat(app.price)
+        if(calculate.toString() !== "NaN"){
+          app.amountFIAT = calculate.toFixed(2)
+        }else{
+          app.amountFIAT = 0
+        }
+      }else{
+        app.amountFIAT = 0
+      }
     }
   }
 
   async calculateLyra() {
     const app = this
     if(app.focus === 'fiat'){
-      app.price = await this.returnLyraPrice()
-      app.amountLyra = parseFloat(app.amountFIAT) / parseFloat(app.price)
-      app.amountLyra = app.amountLyra.toFixed(4)
-      app.calculateQRCode() 
+      if(app.amountFIAT !== null){
+        app.price = await this.returnLyraPrice()
+        let calculate = parseFloat(app.amountFIAT) / parseFloat(app.price)
+        if(calculate.toString() !== "NaN"){
+          app.amountLyra = calculate.toFixed(4)
+        }else{
+          app.amountLyra = 0
+        }
+      }else{
+        app.amountFIAT = 0
+      }
     }
   }
 }

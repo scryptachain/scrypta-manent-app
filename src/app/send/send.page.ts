@@ -93,14 +93,14 @@ export class SendPage implements OnInit {
       if(app.amountToSend === 0){
         app.amountToSend = ''
       }
-      if(app.amountFIAT === ''){
+      if(app.amountFIAT === '' || app.amountFIAT === 'NaN'  || app.amountFIAT === null){
         app.amountFIAT = 0
       }
     }else{
       if(app.amountFIAT === 0){
         app.amountFIAT = ''
       }
-      if(app.amountToSend === ''){
+      if(app.amountToSend === '' || app.amountToSend === 'NaN'  || app.amountToSend === null){
         app.amountToSend = 0
       }
     }
@@ -109,18 +109,34 @@ export class SendPage implements OnInit {
   async calculateFIAT() {
     const app = this
     if(app.focus === 'lyra'){
-      app.price = await this.returnLyraPrice()
-      app.amountFIAT = parseFloat(app.amountToSend) * parseFloat(app.price)
-      app.amountFIAT = app.amountFIAT.toFixed(2)
+      if(app.amountToSend !== null){
+        app.price = await this.returnLyraPrice()
+        let calculate = parseFloat(app.amountToSend) * parseFloat(app.price)
+        if(calculate.toString() !== "NaN"){
+          app.amountFIAT = calculate.toFixed(2)
+        }else{
+          app.amountFIAT = 0
+        }
+      }else{
+        app.amountFIAT = 0
+      }
     }
   }
 
   async calculateLyra() {
     const app = this
     if(app.focus === 'fiat'){
-      app.price = await this.returnLyraPrice()
-      app.amountToSend = parseFloat(app.amountFIAT) / parseFloat(app.price)
-      app.amountToSend = app.amountToSend.toFixed(4)
+      if(app.amountFIAT !== null){
+        app.price = await this.returnLyraPrice()
+        let calculate = parseFloat(app.amountFIAT) / parseFloat(app.price)
+        if(calculate.toString() !== "NaN"){
+          app.amountToSend = calculate.toFixed(4)
+        }else{
+          app.amountToSend = 0
+        }
+      }else{
+        app.amountFIAT = 0
+      }
     }
   }
 
