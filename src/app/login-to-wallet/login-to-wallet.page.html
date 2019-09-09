@@ -8,17 +8,35 @@
 </ion-header>
 
 <ion-content text-center>
-  <img src="/assets/imgs/scrypta_ce.png" *ngIf="add === null" style="width: 140px;height: 118px;margin-top:5%"><br><br> 
-  <div padding>
-      Select one of the following restore methods and follow the instructions:<br>
+  <div *ngIf="showNFC === false">
+    <img src="/assets/imgs/scrypta_ce.png" *ngIf="add === null" style="width: 140px;height: 118px;margin-top:5%"><br><br> 
+    <div padding>
+        Select one of the following restore methods and follow the instructions:<br>
+    </div>
+    <button (click)='createNewAddress()' expand="full" class='buttonsBut' style='margin-top: 5%' >Create new account</button><br/>
+    <button (click)='openSidFile()' expand="full" class='buttonsBut' style='margin-top: 5%' >Restore .sid file<ion-icon name="key" style="float:right" size='large'></ion-icon></button><br/>
+    <button (click)='loginCard()' expand="full" class='buttonsBut' style='margin-top: 5%'>Read Lyra Card<ion-icon name="card" style="float:right" size='large'></ion-icon></button><br/>
+    <button (click)='readQrCode()' expand="full" class='buttonsBut' style='margin-top: 5%'>Restore Paper Wallet<ion-icon name="qr-scanner" style="float:right" size='large'></ion-icon></button><br/>
+    <br><br>
+    <div *ngIf="add === null">
+      <h3>- OR -</h3>
+      <a style="color:#d8273a" routerLink='/create-wallet'>Create a new wallet</a>
+    </div>
   </div>
-  <button (click)='createNewAddress()' expand="full" class='buttonsBut' style='margin-top: 5%' >Create new account</button><br/>
-  <button (click)='openSidFile()' expand="full" class='buttonsBut' style='margin-top: 5%' >Restore .sid file<ion-icon name="key" style="float:right" size='large'></ion-icon></button><br/>
-  <button (click)='loginCard()' expand="full" class='buttonsBut' style='margin-top: 5%'>Read Lyra Card<ion-icon name="card" style="float:right" size='large'></ion-icon></button><br/>
-  <button (click)='readQrCode()' expand="full" class='buttonsBut'style='margin-top: 5%'>Restore Paper Wallet<ion-icon name="qr-scanner" style="float:right" size='large'></ion-icon></button><br/>
-  <br><br>
-  <div *ngIf="add === null">
-    <h3>- OR -</h3>
-    <a style="color:#d8273a" routerLink='/create-wallet'>Create a new wallet</a>
+  <div *ngIf="showNFC === true" style="position:fixed; 
+        top:0; 
+        left:0; 
+        background-color:#fff; 
+        z-index:999999; 
+        background-size:25%;
+        width:100%; 
+        height: 100%;
+        text-align: center;
+        font-size:28px;
+        font-weight:bold;
+        padding: 30vh 20px">
+      <ion-icon name='close' style="position:absolute; top:10px; right:10px; z-index: 99;" (click)='closeNFC()'></ion-icon>
+      <ion-icon name="card" style="font-size:140px"></ion-icon><br>
+      Please bring the card closer to the phone now!
   </div>
 </ion-content>

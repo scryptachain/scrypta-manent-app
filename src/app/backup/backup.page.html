@@ -10,9 +10,9 @@
 <ion-content text-center padding>
   
   <h3 style="margin-top:20px; text-align: center;">Download a backup of this address, you can use this file for future access.</h3>
-  <h5 style="color:#f00; text-decoration: underline">Please note, this backup contains only the selected account! Repeat this operation if you have more than one account.</h5><br>
-  <button expand='full' (click)='getPermissions()' style="margin-bottom:10px" class='buttonsBut'>Download .sid file <ion-icon name='key' size='large' style='float:right'></ion-icon></button> 
-  <button expand='full' (click)='unlock()'class='buttonsBut' >Download paper wallet<ion-icon name='qr-scanner' size='large' style="float:right"></ion-icon></button>
+  <h5 style="color:#f00; text-decoration: underline">Please note, this backup contains only the selected account! Repeat this operation if you have more than one account.</h5>
+  <button expand='full' (click)='getPermissions()' style="margin-top:5%" class='buttonsBut'>Download .sid file <ion-icon name='key' size='large' style='float:right'></ion-icon></button> 
+  <button expand='full' (click)='unlock()' style="margin-top:5%" class='buttonsBut' >Download paper wallet<ion-icon name='qr-scanner' size='large' style="float:right"></ion-icon></button>
   <div *ngIf="showUnlock === true" class="unlockModal" padding>
     <ion-icon name='close' style="position:absolute; top:10px; right:10px; font-size:25px" (click)='lock()'></ion-icon>
     <h2 style="margin-top:30vh">Please enter wallet password</h2>

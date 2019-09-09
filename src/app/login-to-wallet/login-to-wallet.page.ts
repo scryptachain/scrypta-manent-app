@@ -29,6 +29,8 @@ export class LoginToWalletPage implements OnInit {
   nodes: string[] = [];
   connected: string = '';
   private _window: ICustomWindow;
+  showNFC:boolean = false
+  nfcreader:any
 
   constructor(private nfc: NFC, private ndef: Ndef, private qrScanner: BarcodeScanner, public platform: Platform, windowRef: WindowRefService, public router: Router, private fileChooser: FileChooser, private fileOpener: FileOpener, private filePath: FilePath, private file: File, private http: HTTP, private modalCtrl: ModalController, private loadingController: LoadingController,
     public activatedRoute: ActivatedRoute, private _location: Location) {
@@ -44,15 +46,23 @@ export class LoginToWalletPage implements OnInit {
   }
 
   loginCard() {
-    var nfcreader;
+    const app = this
     this.platform.ready().then(() => {
-      nfcreader = this.nfc.addNdefListener(() => {
-        alert('We\'re ready, read the card with your phone now!');
+      app.nfcreader = this.nfc.addNdefListener(() => {
+        app.showNFC = true
       }, (err) => {
-        alert('NFC is not enabled, please activate it now!');
+        alert('NFC is not enabled or device not compatible.');
       }).subscribe(async (event) => {
-        this.addAddress(event.tag.ndefMessage[0].payload)
-        nfcreader.unsubscribe();
+        app.showNFC = false
+        let NFC = this.nfc.bytesToHexString(event.tag.ndefMessage[0].payload)
+        var hex  = NFC.toString();
+        var str = '';
+        for (var n = 0; n < hex.length; n += 2) {
+          str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+        }
+        let address = str.substr(3)
+        app.addAddress(address)
+        app.nfcreader.unsubscribe()
         if(this.add !== null){
           this.router.navigate(['/account'])
         }else{
@@ -60,10 +70,13 @@ export class LoginToWalletPage implements OnInit {
         }
       });
 
-      //let message = this.ndef.textRecord('Hello world');
-      //this.nfc.share([message]).then().catch();
-
     })
+  }
+
+  closeNFC(){
+    const app = this
+    app.nfcreader.unsubscribe()
+    app.showNFC = false
   }
 
   createNewAddress() {
@@ -85,7 +98,7 @@ export class LoginToWalletPage implements OnInit {
             localStorage.setItem('wallet',JSON.stringify(wallet))
             alert('Address ' + payload[0] + ' imported!')
           }else{
-            alert('This address exsist yet!')
+            alert('This address exist yet!')
           }
         }
       }else{

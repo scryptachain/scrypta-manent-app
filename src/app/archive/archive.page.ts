@@ -92,7 +92,6 @@ export class ArchivePage implements OnInit {
     }).then(async function (response) {
       app.readreturn = response.data.data;
       for (var i = 0; i < app.readreturn.length; i++) {
-        console.log(app.readreturn[i])
         if (app.readreturn[i]['is_file']) {
           var hash = app.readreturn[i]['ipfshash']
           await app.retrieveInfo(hash, i)
