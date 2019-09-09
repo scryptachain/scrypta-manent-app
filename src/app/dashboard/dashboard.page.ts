@@ -26,6 +26,7 @@ export class DashboardPage implements OnInit {
   encrypted: string = ''
   lyra: number;
   value: string = '0';
+  valueBTC: string = '0';
   valore: number;
   options: any;
   dati: any;
@@ -64,15 +65,17 @@ export class DashboardPage implements OnInit {
       app.currency = localStorage.getItem('currency')
     }
 
-    let url = 'https://api.coingecko.com/api/v3/simple/price?ids=scrypta&vs_currencies=' + app.currency
+    let url = 'https://api.coingecko.com/api/v3/simple/price?ids=scrypta&vs_currencies=btc,' + app.currency
     axios.get(url)
       .then(function (result) {
         let price: number = result.data.scrypta[app.currency]
+        var priceBTC = result.data.scrypta['btc']
         app.current_price = price
         axios.get('https://microexplorer.scryptachain.org/balance/' + app.address)
           .then(function (response) {
             app.balance = response.data['balance'].toFixed(4)
             app.value = (parseFloat(app.balance) * parseFloat(app.current_price)).toFixed(4)
+            app.valueBTC = (parseFloat(app.balance) * parseFloat(priceBTC)).toFixed(8)
           })
       }).catch(error => {
         this.getBalance()

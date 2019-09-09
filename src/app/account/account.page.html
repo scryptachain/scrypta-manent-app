@@ -23,12 +23,13 @@
   <div padding style="text-align: center" *ngIf="accounts.length === 0">
     Loading wallet...
   </div>
+  <button class='buttonsBut' (click)='addAccount()' style='margin:0 auto; width:100%; opacity: 1'>Add account</button>
   <div *ngIf="toggleNoBalance === true">
     <div *ngFor="let address of accounts; let i=index" [attr.data-index]="i">
         <ion-card (click)='openDetails(address.index)' *ngIf="address.balance > 0" style="margin:15px 0">
             <ion-card-header>
               <ion-card-title style="font-size:36px; font-weight:bold;">{{ address.balance }} LYRA</ion-card-title>
-              <ion-card-subtitle>{{ address.address }}</ion-card-subtitle>
+              <ion-card-subtitle>{{ address.address.substr(0,6) }}...{{ address.address.substr(-6) }}</ion-card-subtitle>
             </ion-card-header>
         </ion-card>
       </div>
@@ -38,11 +39,10 @@
         <ion-card (click)='openDetails(address.index)' style="margin:15px 0">
             <ion-card-header>
               <ion-card-title style="font-size:36px; font-weight:bold;">{{ address.balance }} LYRA</ion-card-title>
-              <ion-card-subtitle>{{ address.address }}</ion-card-subtitle>
+              <ion-card-subtitle>{{ address.address.substr(0,6) }}...{{ address.address.substr(-6) }}</ion-card-subtitle>
             </ion-card-header>
         </ion-card>
       </div>
   </div>
-  <button class='buttonsBut' (click)='addAccount()' style='margin:0 auto; width:100%; opacity: 1'>Add account</button>
 
 </ion-content>

@@ -63,10 +63,10 @@ export class LoginToWalletPage implements OnInit {
         let address = str.substr(3)
         app.addAddress(address)
         app.nfcreader.unsubscribe()
-        if(this.add !== null){
-          this.router.navigate(['/account'])
+        if(app.add !== null){
+          app.router.navigate(['/account'])
         }else{
-          this.router.navigate(['/dashboard'])
+          app.router.navigate(['/dashboard'])
         }
       });
 
@@ -91,6 +91,7 @@ export class LoginToWalletPage implements OnInit {
         if(localStorage.getItem('wallet') === null){
           let wallet = [address]
           localStorage.setItem('wallet',JSON.stringify(wallet))
+          alert('Address ' + payload[0] + ' imported!')
         }else{
           let wallet = JSON.parse(localStorage.getItem('wallet'))
           if(wallet.indexOf(address) === -1){
