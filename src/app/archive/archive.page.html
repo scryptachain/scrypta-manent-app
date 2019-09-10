@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding style="text-align: center">
+<ion-content class="ion-padding" style="text-align: center">
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -25,10 +25,11 @@
     <div *ngFor="let readreturn of readreturn2  ;let i=index" (click)="generic(readreturn)" [attr.data-index]="i">
       <ion-card>
         <div style="padding:10px">
-            <p *ngIf="readreturn.title">{{readreturn.title}}</p>
+            <p *ngIf="readreturn.refID">{{readreturn.refID}}</p>
             <p *ngIf="readreturn.text">{{readreturn.text}}</p>
             <p *ngIf="readreturn.data && !readreturn.is_file">{{readreturn.data}}</p>
-            <img *ngIf="readreturn.is_file" src="{{readreturn.data}}" width="100%">
+            <img *ngIf="readreturn.mimetype === 'image'" src="{{readreturn.data}}" width="100%">
+            <span *ngIf="readreturn.mimetype !== 'image'">File type: {{ readreturn.mimedetail.toUpperCase() }}</span>
             <p style="font-size:10px;color:#a7a7a7"><strong>Written at Block:</strong> {{readreturn.block}}</p>
         </div>
       </ion-card>

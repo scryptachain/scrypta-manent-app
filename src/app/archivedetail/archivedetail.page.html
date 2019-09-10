@@ -9,12 +9,16 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
+<h2 *ngIf="risposta.refID !== '' && risposta.refID !== undefined" style="font-size:16px;color:#d43f51">Reference ID</h2>
+<ion-item *ngIf="risposta.refID !== '' && risposta.refID !== undefined">
+  <p style='font-size:14px'>{{risposta.refID}}</p>
+</ion-item>
 <h2 *ngIf="risposta.title !== '' && risposta.title !== undefined" style="font-size:16px;color:#d43f51">Title</h2>
 <ion-item *ngIf="risposta.title !== '' && risposta.title !== undefined">
   <p style='font-size:14px'>{{risposta.title}}</p>
 </ion-item>
-<h2 *ngIf="risposta.text !== '' && risposta.text !== undefined" style="font-size:16px;color:#d43f51">Title</h2>
+<h2 *ngIf="risposta.text !== '' && risposta.text !== undefined" style="font-size:16px;color:#d43f51">Description</h2>
 <ion-item *ngIf="risposta.text !== '' && risposta.text !== undefined">
   <p style='font-size:14px'>{{risposta.text}}</p>
 </ion-item>
@@ -31,12 +35,13 @@
   <p style='font-size:14px'>{{risposta.message}}</p>
 </ion-item>
 <h2 style="font-size:16px;color:#d43f51">Content</h2>
-<ion-item>
-    <div *ngIf="risposta.mimetype=='image'" style="text-align:center; width:100%">
+<ion-item *ngIf="risposta.is_ipfs" class="ion-text-center">
+    <div *ngIf="risposta.mimetype == 'image'" style="text-align:center; width:100%">
     <img src='{{risposta.data}}' width="100%">
   </div>
-  <div *ngIf="risposta.mimetype!='image'">
-    <p style='font-size:14px'>{{risposta.data}}</p>
-  </div>
+  <span style="text-decoration:underline" (click)='openFile(risposta.data)'>Open {{ risposta.mimedetail.toUpperCase() }} file</span>
+</ion-item>
+<ion-item *ngIf="!risposta.is_ipfs">
+  <p style='font-size:14px'>{{risposta.data}}</p>
 </ion-item>
 </ion-content>

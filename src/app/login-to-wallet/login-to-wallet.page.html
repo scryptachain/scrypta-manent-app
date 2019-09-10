@@ -7,10 +7,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content text-center>
+<ion-content class="ion-text-center">
   <div *ngIf="showNFC === false">
     <img src="/assets/imgs/scrypta_ce.png" *ngIf="add === null" style="width: 140px;height: 118px;margin-top:5%"><br><br> 
-    <div padding>
+    <div class="ion-padding">
         Select one of the following restore methods and follow the instructions:<br>
     </div>
     <button (click)='createNewAddress()' *ngIf="add !== null" expand="full" class='buttonsBut' style='margin-top: 5%' >Create new account</button><br/>

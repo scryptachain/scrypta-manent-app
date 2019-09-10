@@ -4,7 +4,7 @@ import { WindowRefService, ICustomWindow } from '../windowservice';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { ArchivedetailPage } from '../archivedetail/archivedetail.page';
 import { OverlayEventDetail } from '@ionic/core';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { UploadModalPage } from '../upload-modal/upload-modal.page';
 import { from } from 'rxjs';
 import { File } from '@ionic-native/file/ngx'
@@ -43,7 +43,7 @@ export class ArchivePage implements OnInit {
   }
 
 
-  constructor(windowRef: WindowRefService, private loadingController: LoadingController, private modalCtrl: ModalController, private file: File
+  constructor(windowRef: WindowRefService, private loadingController: LoadingController, private modalCtrl: ModalController, private file: File,  private iab: InAppBrowser
 
   ) {
     this._window = windowRef.nativeWindow;

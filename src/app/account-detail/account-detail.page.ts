@@ -4,6 +4,7 @@ import axios from 'axios';
 import { WindowRefService, ICustomWindow } from '../windowservice';
 import { Clipboard } from '@ionic-native/clipboard/ngx'
 import { OverlayEventDetail } from '@ionic/core';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-account-detail',
@@ -24,7 +25,7 @@ export class AccountDetailPage implements OnInit {
   password: any = ''
   private_key: any = ''
   showUnlock:boolean = false
-  constructor(private clipboard: Clipboard, windowRef: WindowRefService, private modalCtrl: ModalController) {
+  constructor(private clipboard: Clipboard, windowRef: WindowRefService, private modalCtrl: ModalController, private iab: InAppBrowser) {
     this._window = windowRef.nativeWindow;
   }
 
@@ -94,7 +95,7 @@ export class AccountDetailPage implements OnInit {
 
   openInExplorer() {
     const app = this
-    window.open('https://explorer.scryptachain.org/address/' + app.address, '_system', 'location=yes'); return false;
+    this.iab.create('https://explorer.scryptachain.org/address/' + app.address, '_system', 'location=yes'); return false;
   }
 
 }

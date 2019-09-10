@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 //import { ModalController } from '@ionic/angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-archivedetail',
@@ -10,14 +11,22 @@ import { ModalController } from '@ionic/angular';
 export class ArchivedetailPage implements OnInit {
   @Input() response:any
   risposta
-  constructor(private modalCtrl:ModalController) { }
+  constructor(private modalCtrl:ModalController, private iab: InAppBrowser) { }
 
   ngOnInit() {
     this.risposta=this.response
-    
+    if(this.risposta.data.indexOf('ipfs') !== -1){
+      this.risposta.is_ipfs = true
+    }else{
+      this.risposta.is_ipfs = false
+    }
   }
-closemodal()
-{
-  this.modalCtrl.dismiss()
-}
+  
+  openFile(response) {
+    this.iab.create(response, '_system', 'location=yes');
+  }
+  
+  closemodal(){
+    this.modalCtrl.dismiss()
+  }
 }

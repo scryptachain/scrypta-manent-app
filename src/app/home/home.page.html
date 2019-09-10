@@ -1,13 +1,13 @@
 <ion-header *ngIf="add !== null">
   <ion-toolbar>
     <ion-buttons>
-      <ion-menu-button></ion-menu-button>
+      <ion-icon style="margin: 0 10px" (click)="goBack()" name="arrow-back"></ion-icon>
       <ion-title>Create new address</ion-title>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content text-center>
+<ion-content class="ion-text-center">
   <div id="splash" style="position:fixed; 
         top:0; 
         left:0; 
@@ -26,7 +26,7 @@
     The Official Lyra Wallet<br><br>
     Choose a strong password to start.
   </div>
-  <div *ngIf="add !== null" padding><br><br>
+  <div *ngIf="add !== null" class="ion-padding"><br><br>
     Please choose a strong password<br>in order to secure your wallet.
   </div>
   <form (ngSubmit)=createWallet()>

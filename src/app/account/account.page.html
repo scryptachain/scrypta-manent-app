@@ -1,15 +1,17 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons>
+    <ion-buttons slot="start">
       <ion-icon style="margin: 0 10px" (click)="goBack()" name="arrow-back"></ion-icon>
-      <ion-title>Manage accounts</ion-title>
-      <ion-icon name="add" slot="right" (click)='addAccount()' style="padding-right:10px"></ion-icon>
+    </ion-buttons>
+    <ion-title>Manage accounts</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon name="add" (click)='addAccount()' style="padding-right:10px;"></ion-icon>
     </ion-buttons>
 
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -21,7 +23,7 @@
       </div>
     </h2>
   </div>
-  <div padding style="text-align: center" *ngIf="accounts.length === 0">
+  <div class="ion-padding" style="text-align: center" *ngIf="accounts.length === 0">
     Loading wallet...
   </div>
   <div *ngIf="toggleNoBalance === true">

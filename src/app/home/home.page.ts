@@ -5,6 +5,8 @@ import { WindowRefService, ICustomWindow } from '../windowservice';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
+import {Location} from '@angular/common';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -40,7 +42,8 @@ export class HomePage {
     windowRef: WindowRefService,
     navCtrl:NavController,
     public router:Router,
-    public activatedRoute:ActivatedRoute
+    public activatedRoute:ActivatedRoute, 
+    private _location: Location
   ){
     this._window = windowRef.nativeWindow;
     //this.create()
@@ -54,6 +57,10 @@ export class HomePage {
     setTimeout(function(){
       this.backupAlert=false;
     })
+  }
+
+  goBack(){
+    this._location.back()
   }
 
   checkIdaNodes() {

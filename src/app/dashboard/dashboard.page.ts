@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
-import { forEach } from '@angular/router/src/utils/collection';
 import { ChartModule } from 'angular2-highcharts';
 import { dashCaseToCamelCase } from '@angular/compiler/src/util';
 import { transcode } from 'buffer';
@@ -8,6 +7,7 @@ import { ModalController } from '@ionic/angular';
 import { ModaltransactionPage } from '../modaltransaction/modaltransaction.page';
 import { OverlayEventDetail } from '@ionic/core';
 import { WindowRefService, ICustomWindow } from '../windowservice';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 //import {ChartModule } from 'angular2-highcharts'
 
 
@@ -36,8 +36,8 @@ export class DashboardPage implements OnInit {
   private _window: ICustomWindow;
   constructor(
     windowRef: WindowRefService,
-    private modalCtrl: ModalController
-
+    private modalCtrl: ModalController,
+    private iab: InAppBrowser
   ) {
     this._window = windowRef.nativeWindow;
 
@@ -170,6 +170,6 @@ export class DashboardPage implements OnInit {
   }
 
   openDetails(response) {
-    window.open('https://explorer.scryptachain.org/transaction/' + response.txid, '_system', 'location=yes'); return false;
+    this.iab.create('https://explorer.scryptachain.org/transaction/' + response.txid, '_system', 'location=yes')
   }
 }

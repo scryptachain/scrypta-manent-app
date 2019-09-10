@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { WindowRefService, ICustomWindow } from '../windowservice';
 import axios from 'axios'
-import { checkNoChanges } from '@angular/core/src/render3/instructions';
-import { unwatchFile } from 'fs';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx'
 import { Router } from '@angular/router';
 
@@ -37,7 +35,6 @@ export class SendPage implements OnInit {
   balance: any = '-';
   isSending: boolean = false;
   currency: string = 'eur'
-  @ViewChild('passwordSend') mypassword;
   constructor(windowRef: WindowRefService, private qrScanner: BarcodeScanner, private router: Router) {
     this._window = windowRef.nativeWindow;
   }
@@ -220,7 +217,6 @@ export class SendPage implements OnInit {
       }
       document.getElementById('password').style.display = 'block';
       document.getElementById('buttonSend').style.display = 'block';
-      this.mypassword.setFocus()
     }).catch(err => {
       console.log(err)
     })
