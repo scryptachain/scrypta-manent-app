@@ -11,6 +11,11 @@ import { Router } from '@angular/router'
 export class AppComponent {
   public appPages = [
     {
+      title: 'Dashboard',
+      url: '/dashboard',
+      icon: 'card'
+    },
+    {
       title: 'Accounts',
       url: '/account',
       icon: 'wallet'

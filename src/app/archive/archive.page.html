@@ -1,8 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons>
+    <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
-      <ion-title>Notify</ion-title>
+    </ion-buttons>
+    <ion-title>Vault</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon name="add" (click)='openModalUpload()' style="padding-right:10px;"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -11,29 +14,35 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <div *ngIf="isUploading === false">
-    Upload a text or a file directly into the Scrypta Blockchain.<br>
-    <button class='buttonsBut' (click)='openModalUpload()' style='margin:0 auto;margin-top:5%'>Upload new file</button>
-  </div>
-  <div *ngIf="isUploading === true">
+  <div *ngIf="isUploading === true" style="font-size:28px">
+    <ion-icon name="cloud-upload" style="margin:20vh 0 20px 0; font-size:100px;"></ion-icon><br>
     Uploading data, please wait and don't refresh the page.
   </div>
-  <h2 style='font-size:16px'>Archive history</h2>
-  <div *ngIf="readreturn.length==0">No data to show</div>
-  <div *ngIf="readreturn.length!=0">
-
-    <div *ngFor="let readreturn of readreturn2  ;let i=index" (click)="generic(readreturn)" [attr.data-index]="i">
-      <ion-card>
-        <div style="padding:10px">
-            <p *ngIf="readreturn.refID">{{readreturn.refID}}</p>
-            <p *ngIf="readreturn.text">{{readreturn.text}}</p>
-            <p *ngIf="readreturn.data && !readreturn.is_file">{{readreturn.data}}</p>
-            <img *ngIf="readreturn.mimetype === 'image'" src="{{readreturn.data}}" width="100%">
-            <span *ngIf="readreturn.mimetype !== 'image'">File type: {{ readreturn.mimedetail.toUpperCase() }}</span>
-            <p style="font-size:10px;color:#a7a7a7"><strong>Written at Block:</strong> {{readreturn.block}}</p>
+  <div *ngIf="isUploading === false">
+    <div *ngIf="readreturn.length == 0">
+        Upload a text or a file directly into the Scrypta Blockchain and save it forever.<br><br>
+        Files are linked to your Lyra Address and you will be able to proof that at any time.<br><br>
+        This operation will costs a fraction of LYRA depends on how much data you want to upload.<br><br>
+        <span style="color:#f00; text-decoration:underline">
+          Attention, all these files are public, so do not upload illegal or copyright infringing files.<br>
+          Anyone about you is responsible of these files.<br><br>
+        </span>
+        <button class='buttonsBut' (click)='openModalUpload()' style='margin:0 auto;margin-top:5%'>Upload new file</button>
+      </div>
+      <div *ngIf="readreturn.length != 0">
+        <div *ngFor="let readreturn of readreturn2  ;let i=index" (click)="generic(readreturn)" [attr.data-index]="i">
+          <ion-card>
+            <div style="padding:10px">
+                <p *ngIf="readreturn.refID">{{readreturn.refID}}</p>
+                <p *ngIf="readreturn.text">{{readreturn.text}}</p>
+                <p *ngIf="readreturn.data && !readreturn.is_file">{{readreturn.data}}</p>
+                <img *ngIf="readreturn.mimetype === 'image'" src="{{readreturn.data}}" width="100%">
+                <span *ngIf="readreturn.mimetype !== 'image'">File type: {{ readreturn.mimedetail.toUpperCase() }}</span>
+                <p style="font-size:10px;color:#a7a7a7"><strong>Written at Block:</strong> {{readreturn.block}}</p>
+            </div>
+          </ion-card>
         </div>
-      </ion-card>
-    </div>
+      </div>
   </div>
 
 </ion-content>
@@ -59,8 +68,8 @@
     </ion-tab-button>
 
     <ion-tab-button [routerLink]="'/archive'">
-      <ion-label style='color:#a7a7a7'>Notify</ion-label>
-      <ion-icon name="archive" style='color:#a7a7a7'></ion-icon>
+      <ion-label style='color:#000'>Vault</ion-label>
+      <ion-icon name="lock" style='color:#000'></ion-icon>
     </ion-tab-button>
   </ion-tab-bar>
 
