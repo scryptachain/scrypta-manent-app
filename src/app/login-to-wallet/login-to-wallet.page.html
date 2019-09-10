@@ -13,7 +13,7 @@
     <div padding>
         Select one of the following restore methods and follow the instructions:<br>
     </div>
-    <button (click)='createNewAddress()' expand="full" class='buttonsBut' style='margin-top: 5%' >Create new account</button><br/>
+    <button (click)='createNewAddress()' *ngIf="add !== null" expand="full" class='buttonsBut' style='margin-top: 5%' >Create new account</button><br/>
     <button (click)='openSidFile()' expand="full" class='buttonsBut' style='margin-top: 5%' >Restore .sid file<ion-icon name="key" style="float:right" size='large'></ion-icon></button><br/>
     <button (click)='loginCard()' expand="full" class='buttonsBut' style='margin-top: 5%'>Read Lyra Card<ion-icon name="card" style="float:right" size='large'></ion-icon></button><br/>
     <button (click)='readQrCode()' expand="full" class='buttonsBut' style='margin-top: 5%'>Restore Paper Wallet<ion-icon name="qr-scanner" style="float:right" size='large'></ion-icon></button><br/>
