@@ -98,4 +98,8 @@ export class AccountDetailPage implements OnInit {
     this.iab.create('https://explorer.scryptachain.org/address/' + app.address, '_system', 'location=yes'); return false;
   }
 
+  openDetails(response) {
+    this.iab.create('https://explorer.scryptachain.org/transaction/' + response.txid, '_system', 'location=yes')
+  }
+
 }

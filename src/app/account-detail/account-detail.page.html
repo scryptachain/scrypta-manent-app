@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding text-align: center">
+<ion-content class="ion-padding ion-text-center">
   <strong>Balance</strong> {{ balance }} LYRA<br><br>
   <qrcode [qrdata]="myAngularxQrCode" [size]="256" style="display:inline-block" [level]="'M'"></qrcode><br>
   <span style="font-size:11px">{{ address }}</span> <span style="font-size:25px; margin-left:5px"><ion-icon (click)="copyAddress()" name="copy"></ion-icon></span><br>
@@ -24,7 +24,7 @@
           <div text-center>
             <button text-center (click)='unlockWallet()' class='buttonsBut' style='margin:10% auto 0 auto;'>Unlock wallet</button>
           </div>
-        </div>
+        </div><br>
         <span *ngIf="showUnlock === false" style="color:#d8273a; text-decoration: underline" (click)="unlock()">Show Private Key</span><br>
   </div>
 

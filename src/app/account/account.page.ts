@@ -7,6 +7,7 @@ import { OverlayEventDetail } from '@ionic/core';
 import { AccountDetailPage } from '../account-detail/account-detail.page';
 import { Router } from '@angular/router';
 import {Location} from '@angular/common';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-account',
@@ -23,7 +24,7 @@ export class AccountPage implements OnInit {
   selected: number = 0
   address: string
   transactions = []
-  constructor(private clipboard: Clipboard, private toast: ToastController, private modalCtrl: ModalController, public router:Router, private _location: Location) { }
+  constructor(private clipboard: Clipboard, private toast: ToastController, private modalCtrl: ModalController, public router:Router, private _location: Location, private iab: InAppBrowser) { }
 
   ngOnInit() {
     const app = this
