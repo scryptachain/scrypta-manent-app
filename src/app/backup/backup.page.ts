@@ -43,9 +43,8 @@ export class BackupPage implements OnInit {
     app.address = payload[0]
     app.encrypted = payload[1]
 
-    var files = new Blob([app.wallet[app.selected]], { type: 'sid' });
-    this.filedownload = files;
   }
+
   getPermissions() {
     this.permission.hasPermission(this.permission.PERMISSION.READ_EXTERNAL_STORAGE).then(status => {
       if (status.hasPermission) {
@@ -62,11 +61,13 @@ export class BackupPage implements OnInit {
   }
 
   async downloadFile() {
-
-    const fileTransfer: FileTransferObject = this.transfer.create();
-    this.file.writeFile(this.file.externalRootDirectory + '/Download/', this.address + '.sid', this.filedownload)
-    //console.log(this.file.externalDataDirectory)
-    alert('Backup saved correctly!')
+    const app = this
+    var sidfile = new Blob([app.wallet[app.selected]], { type: 'sid' });
+    this.file.writeFile(this.file.externalRootDirectory + '/Download/', this.address + '.sid', sidfile, { replace: true }).then(response => {
+      alert('Sid File saved in Download folder!')
+    }).catch(err => {
+      alert('Can\'t save file: ' + err.message + '.')
+    })
   }
 
   unlock() {
