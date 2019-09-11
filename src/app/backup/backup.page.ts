@@ -6,6 +6,8 @@ import { File } from '@ionic-native/file/ngx';
 import {Router} from '@angular/router'
 import * as jsPdf from 'jspdf'
 import {Location} from '@angular/common';
+import { Platform } from '@ionic/angular';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 declare var QRious: any
 @Component({
@@ -25,12 +27,13 @@ export class BackupPage implements OnInit {
   selected: any = 0
   pdfDownload: Blob
   showUnlock: boolean = false
-  constructor(private permission: AndroidPermissions, private file: File, private transfer: FileTransfer, windowRef: WindowRefService, private router:Router, private _location: Location) {
+  constructor(public platform: Platform, private permission: AndroidPermissions, private file: File, private transfer: FileTransfer, windowRef: WindowRefService, private router:Router, private _location: Location, private socialSharing: SocialSharing) {
     this._window = windowRef.nativeWindow;
   }
 
   goBack(){
-    this._location.back()
+    const app = this
+    app.router.navigate(['/dashboard'])
   }
 
   ngOnInit() {
@@ -46,7 +49,7 @@ export class BackupPage implements OnInit {
   }
 
   getPermissions() {
-    this.permission.hasPermission(this.permission.PERMISSION.READ_EXTERNAL_STORAGE).then(status => {
+    this.permission.checkPermission(this.permission.PERMISSION.READ_EXTERNAL_STORAGE).then(status => {
       if (status.hasPermission) {
         this.downloadFile()
       }
@@ -62,12 +65,32 @@ export class BackupPage implements OnInit {
 
   async downloadFile() {
     const app = this
-    var sidfile = new Blob([app.wallet[app.selected]], { type: 'sid' });
-    this.file.writeFile(this.file.externalRootDirectory + '/Download/', this.address + '.sid', sidfile, { replace: true }).then(response => {
-      alert('Sid File saved in Download folder!')
-    }).catch(err => {
-      alert('Can\'t save file: ' + err.message + '.')
-    })
+    var sidfile = new Blob([app.wallet[app.selected]], { type: 'sid' })
+    var location
+    var message
+    if(this.platform.is('android') === true ){
+      location = this.file.externalRootDirectory + '/Download/'
+      message = 'Sid File saved in Download folder!'
+      this.file.writeFile(location, this.address + '.sid', sidfile, { replace: true }).then(response => {
+        alert(message)
+      }).catch(err => {
+        alert('Can\'t save file: ' + err.message + '.')
+      })
+    }else{
+      location = this.file.documentsDirectory
+      this.file.writeFile(location, app.address + '.sid', sidfile, { replace: true }).then(response => {
+        var options = {
+          subject: 'Sid file Backup',
+          message: 'Save it in a safe place',
+          files: [location + '/' + app.address + '.sid']
+        }
+        this.socialSharing.shareWithOptions(options).catch((err) => {
+          console.log(err)
+        });
+      }).catch(err => {
+        alert('Can\'t save file: ' + err.message + '.')
+      })
+    }
   }
 
   unlock() {
@@ -110,8 +133,6 @@ export class BackupPage implements OnInit {
     var QrCodePublicAddress = new QRious({ value: this.address, size: 500 })
     pdf.addImage(QrCodePublicAddress.toDataURL(), "JPEG", 10, 160, 60, 60)
     pdf.text('Private Key', 140, 158)
-    var decrypted = JSON.parse(localStorage.getItem('credential'));
-    //console.log(localStorage.getItem('credential'))
     var QrCodeDecryptedWallet = new QRious({ value: this.private_key, size: 500 })
     pdf.addImage(QrCodeDecryptedWallet.toDataURL(), "JPEG", 140, 160, 60, 60)
     var pdfOutPut = pdf.output()
@@ -120,14 +141,31 @@ export class BackupPage implements OnInit {
     for (var i = 0; i < pdfOutPut.length; i++) {
       array[i] = pdfOutPut.charCodeAt(i)
     }
-
-    const fileTransfer: FileTransferObject = this.transfer.create();
-
-    this.file.writeFile(this.file.externalRootDirectory + '/Download/', this.address + '.pdf', buffer, { replace: true }).then(response => {
-      alert('Paper wallet saved in Download folder!')
-    }).catch(err => {
-      alert('Can\'t save file!')
-    })
+    var location
+    var message
+    if(this.platform.is('android') === true ){
+      location = this.file.externalRootDirectory + '/Download/'
+      message = 'Paper wallet saved in Download folder!'
+      this.file.writeFile(location, this.address + '.pdf', buffer, { replace: true }).then(response => {
+          alert(message)
+        }).catch(err => {
+          alert('Can\'t save file: ' + err.message + '.')
+        })
+    }else{
+      location = this.file.documentsDirectory
+      this.file.writeFile(location, app.address + '.pdf', buffer, { replace: true }).then(response => {
+        var options = {
+          subject: 'Paper wallet Backup',
+          message: 'Save it in a safe place',
+          files: [location + '/' + app.address + '.pdf']
+        }
+        this.socialSharing.shareWithOptions(options).catch((err) => {
+          console.log(err)
+        });
+      }).catch(err => {
+        alert('Can\'t save file: ' + err.message + '.')
+      })
+    }
   }
 
 }

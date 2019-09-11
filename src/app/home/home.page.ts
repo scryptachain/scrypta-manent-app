@@ -60,7 +60,8 @@ export class HomePage {
   }
 
   goBack(){
-    this._location.back()
+    const app = this
+    app.router.navigate(['/dashboard'])
   }
 
   checkIdaNodes() {

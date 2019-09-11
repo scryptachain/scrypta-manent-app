@@ -10,8 +10,8 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-<h2 *ngIf="risposta.refID !== '' && risposta.refID !== undefined" style="font-size:16px;color:#d43f51">Reference ID</h2>
-<ion-item *ngIf="risposta.refID !== '' && risposta.refID !== undefined">
+<h2 *ngIf="risposta.refID !== 'undefined' && risposta.refID !== '' && risposta.refID !== undefined" style="font-size:16px;color:#d43f51">Reference ID</h2>
+<ion-item *ngIf="risposta.refID !== 'undefined' && risposta.refID !== '' && risposta.refID !== undefined">
   <p style='font-size:14px'>{{risposta.refID}}</p>
 </ion-item>
 <h2 *ngIf="risposta.title !== '' && risposta.title !== undefined" style="font-size:16px;color:#d43f51">Title</h2>

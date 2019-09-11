@@ -42,7 +42,8 @@ export class LoginToWalletPage implements OnInit {
   }
 
   goBack() {
-    this._location.back()
+    const app = this
+    app.router.navigate(['/dashboard'])
   }
 
   loginCard() {

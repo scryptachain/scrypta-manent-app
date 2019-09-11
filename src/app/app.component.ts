@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { Platform, MenuController } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router'
@@ -54,6 +53,10 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       //this.statusBar.styleDefault();
+      if(this.platform.is('ios') === true ){
+        this.statusBar.overlaysWebView(false);
+        this.statusBar.backgroundColorByHexString('#000000');
+      }
       this.fetchAddress()
     });
   }

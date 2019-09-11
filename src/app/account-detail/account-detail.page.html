@@ -22,7 +22,7 @@
             <ion-input [(ngModel)]='password' type='password'></ion-input>
           </ion-item>
           <div text-center>
-            <button text-center (click)='unlockWallet()' class='buttonsBut' style='margin:10% auto 0 auto;'>Unlock wallet</button>
+            <button (click)='unlockWallet()' class='buttonsBut ion-text-center' style='margin:10% auto 0 auto;'>Unlock wallet</button>
           </div>
         </div><br>
         <span *ngIf="showUnlock === false" style="color:#d8273a; text-decoration: underline" (click)="unlock()">Show Private Key</span><br>

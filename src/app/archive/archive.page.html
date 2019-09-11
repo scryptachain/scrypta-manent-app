@@ -33,7 +33,7 @@
         <div *ngFor="let readreturn of readreturn2  ;let i=index" (click)="generic(readreturn)" [attr.data-index]="i">
           <ion-card>
             <div style="padding:10px">
-                <p *ngIf="readreturn.refID">{{readreturn.refID}}</p>
+                <p *ngIf="readreturn.refID !== 'undefined' && readreturn.refID !== undefined && readreturn.refID !== ''">{{readreturn.refID}}</p>
                 <p *ngIf="readreturn.text">{{readreturn.text}}</p>
                 <p *ngIf="readreturn.data && !readreturn.is_file">{{readreturn.data}}</p>
                 <img *ngIf="readreturn.mimetype === 'image'" src="{{readreturn.data}}" width="100%">

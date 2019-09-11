@@ -20,12 +20,7 @@
       <ion-input [(ngModel)]='password' type='password'></ion-input>
     </ion-item>
     <div text-center>
-      <button text-center (click)='unlockWallet()' class='buttonsBut' style='margin:10% auto 0 auto;'>Unlock wallet</button>
+      <button (click)='unlockWallet()' class='buttonsBut ion-text-center' style='margin:10% auto 0 auto;'>Unlock wallet</button>
     </div>
   </div>
 </ion-content>
-
-<ion-footer  class="ion-padding">
-  <div style='font-size:12px;color:#d8273a'>Attention!</div>
-  <div style='font-size:12px'>Please remind, you are the only responsable of these files and the password associated. No one will take a copy or will be able to rescue it, so keep them safe.</div>
-</ion-footer>
