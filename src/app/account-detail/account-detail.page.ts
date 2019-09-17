@@ -21,6 +21,7 @@ export class AccountDetailPage implements OnInit {
   public myAngularxQrCode: string = null;
   encrypted: any
   balance: any = 0
+  idanode: string = 'idanodejs01.scryptachain.org'
   transactions: any = []
   password: any = ''
   private_key: any = ''
@@ -36,10 +37,10 @@ export class AccountDetailPage implements OnInit {
     app.address = payload[0]
     app.myAngularxQrCode = app.address
     app.encrypted = payload[1]
-    axios.get('https://microexplorer.scryptachain.org/transactions/' + app.address).then(response => {
+    axios.get('https://' + app.idanode + '/transactions/' + app.address).then(response => {
       app.transactions = response.data.data
     })
-    axios.get('https://microexplorer.scryptachain.org/balance/' + app.address).then(response => {
+    axios.get('https://' + app.idanode + '/balance/' + app.address).then(response => {
       app.balance = response.data.balance.toFixed(4)
     })
   }

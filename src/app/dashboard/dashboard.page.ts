@@ -26,6 +26,7 @@ export class DashboardPage implements OnInit {
   encrypted: string = ''
   lyra: number;
   value: string = '0';
+  idanode: string = 'idanodejs01.scryptachain.org'
   valueBTC: string = '0';
   valore: number;
   options: any;
@@ -71,7 +72,7 @@ export class DashboardPage implements OnInit {
         let price: number = result.data.scrypta[app.currency]
         var priceBTC = result.data.scrypta['btc']
         app.current_price = price
-        axios.get('https://microexplorer.scryptachain.org/balance/' + app.address)
+        axios.get('https://' + app.idanode + '/balance/' + app.address)
           .then(function (response) {
             app.balance = response.data['balance'].toFixed(4)
             app.value = (parseFloat(app.balance) * parseFloat(app.current_price)).toFixed(4)
@@ -84,7 +85,7 @@ export class DashboardPage implements OnInit {
 
   async fetchTransactions() {
     const app = this
-    axios.get('https://microexplorer.scryptachain.org/transactions/' + app.address)
+    axios.get('https://' + app.idanode + '/transactions/' + app.address)
       .then(function (response) {
         app.transactions = response.data['data']
       })

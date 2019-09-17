@@ -8,6 +8,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { UploadModalPage } from '../upload-modal/upload-modal.page';
 import { from } from 'rxjs';
 import { File } from '@ionic-native/file/ngx'
+var moment = require('moment')
 
 @Component({
   selector: 'app-archive',
@@ -16,9 +17,9 @@ import { File } from '@ionic-native/file/ngx'
 })
 export class ArchivePage implements OnInit {
   nodes: string[] = [];
-  connected: string = '';
   wallet = []
   address: string = ''
+  idanode: string = 'idanodejs01.scryptachain.org'
   selected: number = 0
   balance: string = '-'
   encrypted: string = ''
@@ -27,13 +28,12 @@ export class ArchivePage implements OnInit {
   readerror: string;
   api_secret: string;
   readreturn: any[] = [];
-  readreturn2: any[] = [];
   tableItems: any[] = []
   private_key: string
   encrypt: boolean = false
   formdata = {
     file: [],
-    dapp_address: this.connected,
+    dapp_address: this.address,
     api_secret: this.api_secret,
     private_key: this.private_key,
     encryption: this.encrypted,
@@ -58,34 +58,13 @@ export class ArchivePage implements OnInit {
     let payload = app.wallet[app.selected].split(':')
     app.address = payload[0]
     app.encrypted = payload[1]
-    this.checkIdaNodes();
-  }
-  checkIdaNodes() {
-    var checknodes = this._window.ScryptaCore.returnNodes();
-    const app = this
-    for (var i = 0; i < checknodes.length; i++) {
-      axios.get('https://' + checknodes[i] + '/check').then(function (response) {
-        app.nodes.push(response.data.name)
-        if (i == checknodes.length) {
-          //console.log('stop');
-          app.connectToNode();
-        }
-      })
-    }
-  }
-  async connectToNode() {
-
-    var app = this
-    if (app.connected == '') {
-      app.connected = app.nodes[Math.floor(Math.random() * app.nodes.length)];
-      app.readData()
-    }
+    this.readData()
   }
 
   async readData() {
     const app = this
     app.readerror = ''
-    await axios.post('https://' + app.connected + '/read', {
+    await axios.post('https://' + app.idanode + '/read', {
       decrypt: false,
       address: app.address,
       history: false
@@ -93,9 +72,10 @@ export class ArchivePage implements OnInit {
       app.readreturn = response.data.data;
       for (var i = 0; i < app.readreturn.length; i++) {
         if (app.readreturn[i]['is_file']) {
-          var hash = app.readreturn[i]['ipfshash']
+          var hash = app.readreturn[i]['data']
           await app.retrieveInfo(hash, i)
         }
+        app.readreturn[i].datetime = moment.unix(app.readreturn[i].time).format('MM/DD/YYYY - HH:mm')
         await app.returnTableItems()
       }
 
@@ -105,16 +85,11 @@ export class ArchivePage implements OnInit {
 
   async retrieveInfo(hash, i: number) {
     
-    var moment = require('moment')
     const app = this
-    await axios.post('https://' + app.connected + '/ipfs/retrieve', {
-      hash: hash
-    }).then(async function (response) {
-      //console.log('readreturn',app.readreturn[i].uuid)
+    await axios.get('https://' + app.idanode + '/ipfs/type/' + hash).then(async function (response) {
       app.readreturn[i].mimetype = response.data.data.type
-      app.readreturn[i].mimedetail = response.data.data.detail
-      app.readreturn[i].datetime = moment.unix(app.readreturn[i].time).format('"hh:mm a, MM/DD/YYYY"'),
-      app.readreturn2 = app.readreturn
+      app.readreturn[i].mimedetail = response.data.data.ext
+      app.readreturn[i].data = 'https://' + app.idanode + '/ipfs/' + app.readreturn[i].data 
     })
 
   }
@@ -170,16 +145,19 @@ export class ArchivePage implements OnInit {
         form.append('file', detail.data.fileObject.fileBuffer)
         form.append('dapp_address', app.address)
         form.append('private_key',  detail.data.fileObject.private_key)
-        form.append('encryption', detail.data.fileObject.encrypt)
         form.append('collection', '')
-        form.append('data', detail.data.fileObject.message)
-        form.append('refID', detail.data.fileObject.title)
-        axios.post('https://' + this.connected + '/write', form, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }).then(res => {
-          if(res.data.data.uuid !== undefined){
+        if(detail.data.fileObject.message !== undefined){
+          form.append('data', detail.data.fileObject.message)
+        }else{
+          form.append('data', '')
+        }
+        if(detail.data.fileObject.title !== undefined){
+          form.append('refID', detail.data.fileObject.title)
+        }else{
+          form.append('refID', '')
+        }
+        axios.post('https://' + app.idanode + '/write', form).then(res => {
+          if(res.data.uuid !== undefined){
             alert('Data written correctly into the blockchain, wait at least 2 minutes and refresh the page!')
             this.isUploading = false
           }else{

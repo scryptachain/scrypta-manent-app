@@ -22,6 +22,7 @@ export class AccountPage implements OnInit {
   toggleNoBalance: boolean = true
   encrypted: string = ''
   selected: number = 0
+  idanode: string = 'idanodejs01.scryptachain.org'
   address: string
   transactions = []
   constructor(private clipboard: Clipboard, private toast: ToastController, private modalCtrl: ModalController, public router:Router, private _location: Location, private iab: InAppBrowser) { }
@@ -42,8 +43,8 @@ export class AccountPage implements OnInit {
     app.encrypted = payload[1]
     for (let i = 0; i < app.wallet.length; i++) {
       let payload = app.wallet[i].split(':')
-      let transactions = await axios.get('https://microexplorer.scryptachain.org/transactions/' + payload[0])
-      let balance = await axios.get('https://microexplorer.scryptachain.org/balance/' + payload[0])
+      let transactions = await axios.get('https://' + app.idanode + '/transactions/' + payload[0])
+      let balance = await axios.get('https://' + app.idanode + '/balance/' + payload[0])
       let address = {
         address: payload[0],
         balance: balance.data.balance.toFixed(4),
@@ -77,7 +78,7 @@ export class AccountPage implements OnInit {
 
   async fetchTransactions() {
     const app = this
-    axios.get('https://microexplorer.scryptachain.org/transactions/' + app.address)
+    axios.get('https://' + app.idanode + 'transactions/' + app.address)
       .then(function (response) {
         app.transactions = response.data['data']
       })

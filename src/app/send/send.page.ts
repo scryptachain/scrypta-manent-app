@@ -20,6 +20,7 @@ export class SendPage implements OnInit {
   nodes: string[] = [];
   connected: string = '';
   public_address: string;
+  idanode: string = 'idanodejs01.scryptachain.org'
   encrypted_wallet: string;
   amountToSend: any = 0;
   addressToSend: string;
@@ -76,7 +77,7 @@ export class SendPage implements OnInit {
   async getBalance() {
     const app = this
     app._window.ScryptaCore.connectNode().then(async function (response) {
-      axios.get('https://microexplorer.scryptachain.org/balance/' + app.address)
+      axios.get('https://' + app.idanode + '/balance/' + app.address)
         .then(function (response) {
           app.balance = response.data['balance'].toFixed(4)
         })

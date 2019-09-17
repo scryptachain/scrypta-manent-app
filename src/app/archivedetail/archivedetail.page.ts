@@ -15,11 +15,6 @@ export class ArchivedetailPage implements OnInit {
 
   ngOnInit() {
     this.risposta=this.response
-    if(this.risposta.data.indexOf('ipfs') !== -1){
-      this.risposta.is_ipfs = true
-    }else{
-      this.risposta.is_ipfs = false
-    }
   }
   
   openFile(response) {
