@@ -156,7 +156,12 @@ export class ArchivePage implements OnInit {
         }else{
           form.append('refID', '')
         }
-        axios.post('https://' + app.idanode + '/write', form).then(res => {
+        let config = {
+          headers: {
+            'Content-type': 'multipart/form-data',
+          }
+        }
+        axios.post('https://' + app.idanode + '/write', form, config).then(res => {
           if(res.data.uuid !== undefined){
             alert('Data written correctly into the blockchain, wait at least 2 minutes and refresh the page!')
             this.isUploading = false
