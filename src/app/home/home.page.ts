@@ -18,7 +18,7 @@ export class HomePage {
   nodes:string[]=[];
   backupAlert:boolean=true;
   add: string = '';
-  connected:string="";
+  connected:string="https://idanodejs01.scryptachain.org";
   encrypted_wallet: 'NO WALLET'; 
   unlockPwd: '';
   createPwd: '';
@@ -52,7 +52,6 @@ export class HomePage {
   ngOnInit()
   {
     this.add = this.activatedRoute.snapshot.paramMap.get('add')
-    this.checkIdaNodes();
     this.checkUser();
     setTimeout(function(){
       this.backupAlert=false;
@@ -68,8 +67,8 @@ export class HomePage {
     var checknodes = this._window.ScryptaCore.returnNodes();
     const app = this
     for (var i = 0; i < checknodes.length; i++) {
-      axios.get('https://' + checknodes[i] + '/check').then(function (response) {
-        app.nodes.push(response.data.name)
+      axios.get(checknodes[i] + '/wallet/getinfo').then(function (response) {
+        app.nodes.push(response.data.blocks)
         if (i == checknodes.length) {
           app.connectToNode()
         }
@@ -106,8 +105,7 @@ export class HomePage {
       if(app.password.length >= 6){
         app.isCreating = true
         await app._window.ScryptaCore.createAddress(app.password,false).then(async function(response){
-          console.log(response)
-          axios.post('https://'+app.connected+'/init',{
+          axios.post(app.connected+'/init',{
             address: response.pub,
             airdrop: true
           }).then(function(){

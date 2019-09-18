@@ -142,8 +142,8 @@ export class SendPage implements OnInit {
     var checknodes = this._window.ScryptaCore.returnNodes();
     const app = this
     for (var i = 0; i < checknodes.length; i++) {
-      axios.get('https://' + checknodes[i] + '/check').then(function (response) {
-        app.nodes.push(response.data.name)
+      axios.get('https://' + checknodes[i] + '/wallet/getinfo').then(function (response) {
+        app.nodes.push(response.data.blocks)
         if (i == checknodes.length) {
           app.connectToNode()
         }
