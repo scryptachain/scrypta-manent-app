@@ -40,6 +40,11 @@ export class AppComponent {
 
   ) {
     this.initializeApp();
+    if (localStorage.getItem('theme') !== null) {
+      if(localStorage.getItem('theme') === 'dark'){
+        document.body.classList.add("dark")
+      }
+    }
     //this.fetchAddress();
   }
   fetchAddress() {

@@ -29,4 +29,11 @@
       <ion-select-option value='gbp'>GBP</ion-select-option>
     </ion-select>
   </ion-item>
+  <ion-item style="margin-top:10px">
+    <ion-label style="font-size:14px;color:#d43f51"> Theme</ion-label>
+    <ion-select [(ngModel)]='theme' value={{theme}} (ngModelChange)='changeTheme()'>
+      <ion-select-option value='light'>Light</ion-select-option>
+      <ion-select-option value='dark'>Dark</ion-select-option>
+    </ion-select>
+  </ion-item>
 </ion-content>
