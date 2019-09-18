@@ -208,9 +208,10 @@ export class SendPage implements OnInit {
   scanQRCode() {
     const app = this
     this.qrScanner.scan().then(barcodeData => {
+      barcodeData.text = barcodeData.text.replace('lyra:','')
       let check = barcodeData.text.split('?')
       if(check[1] !== undefined){
-        var amount = check[1].replace('amount:','')
+        var amount = check[1].replace('amount=','')
         app.amountToSend = parseFloat(amount)
         this.addressToSend = check[0]
       }else{

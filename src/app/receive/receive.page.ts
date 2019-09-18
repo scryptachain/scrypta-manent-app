@@ -47,7 +47,7 @@ export class ReceivePage implements OnInit {
     if (app.amountLyra === 0) {
       app.myAngularxQrCode = app.address
     } else if (app.amountLyra != 0) {
-      app.myAngularxQrCode = this.address + "?" + "amount:" + app.amountLyra
+      app.myAngularxQrCode = 'lyra:' + this.address + "?" + "amount=" + app.amountLyra
     }
   }
 
