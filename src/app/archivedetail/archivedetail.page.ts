@@ -39,7 +39,7 @@ export class ArchivedetailPage implements OnInit {
   }
   
   openFile(response) {
-    this.iab.create(response, '_system', 'location=yes');
+    this.iab.create('https://proof.scryptachain.org/#/uuid/' + response, '_system', 'location=yes');
   }
   openPoE(uuid) {
     this.iab.create('https://proof.scryptachain.org/#/uuid/' + uuid, '_system', 'location=yes');

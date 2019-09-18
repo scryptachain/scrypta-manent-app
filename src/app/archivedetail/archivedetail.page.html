@@ -42,8 +42,8 @@
   <ion-item *ngIf="!risposta.is_file">
     <p style='font-size:14px'>{{risposta.data}}</p>
   </ion-item>
-  <button class='buttonsBut' (click)="openPoE(risposta.uuid)" style='margin:10px auto; width:100%; opacity: 1'>Share proof of existence</button>
-  <br>
+  <!--<button class='buttonsBut' (click)="openPoE(risposta.uuid)" style='margin:10px auto; width:100%; opacity: 1'>Share proof of existence</button>
+  <br>-->
   <button class='buttonsBut' (click)="showInvalidateModal()" style='margin:0 auto; width:100%; opacity: 1'>INVALIDATE</button>
 </ion-content>
 <ion-content *ngIf="showInvalidate === true" class="unlockModal ion-padding">
