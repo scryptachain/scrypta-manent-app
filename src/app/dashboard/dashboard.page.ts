@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Chart } from "chart.js";
 import axios from 'axios';
-import { ChartModule } from 'angular2-highcharts';
 import { dashCaseToCamelCase } from '@angular/compiler/src/util';
 import { transcode } from 'buffer';
 import { ModalController } from '@ionic/angular';
@@ -8,8 +8,6 @@ import { ModaltransactionPage } from '../modaltransaction/modaltransaction.page'
 import { OverlayEventDetail } from '@ionic/core';
 import { WindowRefService, ICustomWindow } from '../windowservice';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-//import {ChartModule } from 'angular2-highcharts'
-
 
 @Component({
   selector: 'app-dashboard',
@@ -21,6 +19,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 export class DashboardPage implements OnInit {
   wallet = []
   address: string = ''
+  pricelabel: string = ''
   selected: number = 0
   balance: string = '-'
   encrypted: string = ''
@@ -35,13 +34,15 @@ export class DashboardPage implements OnInit {
   currency: string = 'eur'
   current_price: any = 0
   private _window: ICustomWindow;
+  @ViewChild("lineCanvas", {static: true}) lineCanvas: ElementRef;
+  lineChart: Chart;
+ 
   constructor(
     windowRef: WindowRefService,
     private modalCtrl: ModalController,
     private iab: InAppBrowser
   ) {
     this._window = windowRef.nativeWindow;
-
   }
 
   async ngOnInit() {
@@ -57,7 +58,6 @@ export class DashboardPage implements OnInit {
     await this.getBalance()
     await this.fetchTransactions()
     this.fetchGraph()
-
   }
 
   async getBalance() {
@@ -72,6 +72,7 @@ export class DashboardPage implements OnInit {
         let price: number = result.data.scrypta[app.currency]
         var priceBTC = result.data.scrypta['btc']
         app.current_price = price
+        app.pricelabel = "Price is " + app.current_price + ' ' + app.currency.toUpperCase()
         axios.get('https://' + app.idanode + '/balance/' + app.address)
           .then(function (response) {
             app.balance = response.data['balance'].toFixed(4)
@@ -107,54 +108,77 @@ export class DashboardPage implements OnInit {
     else if (app.currency == 'gbp') {
       url = 'https://api.coingecko.com/api/v3/coins/scrypta/market_chart?vs_currency=gbp&days=30'
     }
-    axios.get(url)
-      .then(function (response) {
-
-        app.dati = response.data.prices
-
-        app.options = {
-
-          series: [
-            {
-              data: app.dati,
-              type: "spline",
-              zIndex: 0,
-              marker: {
-                enabled: false
+    axios.get('https://api.coingecko.com/api/v3/simple/price?ids=scrypta&vs_currencies=btc,' + app.currency)
+      .then(function (result) {
+        let price: number = result.data.scrypta[app.currency]
+        var priceBTC = result.data.scrypta['btc']
+        app.current_price = price
+        app.pricelabel = "Price is " + app.current_price + ' ' + app.currency.toUpperCase()
+        axios.get(url)
+          .then(function (response) {
+            app.dati = response.data.prices
+            var labels = []
+            var data = []
+            for(let i in app.dati){
+              let date = new Date(app.dati[i][0]).toLocaleDateString() +' '+new Date(app.dati[i][0]).toLocaleTimeString()
+              labels.push(date)
+              data.push(app.dati[i][1])
+            }
+            app.lineChart = new Chart(app.lineCanvas.nativeElement, {
+              type: "line",
+              options: {
+                responsive: true,
+                legend: {
+                  display: false,
+                    labels: {
+                      boxWidth: 0
+                    }
+                },
+                scales: {
+                  xAxes: [{
+                    display: false,
+                    scaleLabel: {
+                      display: false,
+                      labelString: 'Month'
+                    }
+                  }],
+                  yAxes: [{
+                    display: false,
+                    scaleLabel: {
+                      display: true,
+                      labelString: 'Value'
+                    }
+                  }]
+                }
               },
-              name: "Price " + app.currency.toUpperCase()
-            }
-          ],
-
-          yAxis: {
-            title: {
-              text: "price"
-            }
-          },
-          xAxis: {
-            type: "datetime",
-            tickInterval: 24 * 3600 * 1000
-          },
-          credits: {
-            enabled: false
-          },
-          chart: {
-            backgroundColor: "white",
-            borderColor: "#335cad",
-            //borderRadius: 100
-            //borderRadiusBottomRight:"100px"
-          },
-          title: {
-            text: '',
-            style: { "color": "black", "font-size": "20px" }
-          },
-          subtitle: {
-            text: app.current_price + ' ' + app.currency.toUpperCase(),
-            style: { "font-size": "13px", "color": "#365ace", "margin-top": "-15%" }
-          }
-
-        }
-
+              data: {
+                labels: labels,
+                datasets: [
+                  {
+                    fill: true,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(216,39,58,0.4)",
+                    borderColor: "rgba(216,39,58,1)",
+                    borderCapStyle: "butt",
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: "miter",
+                    pointBorderColor: "rgba(75,192,192,0)",
+                    pointBackgroundColor: "transparent",
+                    pointBorderWidth: 0,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: data,
+                    spanGaps: false
+                  }
+                ]
+              }
+            });
+          })
       });
   }
 

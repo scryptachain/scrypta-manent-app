@@ -5,8 +5,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { IonicModule } from '@ionic/angular';
 import { DashboardPage } from './dashboard.page';
-import { ChartModule } from 'angular2-highcharts';
-import * as highcharts from 'highcharts';
 import { ModaltransactionPage } from '../modaltransaction/modaltransaction.page';
 
 const routes: Routes = [
@@ -18,7 +16,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    ChartModule.forRoot(require('highcharts')),
     CommonModule,
     FormsModule,
     IonicModule,

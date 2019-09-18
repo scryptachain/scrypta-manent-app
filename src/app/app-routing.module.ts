@@ -26,7 +26,6 @@ const routes: Routes = [
   { path: 'receive', loadChildren: './receive/receive.module#ReceivePageModule' },
   { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
   { path: 'card-settings', loadChildren: './card-settings/card-settings.module#CardSettingsPageModule' },
-  { path: 'modal-login', loadChildren: './modal-login/modal-login.module#ModalLoginPageModule' },
   { path: 'archive', loadChildren: './archive/archive.module#ArchivePageModule' },
   { path: 'archivedetail', loadChildren: './archivedetail/archivedetail.module#ArchivedetailPageModule' },
   { path: 'upload-modal', loadChildren: './upload-modal/upload-modal.module#UploadModalPageModule' },

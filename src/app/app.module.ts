@@ -24,7 +24,7 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import {HTTP} from '@ionic-native/http/ngx'
 import {Clipboard} from '@ionic-native/clipboard/ngx'
-
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +32,8 @@ import {Clipboard} from '@ionic-native/clipboard/ngx'
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    ChartsModule
   ],
   providers: [
     LoadingController,

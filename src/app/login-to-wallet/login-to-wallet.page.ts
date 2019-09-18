@@ -12,7 +12,6 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { File } from '@ionic-native/file/ngx'
 import { HTTP } from '@ionic-native/http/ngx'
-import { ModalLoginPage } from '../modal-login/modal-login.page';
 import { OverlayEventDetail } from '@ionic/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
