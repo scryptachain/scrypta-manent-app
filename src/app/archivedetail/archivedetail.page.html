@@ -7,39 +7,60 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-<h2 *ngIf="risposta.refID !== 'undefined' && risposta.refID !== '' && risposta.refID !== undefined" style="font-size:16px;color:#d43f51">Reference ID</h2>
-<ion-item *ngIf="risposta.refID !== 'undefined' && risposta.refID !== '' && risposta.refID !== undefined">
-  <p style='font-size:14px'>{{risposta.refID}}</p>
-</ion-item>
-<h2 *ngIf="risposta.title !== 'undefined' && risposta.title !== '' && risposta.title !== undefined" style="font-size:16px;color:#d43f51">Title</h2>
-<ion-item *ngIf="risposta.title !== 'undefined' && risposta.title !== '' && risposta.title !== undefined">
-  <p style='font-size:14px'>{{risposta.title}}</p>
-</ion-item>
-<h2 *ngIf="risposta.text !== '' && risposta.text !== undefined" style="font-size:16px;color:#d43f51">Description</h2>
-<ion-item *ngIf="risposta.text !== '' && risposta.text !== undefined">
-  <p style='font-size:14px'>{{risposta.text}}</p>
-</ion-item>
-<h2 style="font-size:16px;color:#d43f51">Unique Identifier (UUID)</h2>
-<ion-item>
-  <p style='font-size:14px'>{{risposta.uuid}}</p>
-</ion-item>
-<h2 style="font-size:16px;color:#d43f51">Block</h2>
-<ion-item>
-  <p style='font-size:14px'>{{risposta.block}}</p>
-</ion-item>
-<h2 *ngIf="risposta.message !== '' && risposta.message !== undefined" style="font-size:16px;color:#d43f51">Message</h2>
-<ion-item *ngIf="risposta.message !== '' && risposta.message !== undefined">
-  <p style='font-size:14px'>{{risposta.message}}</p>
-</ion-item>
-<h2 style="font-size:16px;color:#d43f51">Content</h2>
-<div *ngIf="risposta.is_file" class="ion-text-center">
-    <div *ngIf="risposta.mimetype == 'image'" style="text-align:center; width:100%">
-      <img src='{{risposta.data}}' width="100%">
-    </div><br>
-  <div style="text-decoration:underline" (click)='openFile(risposta.data)'>Open {{ risposta.mimedetail }} file</div>
-  </div>
-<ion-item *ngIf="!risposta.is_file">
-  <p style='font-size:14px'>{{risposta.data}}</p>
-</ion-item>
+<ion-content class="ion-padding" *ngIf="showInvalidate === false">
+  <h2 *ngIf="risposta.refID !== 'undefined' && risposta.refID !== '' && risposta.refID !== undefined" style="font-size:16px;color:#d43f51">Reference ID</h2>
+  <ion-item *ngIf="risposta.refID !== 'undefined' && risposta.refID !== '' && risposta.refID !== undefined">
+    <p style='font-size:14px'>{{risposta.refID}}</p>
+  </ion-item>
+  <h2 *ngIf="risposta.title !== 'undefined' && risposta.title !== '' && risposta.title !== undefined" style="font-size:16px;color:#d43f51">Title</h2>
+  <ion-item *ngIf="risposta.title !== 'undefined' && risposta.title !== '' && risposta.title !== undefined">
+    <p style='font-size:14px'>{{risposta.title}}</p>
+  </ion-item>
+  <h2 *ngIf="risposta.text !== '' && risposta.text !== undefined" style="font-size:16px;color:#d43f51">Description</h2>
+  <ion-item *ngIf="risposta.text !== '' && risposta.text !== undefined">
+    <p style='font-size:14px'>{{risposta.text}}</p>
+  </ion-item>
+  <h2 style="font-size:16px;color:#d43f51">Unique Identifier (UUID)</h2>
+  <ion-item>
+    <p style='font-size:14px'>{{risposta.uuid}}</p>
+  </ion-item>
+  <h2 style="font-size:16px;color:#d43f51">Block</h2>
+  <ion-item>
+    <p style='font-size:14px'>{{risposta.block}}</p>
+  </ion-item>
+  <h2 *ngIf="risposta.message !== '' && risposta.message !== undefined" style="font-size:16px;color:#d43f51">Message</h2>
+  <ion-item *ngIf="risposta.message !== '' && risposta.message !== undefined">
+    <p style='font-size:14px'>{{risposta.message}}</p>
+  </ion-item>
+  <h2 style="font-size:16px;color:#d43f51">Content</h2>
+  <div *ngIf="risposta.is_file" class="ion-text-center">
+      <div *ngIf="risposta.mimetype == 'image'" style="text-align:center; width:100%">
+        <img src='{{risposta.data}}' width="100%">
+      </div><br>
+      <button class='buttonsBut' (click)='openFile(risposta.data)' style='margin:0 auto; width:100%; opacity: 1'>Open {{ risposta.mimedetail }} file</button>
+    </div>
+  <ion-item *ngIf="!risposta.is_file">
+    <p style='font-size:14px'>{{risposta.data}}</p>
+  </ion-item>
+  <button class='buttonsBut' (click)="openPoE(risposta.uuid)" style='margin:10px auto; width:100%; opacity: 1'>Share proof of existence</button>
+  <br>
+  <button class='buttonsBut' (click)="showInvalidateModal()" style='margin:0 auto; width:100%; opacity: 1'>INVALIDATE</button>
 </ion-content>
+<div *ngIf="showInvalidate === true" class="unlockModal ion-padding">
+  <ion-icon name='close' style="position:absolute; top:10px; right:10px; font-size:25px" (click)='hideInvalidateModal()'></ion-icon>
+  <span style="color:#f00; text-decoration:underline; font-size:18px">
+    <span style="font-size:22px">Attention please!</span><br>
+    Invalidating a file means that it will not be listed inside your vault but it will always exsist into the blockchain in form or raw data or IPFS hash!</span><br><hr>
+    <div *ngIf="isInvalidating === false">
+      <h2>Please enter wallet password and confirm operation</h2>
+      <ion-item class="ion-text-center">
+        <ion-input [(ngModel)]='password' type='password'></ion-input>
+      </ion-item>
+      <div class="ion-text-center">
+        <button (click)='unlockWallet()' class='buttonsBut ion-text-center' style='margin:10% auto 0 auto;'>CONFIRM</button>
+      </div>
+    </div>
+    <div *ngIf="isInvalidating === true">
+      Invalidating file, please wait...
+    </div>
+</div>

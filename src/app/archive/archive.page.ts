@@ -87,9 +87,11 @@ export class ArchivePage implements OnInit {
     
     const app = this
     await axios.get('https://' + app.idanode + '/ipfs/type/' + hash).then(async function (response) {
-      app.readreturn[i].mimetype = response.data.data.type
-      app.readreturn[i].mimedetail = response.data.data.ext
-      app.readreturn[i].data = 'https://' + app.idanode + '/ipfs/' + app.readreturn[i].data 
+      if(response.data.data !== undefined){
+        app.readreturn[i].mimetype = response.data.data.type
+        app.readreturn[i].mimedetail = response.data.data.ext
+        app.readreturn[i].data = 'https://' + app.idanode + '/ipfs/' + app.readreturn[i].data 
+      }
     })
 
   }
