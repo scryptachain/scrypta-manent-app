@@ -31,6 +31,7 @@
     "@ionic-native/file-encryption": "^5.13.0",
     "@ionic-native/file-opener": "^5.13.0",
     "@ionic-native/file-path": "^5.13.0",
+    "@ionic-native/file-picker": "^4.20.0",
     "@ionic-native/file-transfer": "^5.13.0",
     "@ionic-native/http": "^5.13.0",
     "@ionic-native/in-app-browser": "^5.13.0",
@@ -119,9 +120,7 @@
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
       "cordova-plugin-ionic-keyboard": {},
-      "phonegap-nfc": {
-        "NFC_USAGE_DESCRIPTION": "Read NFC Tags"
-      },
+      "phonegap-nfc": {},
       "cordova-plugin-file-transfer": {},
       "cordova-plugin-file": {},
       "cordova-plugin-android-permissions": {},

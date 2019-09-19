@@ -39,7 +39,7 @@ import { ChartsModule } from 'ng2-charts';
     LoadingController,
     Clipboard,
     HTTP,
- BarcodeScanner,
+    BarcodeScanner,
     //QRScanner,
     AndroidPermissions,
     FileChooser,

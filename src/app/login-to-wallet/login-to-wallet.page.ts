@@ -28,12 +28,26 @@ export class LoginToWalletPage implements OnInit {
   nodes: string[] = [];
   connected: string = '';
   private _window: ICustomWindow;
+  isIOS: boolean = false
+  fileName: any = ''
   showNFC:boolean = false
+  haveNFC: boolean = true
+  fileBuffer: any = ''
   nfcreader:any
 
   constructor(private nfc: NFC, private ndef: Ndef, private qrScanner: BarcodeScanner, public platform: Platform, windowRef: WindowRefService, public router: Router, private fileChooser: FileChooser, private fileOpener: FileOpener, private filePath: FilePath, private file: File, private http: HTTP, private modalCtrl: ModalController, private loadingController: LoadingController,
     public activatedRoute: ActivatedRoute, private _location: Location) {
-    this._window = windowRef.nativeWindow;
+      const app = this
+      this._window = windowRef.nativeWindow;
+      this.platform.ready().then(async () => {
+        if(this.platform.is('ios') === true ){
+          app.isIOS = true
+        }
+        let nfcenabled = await app.nfc.enabled()
+        if(nfcenabled !== 'enabled'){
+          app.haveNFC = false
+        }
+      })
   }
 
   ngOnInit() {
@@ -45,9 +59,43 @@ export class LoginToWalletPage implements OnInit {
     app.router.navigate(['/dashboard'])
   }
 
+  loadSidFile() {
+    var app = this;
+    var file: any
+    file = window.document.querySelector('#fileInput')
+    let fileBuffer = file.files[0]
+    const reader = new FileReader();
+    reader.onload = function() {
+      var dataKey = reader.result;
+      app.addAddress(dataKey)
+    };
+    reader.readAsText(fileBuffer);
+    //console.log('IMAGEFILE', JSON.stringify(file.files))
+  }
+
+  beginSession(){
+    const app = this
+    app.nfc.beginSession()
+    app.nfcreader = app.nfc.addNdefListener((read) => {
+      console.log('callback')
+      console.log(read)
+    }, (err) => {
+      console.log('err')
+      console.log(err)
+    })
+  }
+
+  closeSession(){
+    const app = this
+    app.nfcreader.invalidateSession(success => {
+      console.log('Can\'t close session')
+    }, error => {
+      alert('Seems there\'s something wrong with NFC, please retry!')
+    })
+  }
+
   loginCard() {
     const app = this
-    this.platform.ready().then(() => {
       app.nfcreader = this.nfc.addNdefListener(() => {
         app.showNFC = true
       }, (err) => {
@@ -63,13 +111,18 @@ export class LoginToWalletPage implements OnInit {
         let address = str.substr(3)
         app.addAddress(address)
         app.nfcreader.unsubscribe()
+
+        this.platform.ready().then(() => {
+          if(this.platform.is('ios') === true ){
+            app.closeSession()
+          }
+        })
+
         if(app.add !== null){
           app.router.navigate(['/account'])
         }else{
           app.router.navigate(['/dashboard'])
         }
-      });
-
     })
   }
 

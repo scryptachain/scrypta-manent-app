@@ -79,10 +79,10 @@ export class UploadModalPage implements OnInit {
   }
 
   getAttributes() {
-    var imagefile: any
-    imagefile = window.document.querySelector('#fileInput')
-    this.fileBuffer = imagefile.files[0]
-    console.log('IMAGEFILE', imagefile.files)
+    var file: any
+    file = window.document.querySelector('#fileInput')
+    this.fileBuffer = file.files[0]
+    //console.log('IMAGEFILE', JSON.stringify(file.files))
   }
 
   unlockWallet() {
