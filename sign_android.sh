@@ -5,4 +5,5 @@ cd platforms/android
 ./gradlew bundle
 cd app/build/outputs/bundle/release
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ../../../../../../../keys/my-release-key.keystore app.aab alias_name
-#INSERT RELEASE KEY PASSWORD
+cd app/build/outputs/apk/release
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ../../../../../../../keys/my-release-key.keystore app-release-unsigned.apk alias_name
