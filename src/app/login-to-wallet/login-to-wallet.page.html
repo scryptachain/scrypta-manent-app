@@ -11,16 +11,15 @@
   <div *ngIf="showNFC === false" style="margin-top:10px">
     Select one of the following restore methods and follow the instructions:<br>
     <button (click)='createNewAddress()' *ngIf="add !== null" expand="full" class='buttonsBut' style='margin-top: 5%' >Create new account</button><br/>
-    <div *ngIf = "isIOS === false">
-      <button (click)='openSidFile()' expand="full" class='buttonsBut' style='margin-top: 5%' >Restore .sid file<ion-icon name="key" style="float:right" size='large'></ion-icon></button><br/>
-      <button (click)='loginCard()' *ngIf="haveNFC === true" expand="full" class='buttonsBut' style='margin-top: 5%'>Read Lyra Card<ion-icon name="card" style="float:right" size='large'></ion-icon></button><br/>
-    </div>
-    <div *ngIf = "isIOS === true">
-      <button expand="full" class='buttonsBut' style='margin-top: 5%; position:relative'>
+    <button expand="full" class='buttonsBut' style='margin-top: 5%; position:relative'>
         <input placeholder='Choose a file' type='file' style="margin:0; width: 100%; position:absolute; top:0; left: 0; height:50px; opacity:0;" [(ngModel)]='fileName' id='fileInput' (change)='loadSidFile()'>
         Restore .sid file<ion-icon name="key" style="float:right" size='large'></ion-icon>
       </button><br/>
-      <button (click)='beginSession()' *ngIf="haveNFC === true" expand="full" class='buttonsBut' style='margin-top: 5%'>Read Lyra Card<ion-icon name="card" style="float:right" size='large'></ion-icon></button><br/>
+    <div *ngIf = "isIOS === false">
+      <button (click)='loginCardAndroid()' *ngIf="haveNFC === true" expand="full" class='buttonsBut' style='margin-top: 5%'>Read Lyra Card<ion-icon name="card" style="float:right" size='large'></ion-icon></button><br/>
+    </div>
+    <div *ngIf = "isIOS === true">
+      <button (click)='loginCardiOS()' *ngIf="haveNFC === true" expand="full" class='buttonsBut' style='margin-top: 5%'>Read Lyra Card<ion-icon name="card" style="float:right" size='large'></ion-icon></button><br/>
     </div>
     <button (click)='readQrCode()' expand="full" class='buttonsBut' style='margin-top: 5%'>Restore Paper Wallet<ion-icon name="qr-scanner" style="float:right" size='large'></ion-icon></button><br/><br>
     <div *ngIf="add === null">

@@ -73,10 +73,10 @@ export class LoginToWalletPage implements OnInit {
     //console.log('IMAGEFILE', JSON.stringify(file.files))
   }
 
-  beginSession(){
+  loginCardiOS(){
     const app = this
     app.nfc.beginSession()
-    app.nfcreader = app.nfc.addNdefListener((read) => {
+    app.nfc.addNdefListener((read) => {
       console.log('callback')
       console.log(read)
     }, (err) => {
@@ -94,7 +94,7 @@ export class LoginToWalletPage implements OnInit {
     })
   }
 
-  loginCard() {
+  loginCardAndroid() {
     const app = this
       app.nfcreader = this.nfc.addNdefListener(() => {
         app.showNFC = true
@@ -186,23 +186,4 @@ export class LoginToWalletPage implements OnInit {
     })
   }
 
-  async openSidFile() {
-    this.fileChooser.open().then(uploadfile => {
-      console.log(uploadfile)
-      this.filePath.resolveNativePath(uploadfile).then(resolvedFilePath => {
-        console.log(resolvedFilePath);
-        this.file.resolveLocalFilesystemUrl(resolvedFilePath).then(fileinfo => {
-          console.log(fileinfo)
-          this.file.readAsText(this.file.externalRootDirectory + '/Download/', fileinfo.name).then(async result => {
-            this.addAddress(result)
-            if(this.add !== null){
-              this.router.navigate(['/account'])
-            }else{
-              this.router.navigate(['/dashboard'])
-            }
-          })
-        })
-      })
-    })
-  }
 }
