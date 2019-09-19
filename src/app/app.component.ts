@@ -36,8 +36,7 @@ export class AppComponent {
     private platform: Platform,
     private statusBar: StatusBar,
     private router: Router,
-    private menuCtrl: MenuController,
-
+    private menuCtrl: MenuController
   ) {
     this.initializeApp();
     if (localStorage.getItem('theme') !== null) {
@@ -45,7 +44,7 @@ export class AppComponent {
         document.body.classList.add("dark")
       }
     }
-    //this.fetchAddress();
+
   }
   fetchAddress() {
     if (localStorage.getItem('lyraWallet') !== null) {
@@ -57,7 +56,6 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      //this.statusBar.styleDefault();
       if(this.platform.is('ios') === true ){
         this.statusBar.overlaysWebView(false);
         this.statusBar.backgroundColorByHexString('#000000');
@@ -66,12 +64,4 @@ export class AppComponent {
     });
   }
 
-  logout() {
-
-    localStorage.removeItem('lyraWallet')
-    window.location.reload()
-    this.menuCtrl.close()
-    this.router.navigate(['/'])
-
-  }
 }

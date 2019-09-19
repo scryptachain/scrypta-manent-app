@@ -1,3 +1,4 @@
+#!/bin/bash
 #USE THIS COMMANDS TO GENERATE AND SIGN THE ANDROID BUNDLE
 ionic cordova build android --prod --release
 cd platforms/android
