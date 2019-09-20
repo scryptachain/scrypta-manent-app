@@ -132,6 +132,20 @@ export class ArchivePage implements OnInit {
     }, 2000);
   }
   
+  cryptData(metadata, password) {
+    return new Promise(response => {
+      this._window.ScryptaCore.cryptData(metadata,password).then(crypted => {
+        this._window.ScryptaCore.decryptData(crypted,password).then(decrypted => {
+          if(decrypted === metadata){
+            response(crypted)
+          }else{
+            response(false)
+          }
+        })
+      })
+    })
+  }
+  
   async openModalUpload() {
     const app = this
     var FormData = require('form-data')

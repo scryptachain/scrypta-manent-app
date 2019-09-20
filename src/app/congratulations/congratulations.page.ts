@@ -31,59 +31,12 @@ export class CongratulationsPage implements OnInit {
   
   ngOnInit() {
     
-    //this.public_address=credJson.pub;
-    let walletstore = localStorage.getItem('wallet')
-    var files=new Blob([walletstore],{type:'sid'});
-    this.filedownload=files;
-    var buttonid=document.getElementById('downloadsid');
-    this.a=buttonid;
-   
   }
   
-  getPermissions()
+  async goToBackup()
   {
     const app = this
-    
-    app.permission.hasPermission(this.permission.PERMISSION.READ_EXTERNAL_STORAGE).then(status=>{
-      if(status.hasPermission){
-        this.downloadFile()
-      }else{
-        app.permission.requestPermission(this.permission.PERMISSION.READ_EXTERNAL_STORAGE).then(status =>{
-          if(status.hasPermission)
-          {
-            this.downloadFile()
-          }
-        })
-      }
-    }).catch(error => {
-      alert('Can\'t save .sid file, skipping now.')
-      app.router.navigate(['/dashboard'])
-    })
-  }
-
-  async downloadFile()
-  {
-   // console.log(this.public_address)
-    //this.a.href=URL.createObjectURL(this.file);
-    //this.a.download=this.public_address+'.sid';
-    const app = this
-    const fileTransfer:FileTransferObject=this.transfer.create();
-    let timestamp = new Date().getTime()
-    this.file.writeFile(this.file.externalRootDirectory+'/Download/','walletbak_'+timestamp+'.sid',this.filedownload)
-    //console.log(this.file.externalDataDirectory)
-    alert('Backup stored successfully!')
-    app.router.navigate(['/dashboard'])
-  }
-
-
-  async goNext()
-  {
-    const app = this
-    app.router.navigate(['/congratulations'])
-  }
-  goPrev()
-  {
-    history.go(-1);
+    app.router.navigate(['/backup'])
   }
 
 }

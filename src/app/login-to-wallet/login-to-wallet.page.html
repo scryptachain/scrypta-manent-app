@@ -24,7 +24,7 @@
     <button (click)='readQrCode()' expand="full" class='buttonsBut' style='margin-top: 5%'>Restore Paper Wallet<ion-icon name="qr-scanner" style="float:right" size='large'></ion-icon></button><br/><br>
     <div *ngIf="add === null">
       <h3>- OR -</h3>
-      <a style="color:#d8273a" routerLink='/create-wallet'>Create a new wallet</a>
+      <a style="color:#d8273a" routerLink='/home'>Go back</a>
     </div>
   </div>
   <div *ngIf="showNFC === true" style="position:fixed; 

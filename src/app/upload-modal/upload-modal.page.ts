@@ -7,6 +7,7 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { File } from '@ionic-native/file/ngx'
 import { FormGroup } from '@angular/forms'
+
 @Component({
   selector: 'app-upload-modal',
   templateUrl: './upload-modal.page.html',
@@ -28,7 +29,7 @@ export class UploadModalPage implements OnInit {
   selected: number = 0
   address: string
   nodes: string[] = [];
-  connected: string = '';
+  connected: string = ''
   public_address: string;
   encrypted_wallet: string;
   unlockPwd: string;
@@ -58,24 +59,9 @@ export class UploadModalPage implements OnInit {
     app.address = payload[0]
     app.encrypted = payload[1]
   }
-
+  
   close() {
     this.modalCtrl.dismiss()
-  }
-
-  selectFile() {
-    this.fileChooser.open().then(fileUri => {
-      this.filePath.resolveNativePath(fileUri).then(resolveFilePath => {
-        this.fileUpload.resolveLocalFilesystemUrl(resolveFilePath).then(fileInfo => {
-          var metadata = fileInfo.getMetadata(resp => {
-          })
-          this.fileName = fileInfo.name
-          this.file = fileInfo.nativeURL
-        })
-      })
-    })
-
-
   }
 
   getAttributes() {
