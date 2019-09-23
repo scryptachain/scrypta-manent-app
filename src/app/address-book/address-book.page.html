@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon style="margin: 0 10px" (click)="goBack()" name="arrow-back"></ion-icon>
+    </ion-buttons>
+    <ion-title>Manage contacts</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon name="add" (click)='addContact()' style="padding-right:10px;"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div class="ion-padding" style="text-align: center" *ngIf="contacts.length === 0">
+    No contacts to show.
+  </div>
+  <div *ngFor="let address of contacts; let i=index" [attr.data-index]="i">
+      <ion-card (click)='openDetails(address.index)' *ngIf="address.balance > 0" style="margin:15px 0">
+          <ion-card-header>
+            <ion-card-subtitle>{{ address.address.substr(0,6) }}...{{ address.address.substr(-6) }}</ion-card-subtitle>
+            <ion-card-title style="font-size:36px; font-weight:bold;">{{ address.balance }} LYRA</ion-card-title>
+          </ion-card-header>
+      </ion-card>
+    </div>
+
+</ion-content>

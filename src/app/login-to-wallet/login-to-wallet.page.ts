@@ -151,6 +151,7 @@ export class LoginToWalletPage implements OnInit {
           let wallet = [address]
           localStorage.setItem('wallet',JSON.stringify(wallet))
           alert('Address ' + payload[0] + ' imported!')
+          this.router.navigate(['/dashboard'])
         }else{
           let wallet = JSON.parse(localStorage.getItem('wallet'))
           if(wallet.indexOf(address) === -1){

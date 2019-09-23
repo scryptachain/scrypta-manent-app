@@ -20,6 +20,11 @@ export class AppComponent {
       icon: 'wallet'
     },
     {
+      title: 'Address Book',
+      url: '/address-book',
+      icon: 'contact'
+    },
+    {
       title: 'Backup',
       url: '/backup',
       icon: 'save'
