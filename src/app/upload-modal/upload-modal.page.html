@@ -8,31 +8,26 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h2 style='font-size:14px'>Title</h2>
-  <ion-item>
-    <ion-input placeholder='Insert a Title' [(ngModel)]='title'></ion-input>
-  </ion-item>
-
-  <h2 style='font-size:14px'>Select a file</h2>
-  <ion-item>
-    <input placeholder='Choose a file' type='file' style="margin:0; width: 100%" [(ngModel)]='fileName' id='fileInput' (change)='getAttributes()'>
-  </ion-item>
-  <h2 style='font-size:14px'>Message</h2>
-  <ion-item>
-    <ion-textarea placeholder='Insert a message' style="height:20vh" [(ngModel)]='message'></ion-textarea>
-  </ion-item>
-  <ion-item style="margin:0; display:none">
-    <h2 style='font-size:14px'>Encrypt Data</h2>
-    <div slot='end'>
-      <ion-toggle [(ngModel)]='toggleChecked'></ion-toggle>
+  <div style="width:100%">
+      <h2 style='font-size:14px'>Encrypt data</h2>
+      <div style="float:right; margin-top:-30px;">
+        <ion-toggle [(ngModel)]='toggleChecked'></ion-toggle>
+      </div>
+      <div *ngIf="toggleChecked === true">
+        <h2 style='font-size:14px'>Encryption password</h2>
+          <ion-input type='text' style="border-bottom:1px solid #aaa" [(ngModel)]='encryptPwd'></ion-input>
+        <span style="color:#f00; font-size:12px">Please make sure you'll remember this password, if you lose it you will not be able to access the data again.</span>
+      </div>
     </div>
-  </ion-item>
-  <br>
+  <h2 style='font-size:14px'>Title</h2>
+    <ion-input placeholder='Insert a title' style="border-bottom:1px solid #aaa" [(ngModel)]='refID'></ion-input>
+  <h2 style='font-size:14px'>Select a file</h2>
+    <input placeholder='Choose a file' type='file' style="margin:0; width: 100%" [(ngModel)]='fileName' id='fileInput' (change)='getAttributes()'>
+  <h2 style='font-size:14px'>Text</h2>
+    <ion-textarea placeholder='Insert a text' style="border-bottom:1px solid #aaa; height:20vh" [(ngModel)]='message'></ion-textarea>
   <div id='passwordFields'>
-  <h2 style='font-size:14px'>Wallet password</h2>
-  <ion-item>
-    <ion-input type='password' [(ngModel)]='unlockPwd'></ion-input>
-  </ion-item>
+  <h2 style='font-size:14px'>Insert wallet password</h2>
+    <ion-input type='password' style="border-bottom:1px solid #aaa" [(ngModel)]='unlockPwd'></ion-input>
   </div><br><br>
   <div class="ion-text-center">
     <button class="buttonsBut ion-text-center" type="submit" (click)='unlockWallet()' style="margin:0 auto">Upload</button>

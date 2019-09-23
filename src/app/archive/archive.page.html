@@ -16,7 +16,7 @@
   </ion-refresher>
   <div *ngIf="isUploading === true" style="font-size:28px">
     <ion-icon name="cloud-upload" style="margin:10vh 0 20px 0; font-size:100px;"></ion-icon><br>
-    Uploading data, please wait and don't refresh the page.
+    {{workingmessage}}
   </div>
   <div *ngIf="isUploading === false">
     <div *ngIf="readreturn.length == 0">

@@ -15,7 +15,7 @@ import { FormGroup } from '@angular/forms'
 })
 export class UploadModalPage implements OnInit {
   public fileInput: FormGroup;
-  title: string
+  refID: string
   file: string
   fileName: string
   message: string
@@ -33,14 +33,16 @@ export class UploadModalPage implements OnInit {
   public_address: string;
   encrypted_wallet: string;
   unlockPwd: string;
+  encryptPwd: string;
   decrypted_wallet: string;
   private_key: any;
   uploadForm = {
-    title: '',
+    refID: '',
     file: '',
     message: '',
     encrypt: this.toggleChecked,
-    private_key: '',
+    encryptPwd: '',
+    password: '',
     fileBuffer: ''
   }
   private _window: ICustomWindow;
@@ -77,7 +79,7 @@ export class UploadModalPage implements OnInit {
       app.decrypted_wallet = 'Wallet Locked'
       app._window.ScryptaCore.readKey(app.unlockPwd, app.address + ':' + app.encrypted).then(function (response) {
         if (response !== false) {
-          app.save(response.prv);
+          app.save();
         } else {
           alert('Wrong Password')
         }
@@ -87,16 +89,31 @@ export class UploadModalPage implements OnInit {
     }
   }
 
-  save(privkey) {
+  save() {
+    var errors = false
+    var error = ''
     const app = this
-    this.uploadForm.title = this.title
-    this.uploadForm.file = this.file
-    this.uploadForm.encrypt = this.toggleChecked
-    this.uploadForm.private_key = privkey
-    this.uploadForm.message = this.message
-    this.uploadForm.fileBuffer = this.fileBuffer
-    this.modalCtrl.dismiss({
-      fileObject: this.uploadForm
-    })
+    if(app.toggleChecked === true && app.encryptPwd === undefined){
+      errors = true
+      error = 'Choose an encryption password or disable encryption'
+    }
+    if(app.message === undefined && app.fileBuffer === undefined){
+      errors = true
+      error = 'Write a text or select a file first'
+    }
+    if(errors === false){
+      this.uploadForm.refID = this.refID
+      this.uploadForm.file = this.file
+      this.uploadForm.encrypt = this.toggleChecked
+      this.uploadForm.encryptPwd = this.encryptPwd
+      this.uploadForm.password = app.unlockPwd
+      this.uploadForm.message = this.message
+      this.uploadForm.fileBuffer = this.fileBuffer
+      this.modalCtrl.dismiss({
+        fileObject: this.uploadForm
+      })
+    }else{
+      alert(error)
+    }
   }
 }

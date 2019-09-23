@@ -22,6 +22,7 @@ export class ArchivePage implements OnInit {
   idanode: string = 'idanodejs01.scryptachain.org'
   selected: number = 0
   balance: string = '-'
+  workingmessage: string = 'Uploading data, please wait and don\'t refresh the page'
   encrypted: string = ''
   isUploading: boolean = false
   private _window: ICustomWindow;
@@ -132,20 +133,6 @@ export class ArchivePage implements OnInit {
     }, 2000);
   }
   
-  cryptData(metadata, password) {
-    return new Promise(response => {
-      this._window.ScryptaCore.cryptData(metadata,password).then(crypted => {
-        this._window.ScryptaCore.decryptData(crypted,password).then(decrypted => {
-          if(decrypted === metadata){
-            response(crypted)
-          }else{
-            response(false)
-          }
-        })
-      })
-    })
-  }
-  
   async openModalUpload() {
     const app = this
     var FormData = require('form-data')
@@ -157,39 +144,93 @@ export class ArchivePage implements OnInit {
     modal.onDidDismiss().then(async (detail: OverlayEventDetail) => {
       if (detail.data !== undefined && this.isUploading === false) {
         this.isUploading = true
-        var form = new FormData()
-        form.append('file', detail.data.fileObject.fileBuffer)
-        form.append('dapp_address', app.address)
-        form.append('private_key',  detail.data.fileObject.private_key)
-        form.append('collection', '')
-        if(detail.data.fileObject.message !== undefined){
-          form.append('data', detail.data.fileObject.message)
-        }else{
-          form.append('data', '')
-        }
-        if(detail.data.fileObject.title !== undefined){
-          form.append('refID', detail.data.fileObject.title)
-        }else{
-          form.append('refID', '')
-        }
+        var errors = false
+        var file = ''
+        var protocol = ''
+        var password = detail.data.fileObject.password
+        var message = ''
         let config = {
           headers: {
             'Content-type': 'multipart/form-data',
           }
         }
-        axios.post('https://' + app.idanode + '/write', form, config).then(res => {
-          if(res.data.uuid !== undefined){
-            alert('Data written correctly into the blockchain, wait at least 2 minutes and refresh the page!')
-            this.isUploading = false
+        if(detail.data.fileObject.fileBuffer !== undefined){
+          if(detail.data.fileObject.encrypt === true){
+            const form_data = new FormData()
+            app.workingmessage = 'Crypting file...'
+            var crypted = await app._window.ScryptaCore.cryptFile(detail.data.fileObject.fileBuffer,detail.data.fileObject.encryptPwd)
+            form_data.append("buffer", crypted)
+            app.workingmessage = 'Uploading file to IPFS...'
+            var ipfs = await axios.post('https://' + app.idanode + '/ipfs/add', form_data, config)
+            var hash = ipfs.data.data[0].hash
+            if(hash !== undefined){
+              app.workingmessage = 'Verifying IPFS file...'
+              let buffer = await axios.get('https://' + app.idanode + '/ipfs/buffer/' + hash)
+              let data = buffer.data.data[0].content.data
+              app.workingmessage = 'Verifying crypted file...'
+              let decrypted = await app._window.ScryptaCore.decryptFile(data, detail.data.fileObject.encryptPwd)
+              if(decrypted !== false){
+                message = 'ipfs:' + hash
+                protocol = 'E://'
+              }else{
+                errors = true
+                alert('Something goes wrong encryption, please retry.')
+              }
+            }else{
+              errors = true
+              alert('Something goes wrong with IPFS, please make sure your file is less than 10MB.')
+            }
           }else{
+            const form_data = new FormData()
+            form_data.append("file", detail.data.fileObject.fileBuffer)
+            var ipfs = await axios.post('https://' + app.idanode + '/ipfs/add', form_data, config)
+            var hash = ipfs.data.data.hash
+          }
+          if(detail.data.fileObject.message !== undefined){
+            message += '***' + detail.data.fileObject.message
+          }
+        }else{
+          if(detail.data.fileObject.message !== undefined){
+            message = detail.data.fileObject.message
+          }
+        }
+        
+        var refID = ''
+        if(detail.data.fileObject.title !== undefined){
+          refID = detail.data.fileObject.title
+        }
+        if(detail.data.fileObject.fileBuffer === undefined && detail.data.fileObject.encrypt === true){
+          app.workingmessage = 'Crypting data...'
+          var crypted = await app._window.ScryptaCore.cryptData(message, detail.data.fileObject.encryptPwd)
+          app.workingmessage = 'Verifying data...'
+          var decrypted = await app._window.ScryptaCore.decryptData(crypted, detail.data.fileObject.encryptPwd)
+          if(decrypted === message){
+            message = crypted
+            protocol = 'E://'
+          }else{
+            alert('Something goes wrong with encryption, please retry!')
+            errors = true
+          }
+        }
+        if(errors === false){
+          app.workingmessage = 'Uploading data...'
+          app._window.ScryptaCore.write(password, message, '', refID , protocol, app.address + ':' + app.encrypted).then(res => {
+            if(res.uuid !== undefined){
+              alert('Data written correctly into the blockchain, wait at least 2 minutes and refresh the page!')
+              this.isUploading = false
+            }else{
+              alert('There\'s an error in the upload, please retry!')
+              this.isUploading = false
+            }
+          }).catch(error => {
+            console.log(error)
             alert('There\'s an error in the upload, please retry!')
             this.isUploading = false
-          }
-        }).catch(error => {
-          alert('There\'s an error in the upload, please retry!')
+          })
+        }else{
           this.isUploading = false
-        })
-
+        }
+        
       }
     })
     await modal.present()
