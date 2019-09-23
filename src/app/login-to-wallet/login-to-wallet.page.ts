@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NFC, Ndef } from '@ionic-native/nfc/ngx';
+import { NFC } from '@ionic-native/nfc/ngx';
 //import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { Platform, ModalController, LoadingController } from '@ionic/angular'
 import { WindowRefService, ICustomWindow } from '../windowservice';
@@ -35,7 +35,7 @@ export class LoginToWalletPage implements OnInit {
   fileBuffer: any = ''
   nfcreader:any
 
-  constructor(private nfc: NFC, private ndef: Ndef, private qrScanner: BarcodeScanner, public platform: Platform, windowRef: WindowRefService, public router: Router, private fileChooser: FileChooser, private fileOpener: FileOpener, private filePath: FilePath, private file: File, private http: HTTP, private modalCtrl: ModalController, private loadingController: LoadingController,
+  constructor(private nfc: NFC, private qrScanner: BarcodeScanner, public platform: Platform, windowRef: WindowRefService, public router: Router, private fileChooser: FileChooser, private fileOpener: FileOpener, private filePath: FilePath, private file: File, private http: HTTP, private modalCtrl: ModalController, private loadingController: LoadingController,
     public activatedRoute: ActivatedRoute, private _location: Location) {
       const app = this
       this._window = windowRef.nativeWindow;
@@ -76,14 +76,19 @@ export class LoginToWalletPage implements OnInit {
 
   loginCardiOS(){
     const app = this
-    app.nfc.beginSession()
-    app.nfc.addNdefListener((read) => {
-      console.log('callback')
-      console.log(read)
-    }, (err) => {
-      console.log('err')
-      console.log(err)
-    })
+    this.nfc.enabled().then(() => {
+      this.nfc.beginSession().subscribe(() => {
+        this.nfc.addNdefListener(() => {}).subscribe((event: any) => {
+          let NFC = this.nfc.bytesToString(event.tag.ndefMessage[0].payload)
+          var hex  = NFC.toString();
+          let address = hex.substr(3)
+          console.log('ADDRESS', address)
+          app.addAddress(address)
+        });
+      });
+    }, () => {
+      alert('We\'re sorry, NFC not allowed.');
+    });
   }
 
   closeSession(){
