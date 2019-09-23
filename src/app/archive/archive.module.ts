@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ArchivePage } from './archive.page';
 import { ArchivedetailPage } from '../archivedetail/archivedetail.page';
 import { UploadModalPage } from '../upload-modal/upload-modal.page';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 //import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 //import { File } from '@ionic-native/file';
 
@@ -28,6 +29,6 @@ const routes: Routes = [
   ],
   declarations: [ArchivePage,ArchivedetailPage,UploadModalPage],
   entryComponents:[ArchivedetailPage,UploadModalPage],
-  providers: [InAppBrowser]
+  providers: [InAppBrowser, SocialSharing]
 })
 export class ArchivePageModule {}

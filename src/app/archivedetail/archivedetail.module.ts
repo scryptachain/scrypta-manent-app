@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { ArchivedetailPage } from './archivedetail.page';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 const routes: Routes = [
   {
@@ -20,7 +21,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  providers: [InAppBrowser]
+  providers: [InAppBrowser, SocialSharing]
   //declarations: [ArchivedetailPage]
 })
 export class ArchivedetailPageModule {}

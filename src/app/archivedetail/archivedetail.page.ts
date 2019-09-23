@@ -1,9 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-//import { ModalController } from '@ionic/angular';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { WindowRefService, ICustomWindow } from '../windowservice';
-import Axios from 'axios';
+import axios from 'axios';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { Platform } from '@ionic/angular';
+import * as fileType from 'file-type'
 
 @Component({
   selector: 'app-archivedetail',
@@ -15,14 +19,15 @@ export class ArchivedetailPage implements OnInit {
   risposta
   private _window: ICustomWindow;
   wallet: any
-  connected: any = 'https://idanodejs01.scryptachain.org'
+  idanode: any = 'idanodejs01.scryptachain.org'
   address: any = ''
   encrypted: any
   selected: number = 0
   password: string = ''
+  decryptPwd: string = ''
   isInvalidating: boolean = false
   showInvalidate: boolean = false
-  constructor(private modalCtrl:ModalController, private iab: InAppBrowser, windowRef: WindowRefService) {
+  constructor(public platform: Platform, private permission: AndroidPermissions, private file: File, private modalCtrl:ModalController, private iab: InAppBrowser, windowRef: WindowRefService, private socialSharing: SocialSharing) {
     this._window = windowRef.nativeWindow;
    }
 
@@ -47,6 +52,62 @@ export class ArchivedetailPage implements OnInit {
   closemodal(){
     this.modalCtrl.dismiss()
   }
+
+  decryptData(){
+    const app = this
+    app._window.ScryptaCore.decryptData(app.risposta.data, app.decryptPwd).then(decrypted => {
+      if(decrypted !== false){
+        app.risposta.data = decrypted
+        app.risposta.protocol = ''
+      }else{
+        alert('Wrong password!')
+      }
+    })
+  }
+
+  decryptFile(){
+    const app = this
+    axios.get('https://'+ app.idanode +'/ipfs/buffer/' + app.risposta.data).then(ipfs => {
+      let data = ipfs.data.data[0].content.data
+      app._window.ScryptaCore.decryptFile(data, app.decryptPwd).then(decrypted => {
+        if(decrypted !== false){
+          var mime = fileType(decrypted)
+          var blob = new Blob([decrypted], {type: "octet/stream"})
+          var location
+          var message
+          
+          if(this.platform.is('android') === true ){
+            location = this.file.externalRootDirectory + '/Download/'
+            message = 'Decrypted file saved in Download folder!'
+            this.file.writeFile(location, app.risposta.data + '.' + mime.ext, blob, { replace: true }).then(response => {
+              alert(message)
+            }).catch(err => {
+              alert('Can\'t save file: ' + err.message + '.')
+            })
+          }else if(this.platform.is('ios') === true ){
+            location = this.file.documentsDirectory
+            this.file.writeFile(location, app.risposta.data + '.' + mime.ext, blob, { replace: true }).then(response => {
+              var options = {
+                subject: 'Decrypted file written on Scrypta Blockchain',
+                message: 'Save it in a safe place',
+                files: [location + '/' + app.risposta.data + '.' + mime.ext]
+              }
+              this.socialSharing.shareWithOptions(options).catch((err) => {
+                console.log(err)
+              });
+            }).catch(err => {
+              alert('Can\'t save file: ' + err.message + '.')
+            })
+          }else{
+            alert('Can\'t save file! Use Proof dApp.')
+          }
+        }else{
+          alert('Wrong password!')
+        }
+      })
+    })
+  }
+
   showInvalidateModal(){
     this.showInvalidate = true
     this.password = ''
@@ -63,7 +124,7 @@ export class ArchivedetailPage implements OnInit {
           app.isInvalidating = true
           let prv = response.prv
           app.password = ''
-          Axios.post(app.connected + '/invalidate',{
+          axios.post('https:// ' + app.idanode + '/invalidate',{
             private_key: prv,
             uuid: app.risposta.uuid,
             dapp_address: app.address
