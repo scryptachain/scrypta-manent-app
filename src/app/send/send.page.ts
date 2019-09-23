@@ -10,8 +10,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./send.page.scss'],
 })
 export class SendPage implements OnInit {
-
-
   private _window: ICustomWindow;
   wallet: ''
   encrypted: string = ''
@@ -158,10 +156,6 @@ export class SendPage implements OnInit {
     }
   }
   
-  pasteAddress(){
-
-  }
-
   unlockWallet() {
     const app = this
     if (app.unlockPwd !== '' && app.addressToSend !== '' && app.amountToSend > 0) {
