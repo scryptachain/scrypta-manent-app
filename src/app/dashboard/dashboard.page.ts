@@ -15,7 +15,6 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
   styleUrls: ['./dashboard.page.scss'],
 })
 
-
 export class DashboardPage implements OnInit {
   wallet = []
   address: string = ''
@@ -124,60 +123,62 @@ export class DashboardPage implements OnInit {
               labels.push(date)
               data.push(app.dati[i][1])
             }
-            app.lineChart = new Chart(app.lineCanvas.nativeElement, {
-              type: "line",
-              options: {
-                responsive: true,
-                legend: {
-                  display: false,
-                    labels: {
-                      boxWidth: 0
-                    }
-                },
-                scales: {
-                  xAxes: [{
+            setTimeout(function(){
+              app.lineChart = new Chart(app.lineCanvas.nativeElement, {
+                type: "line",
+                options: {
+                  responsive: true,
+                  legend: {
                     display: false,
-                    scaleLabel: {
+                      labels: {
+                        boxWidth: 0
+                      }
+                  },
+                  scales: {
+                    xAxes: [{
                       display: false,
-                      labelString: 'Month'
-                    }
-                  }],
-                  yAxes: [{
-                    display: false,
-                    scaleLabel: {
-                      display: true,
-                      labelString: 'Value'
-                    }
-                  }]
-                }
-              },
-              data: {
-                labels: labels,
-                datasets: [
-                  {
-                    fill: true,
-                    lineTension: 0.1,
-                    backgroundColor: "rgba(216,39,58,0.4)",
-                    borderColor: "rgba(216,39,58,1)",
-                    borderCapStyle: "butt",
-                    borderDash: [],
-                    borderDashOffset: 0.0,
-                    borderJoinStyle: "miter",
-                    pointBorderColor: "rgba(216,39,58,0)",
-                    pointBackgroundColor: "transparent",
-                    pointBorderWidth: 0,
-                    pointHoverRadius: 5,
-                    pointHoverBackgroundColor: "rgba(216,39,58,1)",
-                    pointHoverBorderColor: "rgba(216,39,58,1)",
-                    pointHoverBorderWidth: 2,
-                    pointRadius: 1,
-                    pointHitRadius: 10,
-                    data: data,
-                    spanGaps: false
+                      scaleLabel: {
+                        display: false,
+                        labelString: 'Month'
+                      }
+                    }],
+                    yAxes: [{
+                      display: false,
+                      scaleLabel: {
+                        display: true,
+                        labelString: 'Value'
+                      }
+                    }]
                   }
-                ]
-              }
-            });
+                },
+                data: {
+                  labels: labels,
+                  datasets: [
+                    {
+                      fill: true,
+                      lineTension: 0.1,
+                      backgroundColor: "rgba(216,39,58,0.4)",
+                      borderColor: "rgba(216,39,58,1)",
+                      borderCapStyle: "butt",
+                      borderDash: [],
+                      borderDashOffset: 0.0,
+                      borderJoinStyle: "miter",
+                      pointBorderColor: "rgba(216,39,58,0)",
+                      pointBackgroundColor: "transparent",
+                      pointBorderWidth: 0,
+                      pointHoverRadius: 5,
+                      pointHoverBackgroundColor: "rgba(216,39,58,1)",
+                      pointHoverBorderColor: "rgba(216,39,58,1)",
+                      pointHoverBorderWidth: 2,
+                      pointRadius: 1,
+                      pointHitRadius: 10,
+                      data: data,
+                      spanGaps: false
+                    }
+                  ]
+                }
+              })
+            },300)
           })
       });
   }
