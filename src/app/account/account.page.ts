@@ -19,13 +19,19 @@ export class AccountPage implements OnInit {
   balance: string = '-'
   wallet: ''
   accounts = []
+  isParsing: boolean = false
   toggleNoBalance: boolean = true
   encrypted: string = ''
   selected: number = 0
   idanode: string = 'idanodejs01.scryptachain.org'
   address: string
   transactions = []
-  constructor(private clipboard: Clipboard, private toast: ToastController, private modalCtrl: ModalController, public router:Router, private _location: Location, private iab: InAppBrowser) { }
+  constructor(private clipboard: Clipboard, private toast: ToastController, private modalCtrl: ModalController, public router:Router, private _location: Location, private iab: InAppBrowser) {
+    this.router.events.subscribe((val) => {
+      this.accounts = []
+      this.parseWallet()
+    })
+   }
 
   ngOnInit() {
     const app = this
@@ -34,27 +40,30 @@ export class AccountPage implements OnInit {
   
   async parseWallet() {
     const app = this
-    app.accounts = []
-    if (localStorage.getItem('selected') !== null) {
-      app.selected = parseInt(localStorage.getItem('selected'))
-    }
-    app.wallet = JSON.parse(localStorage.getItem('wallet'))
-    let payload = app.wallet[app.selected].split(':')
-    app.address = payload[0]
-    app.encrypted = payload[1]
-    for (let i = 0; i < app.wallet.length; i++) {
-      let payload = app.wallet[i].split(':')
-      let transactions = await axios.get('https://' + app.idanode + '/transactions/' + payload[0])
-      let balance = await axios.get('https://' + app.idanode + '/balance/' + payload[0])
-      let address = {
-        address: payload[0],
-        balance: balance.data.balance.toFixed(4),
-        transactions: transactions.data.data,
-        index: i
+    if(app.isParsing === false){
+      app.isParsing = true
+      app.accounts = []
+      if (localStorage.getItem('selected') !== null) {
+        app.selected = parseInt(localStorage.getItem('selected'))
       }
-      app.accounts.push(address)
+      app.wallet = JSON.parse(localStorage.getItem('wallet'))
+      let payload = app.wallet[app.selected].split(':')
+      app.address = payload[0]
+      app.encrypted = payload[1]
+      for (let i = 0; i < app.wallet.length; i++) {
+        let payload = app.wallet[i].split(':')
+        let transactions = await axios.get('https://' + app.idanode + '/transactions/' + payload[0])
+        let balance = await axios.get('https://' + app.idanode + '/balance/' + payload[0])
+        let address = {
+          address: payload[0],
+          balance: balance.data.balance.toFixed(4),
+          transactions: transactions.data.data,
+          index: i
+        }
+        app.accounts.push(address)
+      }
+      app.isParsing = false
     }
-
   }
   
   async doRefresh(event) {

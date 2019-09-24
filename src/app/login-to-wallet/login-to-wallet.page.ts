@@ -43,11 +43,6 @@ export class LoginToWalletPage implements OnInit {
         if(this.platform.is('ios') === true ){
           app.isIOS = true
         }
-        let nfcenabled = await app.nfc.enabled()
-        console.log(nfcenabled)
-        if(nfcenabled !== 'enabled'){
-          app.haveNFC = false
-        }
       })
   }
 
