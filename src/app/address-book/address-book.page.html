@@ -15,11 +15,12 @@
     No contacts to show.
   </div>
   <div *ngIf="contacts.length > 0">
-    <div *ngFor="let address of contacts; let i=index" [attr.data-index]="i">
-      <ion-card (click)='sendToContact(address.index)' style="margin:15px 0">
+    <ion-input placeholder='Search contacts' (keyup) = "filterContacts()" style="border-bottom:1px solid #aaa; font-size:11px" [(ngModel)]='searchContact'></ion-input>
+    <div *ngFor="let address of filtered; let i=index" [attr.data-index]="i">
+      <ion-card (click)='presentActionSheet(i)' *ngIf="address !== null && address !== undefined" style="margin:15px 0">
           <ion-card-header>
             <ion-card-subtitle>{{ address.address.substr(0,6) }}...{{ address.address.substr(-6) }}</ion-card-subtitle>
-            <ion-card-title style="font-size:36px; font-weight:bold;">{{ address.label }}</ion-card-title>
+            <ion-card-title style="font-size:28px; font-weight:bold;">{{ address.label }}</ion-card-title>
             {{ address.notes }}
           </ion-card-header>
       </ion-card>
@@ -31,7 +32,7 @@
           <ion-buttons slot="start">
             <ion-icon style="margin: 0 10px" (click)="hideNewContact()" name="arrow-back"></ion-icon>
           </ion-buttons>
-          <ion-title>Create contact</ion-title>
+          <ion-title>{{modalAction}} contact</ion-title>
         </ion-toolbar>
       </ion-header>
       <div class="ion-padding">
@@ -46,7 +47,8 @@
         <ion-textarea placeholder='Insert other details' style="border-bottom:1px solid #aaa; height:20vh" [(ngModel)]='newContactNotes'></ion-textarea>
         <br><br>
         <div class="ion-text-center">
-          <button class="buttonsBut ion-text-center" type="submit" (click)='saveContact()' style="margin:0 auto">Save contact</button>
+          <button *ngIf="modalAction === 'Create'" class="buttonsBut ion-text-center" type="submit" (click)='saveContact()' style="margin:0 auto">Save contact</button>
+          <button *ngIf="modalAction === 'Edit'" class="buttonsBut ion-text-center" type="submit" (click)='editContact()' style="margin:0 auto">Save contact</button>
         </div>
       </div>
     </ion-content>

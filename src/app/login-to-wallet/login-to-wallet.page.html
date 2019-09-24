@@ -12,9 +12,9 @@
     Select one of the following restore methods and follow the instructions:<br>
     <button (click)='createNewAddress()' *ngIf="add !== null" expand="full" class='buttonsBut' style='margin-top: 5%' >Create new account</button><br/>
     <button expand="full" class='buttonsBut' style='margin-top: 5%; position:relative'>
-        <input placeholder='Choose a file' type='file' style="margin:0; width: 100%; position:absolute; top:0; left: 0; height:50px; opacity:0;" [(ngModel)]='fileName' id='fileInput' (change)='loadSidFile()'>
-        Restore .sid file<ion-icon name="key" style="float:right" size='large'></ion-icon>
-      </button><br/>
+      <input placeholder='Choose a file' type='file' style="margin:0; width: 100%; position:absolute; top:0; left: 0; height:50px; opacity:0;" [(ngModel)]='fileName' id='fileInput' (change)='loadSidFile()'>
+      Restore .sid file<ion-icon name="key" style="float:right" size='large'></ion-icon>
+    </button><br/>
     <div *ngIf = "isIOS === false">
       <button (click)='loginCardAndroid()' expand="full" class='buttonsBut' style='margin-top: 5%'>Read Lyra Card<ion-icon name="card" style="float:right" size='large'></ion-icon></button><br/>
     </div>

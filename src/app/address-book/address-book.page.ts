@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import {Location} from '@angular/common';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx'
+import { ActionSheetController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-address-book',
@@ -19,17 +21,54 @@ export class AddressBookPage implements OnInit {
   balance: string = '-'
   wallet: ''
   contacts = []
+  filtered = []
+  modalAction: string = 'Create'
   toggleNoBalance: boolean = true
   newContactAddress: string = ''
   newContactLabel: string = ''
   newContactNotes: string = ''
   encrypted: string = ''
   showNewContact: boolean = false
+  searchContact: string = ''
   selected: number = 0
   idanode: string = 'idanodejs01.scryptachain.org'
   address: string
+  editing: string = '0'
   transactions = []
-  constructor(private clipboard: Clipboard, private qrScanner: BarcodeScanner, private toast: ToastController, private modalCtrl: ModalController, public router:Router, private _location: Location, private iab: InAppBrowser) { }
+  constructor(public alertController: AlertController, public actionSheetController: ActionSheetController, private clipboard: Clipboard, private qrScanner: BarcodeScanner, private toast: ToastController, private modalCtrl: ModalController, public router:Router, private _location: Location, private iab: InAppBrowser) { }
+
+  async presentActionSheet(index) {
+    const app = this
+    let contact = app.contacts[index]
+    const actionSheet = await this.actionSheetController.create({
+        header: contact.label,
+        buttons: [{
+          text: 'Send Lyra',
+          icon: 'send',
+          handler: () => {
+            app.router.navigate(['/send/' + contact.address])
+          }
+        },{
+          text: 'Edit contact',
+          icon: 'create',
+          handler: () => {
+            app.newContactAddress = app.contacts[index].address
+            app.newContactLabel = app.contacts[index].label
+            app.newContactNotes = app.contacts[index].notes
+            app.modalAction = 'Edit'
+            app.editing = index
+            app.showNewContact = true
+          }
+        },{
+          text: 'Delete contact',
+          icon: 'trash',
+          handler: async () => {
+            app.confirmDelete(index)
+          }
+        }]
+      });
+      await actionSheet.present();
+    }
 
     ngOnInit() {
       const app = this
@@ -43,6 +82,7 @@ export class AddressBookPage implements OnInit {
       if(addressBook !== undefined && addressBook !== null){
         app.contacts = JSON.parse(addressBook)
       }
+      app.filterContacts()
     }
     hideNewContact(){
       this.showNewContact = false
@@ -50,6 +90,44 @@ export class AddressBookPage implements OnInit {
     goBack(){
       const app = this
       app.router.navigate(['/dashboard'])
+    }
+    async confirmDelete(index) {
+      const app = this
+      const alert = await this.alertController.create({
+        header: 'Please confirm.',
+        message: 'Do you want to delete <strong>'+app.contacts[index].label+'</strong>?',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            cssClass: 'secondary'
+          }, {
+            text: 'Okay',
+            handler: async () => {
+              let updated = []
+              for(let k in app.contacts){
+                if(parseInt(k) !== parseInt(index)){
+                  updated.push(app.contacts[k])
+                }
+              }
+              await localStorage.setItem('addressbook',JSON.stringify(updated))
+              app.contacts = updated
+              app.filterContacts()
+            }
+          }
+        ]
+      });
+  
+      await alert.present();
+    }
+
+    filterContacts(){
+      const app = this
+      const filter = app.searchContact
+      let filtered = app.contacts.filter(address => {
+        return address.label.toLowerCase().includes(filter)
+      })
+      app.filtered = filtered
     }
 
     scanQRCode() {
@@ -73,6 +151,7 @@ export class AddressBookPage implements OnInit {
       this.newContactAddress = ''
       this.newContactLabel = ''
       this.newContactNotes = ''
+      this.modalAction = 'Create'
       this.showNewContact = true
     }
 
@@ -100,7 +179,32 @@ export class AddressBookPage implements OnInit {
           app.newContactLabel = ''
           app.newContactNotes = ''
           localStorage.setItem('addressbook',JSON.stringify(app.contacts))
+          app.filterContacts()
         }
+      }else{
+        alert('This is not a valid address!')
+      }
+    }
+
+    editContact(){
+      const app = this
+      var found = false
+      if(app.newContactAddress.length === 34){
+        for(let k in app.contacts){
+          if(parseInt(k) === parseInt(app.editing)){
+            app.contacts[k] = {
+              address: app.newContactAddress,
+              label: app.newContactLabel,
+              notes: app.newContactNotes
+            }
+          }
+        }
+        localStorage.setItem('addressbook',JSON.stringify(app.contacts))
+        app.filterContacts()
+        app.showNewContact = false
+        app.newContactAddress = ''
+        app.newContactLabel = ''
+        app.newContactNotes = ''
       }else{
         alert('This is not a valid address!')
       }

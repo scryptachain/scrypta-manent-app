@@ -5,6 +5,7 @@ import { WindowRefService, ICustomWindow } from '../windowservice';
 import { Clipboard } from '@ionic-native/clipboard/ngx'
 import { OverlayEventDetail } from '@ionic/core';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-account-detail',
@@ -26,7 +27,7 @@ export class AccountDetailPage implements OnInit {
   password: any = ''
   private_key: any = ''
   showUnlock:boolean = false
-  constructor(private clipboard: Clipboard, windowRef: WindowRefService, private modalCtrl: ModalController, private iab: InAppBrowser) {
+  constructor(public alertController: AlertController, private clipboard: Clipboard, windowRef: WindowRefService, private modalCtrl: ModalController, private iab: InAppBrowser) {
     this._window = windowRef.nativeWindow;
   }
 
@@ -59,6 +60,36 @@ export class AccountDetailPage implements OnInit {
     const app = this
     localStorage.setItem('selected', app.index)
     alert('Address selected!')
+  }
+
+  async confirmDelete(index) {
+    const app = this
+    const alert = await this.alertController.create({
+      header: 'Please confirm.',
+      message: 'Do you want to delete this address?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: 'Okay',
+          handler: async () => {
+            let updated = []
+            for(let k in app.wallet){
+              if(parseInt(k) !== parseInt(app.index)){
+                updated.push(app.wallet[k])
+              }
+            }
+            await localStorage.setItem('wallet',JSON.stringify(updated))
+            app.wallet = updated
+            app.close()
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   copyPrivKey() {

@@ -64,7 +64,7 @@
     <div *ngIf="isInvalidating === false">
       <h2>Please enter wallet password and confirm operation</h2>
       <div class="ion-text-center">
-        <ion-input [(ngModel)]='password' type='password'></ion-input>
+        <ion-input [(ngModel)]='password' style="border-bottom:1px solid #333" type='password'></ion-input>
       </div>
       <div class="ion-text-center">
         <button (click)='unlockWallet()' class='buttonsBut ion-text-center' style='margin:10% auto 0 auto;'>CONFIRM</button>

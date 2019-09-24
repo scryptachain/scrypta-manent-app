@@ -124,11 +124,12 @@ export class ArchivedetailPage implements OnInit {
           app.isInvalidating = true
           let prv = response.prv
           app.password = ''
-          axios.post('https:// ' + app.idanode + '/invalidate',{
+          axios.post('https://' + app.idanode + '/invalidate',{
             private_key: prv,
             uuid: app.risposta.uuid,
             dapp_address: app.address
           }).then(result => {
+            console.log(result)
             if(result.data !== undefined && result.data.success === true){
               app.isInvalidating = false
               app.hideInvalidateModal()

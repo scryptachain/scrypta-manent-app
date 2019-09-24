@@ -34,6 +34,7 @@ export class AccountPage implements OnInit {
   
   async parseWallet() {
     const app = this
+    app.accounts = []
     if (localStorage.getItem('selected') !== null) {
       app.selected = parseInt(localStorage.getItem('selected'))
     }
@@ -85,6 +86,7 @@ export class AccountPage implements OnInit {
   }
 
   async openDetails(index) {
+    const app = this
     const modal = await this.modalCtrl.create({
       component: AccountDetailPage,
       componentProps: {
@@ -92,7 +94,7 @@ export class AccountPage implements OnInit {
       }
     });
     modal.onDidDismiss().then((detail: OverlayEventDetail) => {
-      
+      app.parseWallet()
     })
     await modal.present()
   }

@@ -21,6 +21,7 @@ const routes: Routes = [
   { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardPageModule' },
   { path: 'account', loadChildren: './account/account.module#AccountPageModule' },
   { path: 'address-book', loadChildren: './address-book/address-book.module#AddressBookPageModule' },
+  { path: 'send/:address', loadChildren: './send/send.module#SendPageModule' },
   { path: 'send', loadChildren: './send/send.module#SendPageModule' },
   { path: 'backup', loadChildren: './backup/backup.module#BackupPageModule' },
   { path: 'successfulsend', loadChildren: './successfulsend/successfulsend.module#SuccessfulsendPageModule' },

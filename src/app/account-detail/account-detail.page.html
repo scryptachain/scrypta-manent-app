@@ -12,7 +12,8 @@
   <qrcode [qrdata]="myAngularxQrCode" [size]="256" style="display:inline-block" [level]="'M'"></qrcode><br>
   <span style="font-size:11px">{{ address }}</span> <span style="font-size:25px; margin-left:5px"><ion-icon (click)="copyAddress()" name="copy"></ion-icon></span><br>
   <button class='buttonsBut' (click)="useAddress()" style='margin:10px auto; width:100%; opacity: 1'>Use this Address</button><br>
-  <button class='buttonsBut' (click)="openInExplorer()" style='margin:0 auto; width:100%; opacity: 1'>Open in block explorer</button>
+  <button class='buttonsBut' (click)="openInExplorer()" style='margin:0 auto; width:100%; opacity: 1'>Open in block explorer</button><br>
+  <button class='buttonsBut' (click)="confirmDelete()" style='margin:10px auto 0 auto; width:100%; opacity: 1'>Delete address</button>
   
   <div *ngIf="private_key === ''">
       <div *ngIf="showUnlock === true" class="unlockModal ion-padding">

@@ -3,6 +3,7 @@ import { WindowRefService, ICustomWindow } from '../windowservice';
 import axios from 'axios'
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx'
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-send',
@@ -34,12 +35,15 @@ export class SendPage implements OnInit {
   balance: any = '-';
   isSending: boolean = false;
   currency: string = 'eur'
-  constructor(windowRef: WindowRefService, private qrScanner: BarcodeScanner, private router: Router) {
+  constructor(public activatedRoute: ActivatedRoute,windowRef: WindowRefService, private qrScanner: BarcodeScanner, private router: Router) {
     this._window = windowRef.nativeWindow;
   }
 
   async ngOnInit() {
     const app = this
+    if(this.activatedRoute.snapshot.paramMap.get('address') !== undefined){
+      this.addressToSend = this.activatedRoute.snapshot.paramMap.get('address')
+    }
     if (localStorage.getItem('selected') !== null) {
       app.selected = parseInt(localStorage.getItem('selected'))
     }

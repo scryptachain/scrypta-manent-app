@@ -215,6 +215,7 @@ export class ArchivePage implements OnInit {
         if(errors === false){
           app.workingmessage = 'Uploading data...'
           app._window.ScryptaCore.write(password, message, '', refID , protocol, app.address + ':' + app.encrypted).then(res => {
+            console.log(res)
             if(res.uuid !== undefined){
               alert('Data written correctly into the blockchain, wait at least 2 minutes and refresh the page!')
               this.isUploading = false
