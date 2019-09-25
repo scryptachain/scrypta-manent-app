@@ -22,6 +22,7 @@ export class ArchivedetailPage implements OnInit {
   idanode: any = 'idanodejs01.scryptachain.org'
   address: any = ''
   encrypted: any
+  isDecrypting: boolean = false
   selected: number = 0
   password: string = ''
   decryptPwd: string = ''
@@ -55,57 +56,65 @@ export class ArchivedetailPage implements OnInit {
 
   decryptData(){
     const app = this
-    app._window.ScryptaCore.decryptData(app.risposta.data, app.decryptPwd).then(decrypted => {
-      if(decrypted !== false){
-        app.risposta.data = decrypted
-        app.risposta.protocol = ''
-      }else{
-        alert('Wrong password!')
-      }
-    })
-  }
-
-  decryptFile(){
-    const app = this
-    axios.get('https://'+ app.idanode +'/ipfs/buffer/' + app.risposta.data).then(ipfs => {
-      let data = ipfs.data.data[0].content.data
-      app._window.ScryptaCore.decryptFile(data, app.decryptPwd).then(decrypted => {
+    if(app.isDecrypting === false){
+      app.isDecrypting = true
+      app._window.ScryptaCore.decryptData(app.risposta.data, app.decryptPwd).then(decrypted => {
+        app.isDecrypting = false
         if(decrypted !== false){
-          var mime = fileType(decrypted)
-          var blob = new Blob([decrypted], {type: "octet/stream"})
-          var location
-          var message
-          
-          if(this.platform.is('android') === true ){
-            location = this.file.externalRootDirectory + '/Download/'
-            message = 'Decrypted file saved in Download folder!'
-            this.file.writeFile(location, app.risposta.data + '.' + mime.ext, blob, { replace: true }).then(response => {
-              alert(message)
-            }).catch(err => {
-              alert('Can\'t save file: ' + err.message + '.')
-            })
-          }else if(this.platform.is('ios') === true ){
-            location = this.file.documentsDirectory
-            this.file.writeFile(location, app.risposta.data + '.' + mime.ext, blob, { replace: true }).then(response => {
-              var options = {
-                subject: 'Decrypted file written on Scrypta Blockchain',
-                message: 'Save it in a safe place',
-                files: [location + '/' + app.risposta.data + '.' + mime.ext]
-              }
-              this.socialSharing.shareWithOptions(options).catch((err) => {
-                console.log(err)
-              });
-            }).catch(err => {
-              alert('Can\'t save file: ' + err.message + '.')
-            })
-          }else{
-            alert('Can\'t save file! Use Proof dApp.')
-          }
+          app.risposta.data = decrypted
+          app.risposta.protocol = ''
         }else{
           alert('Wrong password!')
         }
       })
-    })
+    }
+  }
+
+  decryptFile(){
+    const app = this
+    if(app.isDecrypting === false){
+      app.isDecrypting = true
+      axios.get('https://'+ app.idanode +'/ipfs/buffer/' + app.risposta.data).then(ipfs => {
+        let data = ipfs.data.data[0].content.data
+        app._window.ScryptaCore.decryptFile(data, app.decryptPwd).then(decrypted => {
+          app.isDecrypting = false
+          if(decrypted !== false){
+            var mime = fileType(decrypted)
+            var blob = new Blob([decrypted], {type: "octet/stream"})
+            var location
+            var message
+            
+            if(this.platform.is('android') === true ){
+              location = this.file.externalRootDirectory + '/Download/'
+              message = 'Decrypted file saved in Download folder!'
+              this.file.writeFile(location, app.risposta.data + '.' + mime.ext, blob, { replace: true }).then(response => {
+                alert(message)
+              }).catch(err => {
+                alert('Can\'t save file: ' + err.message + '.')
+              })
+            }else if(this.platform.is('ios') === true ){
+              location = this.file.documentsDirectory
+              this.file.writeFile(location, app.risposta.data + '.' + mime.ext, blob, { replace: true }).then(response => {
+                var options = {
+                  subject: 'Decrypted file written on Scrypta Blockchain',
+                  message: 'Save it in a safe place',
+                  files: [location + '/' + app.risposta.data + '.' + mime.ext]
+                }
+                this.socialSharing.shareWithOptions(options).catch((err) => {
+                  console.log(err)
+                });
+              }).catch(err => {
+                alert('Can\'t save file: ' + err.message + '.')
+              })
+            }else{
+              alert('Can\'t save file! Use Proof dApp.')
+            }
+          }else{
+            alert('Wrong password!')
+          }
+        })
+      })
+    }
   }
 
   showInvalidateModal(){

@@ -48,8 +48,13 @@
   <div *ngIf="risposta.protocol === 'E://'">
     <h2 style='font-size:14px'>Decryption password</h2>
     <ion-input type='password' style="border-bottom:1px solid #aaa" [(ngModel)]='decryptPwd'></ion-input>
-    <button *ngIf="risposta.is_file === false" class='buttonsBut' (click)="decryptData()" style='margin:10px auto 0 auto; width:100%; opacity: 1'>Decrypt data</button>
-    <button *ngIf="risposta.is_file === true" class='buttonsBut' (click)="decryptFile()" style='margin:10px auto 0 auto; width:100%; opacity: 1'>Decrypt file</button>
+    <div *ngIf="isDecrypting === false">
+      <button *ngIf="risposta.is_file === false" class='buttonsBut' (click)="decryptData()" style='margin:10px auto 0 auto; width:100%; opacity: 1'>Decrypt data</button>
+      <button *ngIf="risposta.is_file === true" class='buttonsBut' (click)="decryptFile()" style='margin:10px auto 0 auto; width:100%; opacity: 1'>Decrypt file</button>
+    </div>
+    <div *ngIf="isDecrypting === true" style="padding:20px 0; text-align: center">
+      Decrypting, please wait...
+    </div>
   </div>
 
   <button class='buttonsBut' (click)="openPoE(risposta.uuid)" style='margin:10px auto; width:100%; opacity: 1'>Share proof of existence</button>
