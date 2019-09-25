@@ -62,7 +62,7 @@ export class AccountDetailPage implements OnInit {
     alert('Address selected!')
   }
 
-  async confirmDelete(index) {
+  async confirmDelete() {
     const app = this
     const alert = await this.alertController.create({
       header: 'Please confirm.',
