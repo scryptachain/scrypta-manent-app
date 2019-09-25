@@ -52,7 +52,7 @@
       <button *ngIf="risposta.is_file === false" class='buttonsBut' (click)="decryptData()" style='margin:10px auto 0 auto; width:100%; opacity: 1'>Decrypt data</button>
       <button *ngIf="risposta.is_file === true" class='buttonsBut' (click)="decryptFile()" style='margin:10px auto 0 auto; width:100%; opacity: 1'>Decrypt file</button>
     </div>
-    <div *ngIf="isDecrypting === true" style="padding:20px 0; text-align: center">
+    <div *ngIf="isDecrypting === true" style="padding:20px 0; text-align: center; font-size:14px">
       Decrypting, please wait...
     </div>
   </div>
