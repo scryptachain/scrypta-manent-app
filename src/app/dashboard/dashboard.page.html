@@ -17,7 +17,7 @@
   <canvas #lineCanvas style="position: relative; height:40vh; width:100vw; margin-left: -16px"></canvas><br>
   <div class="ion-text-center" style="font-size:12px; margin-top:-10px">{{pricelabel}}</div>
   <div *ngIf="unconfirmed.length > 0">
-    <h2>Unconfirmed transactions</h2>
+    <h2>Unconfirmed</h2>
     <ion-list>
       <ion-item *ngFor="let transaction of unconfirmed; let i=index" [attr.data-index]="i">
         - {{ transaction.value.toFixed(4) }}
