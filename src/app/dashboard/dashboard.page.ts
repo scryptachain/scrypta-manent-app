@@ -8,6 +8,7 @@ import { ModaltransactionPage } from '../modaltransaction/modaltransaction.page'
 import { OverlayEventDetail } from '@ionic/core';
 import { WindowRefService, ICustomWindow } from '../windowservice';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,7 +21,7 @@ export class DashboardPage implements OnInit {
   address: string = ''
   pricelabel: string = ''
   selected: number = 0
-  balance: string = '-'
+  balance: any = '-'
   encrypted: string = ''
   lyra: number;
   value: string = '0';
@@ -30,7 +31,9 @@ export class DashboardPage implements OnInit {
   options: any;
   dati: any;
   transactions = []
+  unconfirmed = []
   currency: string = 'eur'
+  isRefreshing: boolean = false
   current_price: any = 0
   private _window: ICustomWindow;
   @ViewChild("lineCanvas", {static: true}) lineCanvas: ElementRef;
@@ -39,9 +42,21 @@ export class DashboardPage implements OnInit {
   constructor(
     windowRef: WindowRefService,
     private modalCtrl: ModalController,
-    private iab: InAppBrowser
+    private iab: InAppBrowser,
+    public router:Router
   ) {
-    this._window = windowRef.nativeWindow;
+    const app = this
+    app._window = windowRef.nativeWindow;
+    app.router.events.subscribe(async (val) => {
+      if(app.isRefreshing === false){
+        app.isRefreshing = true
+        await app.getUnconfirmed()
+        await app.fetchTransactions()
+        await app.getBalance()
+        app.isRefreshing = false
+
+      }
+    })
   }
 
   async ngOnInit() {
@@ -53,10 +68,31 @@ export class DashboardPage implements OnInit {
     let payload = app.wallet[app.selected].split(':')
     app.address = payload[0]
     app.encrypted = payload[1]
-
-    await this.getBalance()
-    await this.fetchTransactions()
+    
     this.fetchGraph()
+    await this.getUnconfirmed()
+    await this.fetchTransactions()
+    await this.getBalance()
+  }
+
+  async getUnconfirmed(){
+    const app = this
+    app.unconfirmed = []
+    return new Promise(response => {
+      let unconfirmed = []
+      let stored = localStorage.getItem('pendingtx')
+      if(stored !== null){
+        unconfirmed = JSON.parse(stored)
+      }
+      if(unconfirmed.length > 0){
+        for(let k in unconfirmed){
+          if(unconfirmed[k].from === app.address){
+            app.unconfirmed.push(unconfirmed[k])
+          }
+        }
+      }
+      response(true)
+    })
   }
 
   async getBalance() {
@@ -77,6 +113,10 @@ export class DashboardPage implements OnInit {
             app.balance = response.data['balance'].toFixed(4)
             app.value = (parseFloat(app.balance) * parseFloat(app.current_price)).toFixed(4)
             app.valueBTC = (parseFloat(app.balance) * parseFloat(priceBTC)).toFixed(8)
+            for(let k in app.unconfirmed){
+              app.balance = parseFloat(app.balance) - parseFloat(app.unconfirmed[k].value)
+            }
+            app.balance = parseFloat(app.balance).toFixed(4)
           })
       }).catch(error => {
         this.getBalance()
@@ -88,6 +128,22 @@ export class DashboardPage implements OnInit {
     axios.get('https://' + app.idanode + '/transactions/' + app.address)
       .then(function (response) {
         app.transactions = response.data['data']
+        for(let k in app.transactions){
+            if(app.unconfirmed.length > 0){
+              for(let x in app.unconfirmed){
+                if(app.unconfirmed[x].txid === app.transactions[k].txid){
+                  let updated = []
+                  for(let y in app.unconfirmed){
+                    if(app.unconfirmed[y].txid !== app.transactions[k].txid){
+                      updated.push(app.unconfirmed[y])
+                    }
+                  }
+                  localStorage.setItem('pendingtx',JSON.stringify(updated))
+                  app.unconfirmed = updated
+                }
+            }
+          }
+        }
       })
   }
 
@@ -186,13 +242,18 @@ export class DashboardPage implements OnInit {
 
   async doRefresh(event) {
     const app = this
-    await app.getBalance()
-    app.fetchGraph()
-    app.fetchTransactions()
+    if(app.isRefreshing === false){
+      app.isRefreshing = true
+      app.fetchGraph()
+      await app.getUnconfirmed()
+      await app.fetchTransactions()
+      await app.getBalance()
 
-    setTimeout(() => {
-      event.target.complete();
-    }, 2000);
+      setTimeout(() => {
+        event.target.complete();
+        app.isRefreshing = false
+      }, 2000);
+    }
   }
 
   openDetails(response) {

@@ -17,6 +17,7 @@ export class SendPage implements OnInit {
   selected: number = 0
   address: string
   nodes: string[] = [];
+  unconfirmed = []
   connected: string = '';
   public_address: string;
   idanode: string = 'idanodejs01.scryptachain.org'
@@ -55,6 +56,7 @@ export class SendPage implements OnInit {
     let payload = app.wallet[app.selected].split(':')
     app.address = payload[0]
     app.encrypted = payload[1]
+    await app.getUnconfirmed()
     app.getBalance()
     app.price = await app.returnLyraPrice()
   }
@@ -76,12 +78,36 @@ export class SendPage implements OnInit {
     })
   }
 
+  async getUnconfirmed(){
+    const app = this
+    app.unconfirmed = []
+    return new Promise(response => {
+      let unconfirmed = []
+      let stored = localStorage.getItem('pendingtx')
+      if(stored !== null){
+        unconfirmed = JSON.parse(stored)
+      }
+      if(unconfirmed.length > 0){
+        for(let k in unconfirmed){
+          if(unconfirmed[k].from === app.address){
+            app.unconfirmed.push(unconfirmed[k])
+          }
+        }
+      }
+      response(true)
+    })
+  }
+
   async getBalance() {
     const app = this
     app._window.ScryptaCore.connectNode().then(async function (response) {
       axios.get('https://' + app.idanode + '/balance/' + app.address)
         .then(function (response) {
           app.balance = response.data['balance'].toFixed(4)
+          for(let k in app.unconfirmed){
+            app.balance = parseFloat(app.balance) - parseFloat(app.unconfirmed[k].value)
+          }
+          app.balance = parseFloat(app.balance).toFixed(4)
         })
     })
   }
@@ -186,8 +212,20 @@ export class SendPage implements OnInit {
     const app = this
     if(app.isSending === false){
       app.isSending = true
-      await this._window.ScryptaCore.send(app.unlockPwd, '', app.addressToSend, app.amountToSend, '', 0.001, app.address + ':' + app.encrypted).then((result) => {
-        if(result !== false && result !== undefined){
+      await this._window.ScryptaCore.send(app.unlockPwd, app.addressToSend, app.amountToSend, '', app.address + ':' + app.encrypted).then((result) => {
+        if(result !== false && result !== undefined && result !== null){
+          let stored = localStorage.getItem('pendingtx')
+          let unconfirmed = []
+          if(stored !== null){
+            unconfirmed = JSON.parse(stored)
+          }
+          unconfirmed.push({
+            txid: result,
+            value: parseFloat(app.amountToSend) + 0.001,
+            address: app.addressToSend,
+            from: app.address
+          })
+          localStorage.setItem('pendingtx',JSON.stringify(unconfirmed))
           app.amountFIAT = 0
           app.amountToSend = 0
           app.addressToSend = ''

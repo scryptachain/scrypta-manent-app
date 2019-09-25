@@ -16,6 +16,17 @@
   <h4 style="font-size:24px; color:#d8273a; margin-top:-5px;">{{ value }} {{ currency.toUpperCase() }} <span style="font-size:14px; color:#333">{{ valueBTC }} BTC</span></h4>
   <canvas #lineCanvas style="position: relative; height:40vh; width:100vw; margin-left: -16px"></canvas><br>
   <div class="ion-text-center" style="font-size:12px; margin-top:-10px">{{pricelabel}}</div>
+  <div *ngIf="unconfirmed.length > 0">
+    <h2>Unconfirmed transactions</h2>
+    <ion-list>
+      <ion-item *ngFor="let transaction of unconfirmed; let i=index" [attr.data-index]="i">
+        - {{ transaction.value.toFixed(4) }}
+        <span style="margin-left:5px; font-size: 11px">
+          to {{ transaction.address }}
+        </span>
+      </ion-item>
+    </ion-list>
+  </div>
   <h2>Latest Activities</h2>
   <ion-list>
     <div *ngIf="transactions.length==0">No Transactions</div>
@@ -32,8 +43,6 @@
       </ion-item>
     </div>
   </ion-list>
-
-
 </ion-content>
 <ion-footer>
 
