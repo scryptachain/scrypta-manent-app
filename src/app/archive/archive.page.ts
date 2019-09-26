@@ -185,6 +185,12 @@ export class ArchivePage implements OnInit {
             form_data.append("file", detail.data.fileObject.fileBuffer)
             var ipfs = await axios.post('https://' + app.idanode + '/ipfs/add', form_data, config)
             var hash = ipfs.data.data.hash
+            if(hash !== undefined){
+              message = 'ipfs:' + hash
+            }else{
+              errors = true
+              alert('Something goes wrong with IPFS, please make sure your file is less than 10MB.')
+            }
           }
           if(detail.data.fileObject.message !== undefined){
             message += '***' + detail.data.fileObject.message
