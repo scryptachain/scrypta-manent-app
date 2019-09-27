@@ -3,7 +3,6 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 //import { File } from '@ionic-native/file/';
 import {File} from '@ionic-native/file/ngx';
 import { Router } from '@angular/router';
-import {Diagnostic} from '@ionic-native/diagnostic/ngx';
 import Axios from 'axios';
 import { WindowRefService, ICustomWindow } from '../windowservice';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
@@ -24,7 +23,7 @@ export class CongratulationsPage implements OnInit {
   connected:string='';
   private _window: ICustomWindow;
   decrypted_wallet: string;
-  constructor(private transfer:FileTransfer, private file:File,public router:Router,fileTransfer:FileTransfer,private diagnostic:Diagnostic,windowRef: WindowRefService,private permission:AndroidPermissions) { 
+  constructor(private transfer:FileTransfer, private file:File,public router:Router,fileTransfer:FileTransfer,windowRef: WindowRefService,private permission:AndroidPermissions) { 
     this._window = windowRef.nativeWindow;
   }
   

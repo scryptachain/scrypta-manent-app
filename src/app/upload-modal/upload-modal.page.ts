@@ -101,6 +101,10 @@ export class UploadModalPage implements OnInit {
       errors = true
       error = 'Write a text or select a file first'
     }
+    if(app.message === '' && app.fileBuffer === undefined){
+      errors = true
+      error = 'Write a text or select a file first'
+    }
     if(errors === false){
       this.uploadForm.refID = this.refID
       this.uploadForm.file = this.file
