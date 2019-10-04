@@ -18,7 +18,7 @@
 </ion-item>
 <ion-item>
   <ion-input type="number" [(ngModel)]='amountFIAT' (ionFocus)="fixInputs('fiat')" (ngModelChange)='calculateLyra()' value=0 style='font-size: 18px; font-weight:bold;'></ion-input>
-  <p style='font-size: 18px; font-weight:bold;' slot='end'>EUR</p>
+  <p style='font-size: 18px; font-weight:bold;' slot='end'>{{ currency.toUpperCase() }}</p>
 </ion-item>
 
 </ion-content>

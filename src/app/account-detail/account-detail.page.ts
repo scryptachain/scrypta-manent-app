@@ -6,6 +6,7 @@ import { Clipboard } from '@ionic-native/clipboard/ngx'
 import { OverlayEventDetail } from '@ionic/core';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account-detail',
@@ -27,7 +28,7 @@ export class AccountDetailPage implements OnInit {
   password: any = ''
   private_key: any = ''
   showUnlock:boolean = false
-  constructor(public alertController: AlertController, private clipboard: Clipboard, windowRef: WindowRefService, private modalCtrl: ModalController, private iab: InAppBrowser) {
+  constructor(public alertController: AlertController, public router:Router, private clipboard: Clipboard, windowRef: WindowRefService, private modalCtrl: ModalController, private iab: InAppBrowser) {
     this._window = windowRef.nativeWindow;
   }
 
@@ -60,6 +61,8 @@ export class AccountDetailPage implements OnInit {
     const app = this
     localStorage.setItem('selected', app.index)
     alert('Address selected!')
+    app.router.navigate(['/dashboard'])
+    this.modalCtrl.dismiss()
   }
 
   async confirmDelete() {

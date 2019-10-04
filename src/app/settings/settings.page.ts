@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
-import { Location } from '@angular/common';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-settings',
@@ -11,7 +11,7 @@ export class SettingsPage implements OnInit {
   currency: string = 'eur'
   theme: string = 'light'
 
-  constructor(private router: Router, private _location: Location) {
+  constructor(private router: Router, private iab: InAppBrowser) {
     if (localStorage.getItem('currency') != null) {
       this.currency = localStorage.getItem('currency')
     }
@@ -47,4 +47,7 @@ export class SettingsPage implements OnInit {
     this.theme = this.theme
   }
 
+  openLink(link) {
+    this.iab.create(link, '_system', 'location=yes')
+  }
 }

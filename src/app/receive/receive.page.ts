@@ -11,6 +11,7 @@ declare var QRious: any
 })
 export class ReceivePage implements OnInit {
   amount: any = 0
+  currency: string = 'eur'
   amountLyra: any = 0
   amountFIAT: any = 0
   price: any = 0
@@ -27,6 +28,9 @@ export class ReceivePage implements OnInit {
     const app = this
     if (localStorage.getItem('selected') !== null) {
       app.selected = parseInt(localStorage.getItem('selected'))
+    }
+    if (localStorage.getItem('currency') != null) {
+      this.currency = localStorage.getItem('currency')
     }
     app.wallet = JSON.parse(localStorage.getItem('wallet'))
     let payload = app.wallet[app.selected].split(':')
@@ -52,17 +56,14 @@ export class ReceivePage implements OnInit {
   }
 
   returnLyraPrice(){
+    const app = this
     return new Promise(response => {
-      var currency = 'eur'
-    if (localStorage.getItem('currency') !== null) {
-      currency = localStorage.getItem('currency')
-    }
-  
-    let url = 'https://api.coingecko.com/api/v3/simple/price?ids=scrypta&vs_currencies=' + currency
+    
+    let url = 'https://api.coingecko.com/api/v3/simple/price?ids=scrypta&vs_currencies=' + app.currency
 
     axios.get(url)
       .then(function (result) {
-        let price:number = result.data.scrypta[currency]
+        let price:number = result.data.scrypta[app.currency]
         response(price)
       })
     })
