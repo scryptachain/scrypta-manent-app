@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-icon style="margin: 0 10px" (click)="goBack()" name="arrow-back"></ion-icon>
     </ion-buttons>
-    <ion-title>Manage contacts</ion-title>
+    <ion-title>{{ translations.contacts.manage }}</ion-title>
     <ion-buttons slot="end">
       <ion-icon name="add" (click)='addContact()' style="padding-right:10px;"></ion-icon>
     </ion-buttons>
@@ -12,7 +12,7 @@
 
 <ion-content class="ion-padding">
   <div class="ion-padding" style="text-align: center" *ngIf="contacts.length === 0">
-    No contacts to show.
+    {{ translations.contacts.no_contacts }}
   </div>
   <div *ngIf="contacts.length > 0">
     <ion-input placeholder='Search contacts' (keyup) = "filterContacts()" style="border-bottom:1px solid #aaa; font-size:11px" [(ngModel)]='searchContact'></ion-input>
@@ -32,23 +32,23 @@
           <ion-buttons slot="start">
             <ion-icon style="margin: 0 10px" (click)="hideNewContact()" name="arrow-back"></ion-icon>
           </ion-buttons>
-          <ion-title>{{modalAction}} contact</ion-title>
+          <ion-title>{{modalAction}} {{ translations.contacts.contact }}</ion-title>
         </ion-toolbar>
       </ion-header>
       <div class="ion-padding">
-        <h2 style='font-size:14px'>Address</h2>
+        <h2 style='font-size:14px'>{{ translations.contacts.address }}</h2>
         <div style="position:relative">
-          <ion-input placeholder='Insert a Lyra address' style="border-bottom:1px solid #aaa; margin-right:30px;" [(ngModel)]='newContactAddress'></ion-input>
+          <ion-input placeholder="{{ translations.send.insert_address }}" style="border-bottom:1px solid #aaa; margin-right:30px;" [(ngModel)]='newContactAddress'></ion-input>
           <ion-icon name="qr-scanner" (click)="scanQRCode()" style="color: #a7a7a7; position:absolute; top:10px; right:0; z-index:99; float:right; font-size:20px;"></ion-icon>
         </div>
-        <h2 style='font-size:14px'>Contact name</h2>
-        <ion-input placeholder='Insert contact name or label' style="border-bottom:1px solid #aaa" [(ngModel)]='newContactLabel'></ion-input>
-        <h2 style='font-size:14px'>Notes</h2>
-        <ion-textarea placeholder='Insert other details' style="border-bottom:1px solid #aaa; height:20vh" [(ngModel)]='newContactNotes'></ion-textarea>
+        <h2 style='font-size:14px'>{{ translations.contacts.contact_name }}</h2>
+        <ion-input placeholder="{{ translations.contacts.insert_name }}" style="border-bottom:1px solid #aaa" [(ngModel)]='newContactLabel'></ion-input>
+        <h2 style='font-size:14px'>{{ translations.contacts.notes }}</h2>
+        <ion-textarea placeholder="{{ translations.contacts.insert_notes }}" style="border-bottom:1px solid #aaa; height:20vh" [(ngModel)]='newContactNotes'></ion-textarea>
         <br><br>
         <div class="ion-text-center">
-          <button *ngIf="modalAction === 'Create'" class="buttonsBut ion-text-center" type="submit" (click)='saveContact()' style="margin:0 auto">Save contact</button>
-          <button *ngIf="modalAction === 'Edit'" class="buttonsBut ion-text-center" type="submit" (click)='editContact()' style="margin:0 auto">Save contact</button>
+          <button *ngIf="modalAction === 'Create'" class="buttonsBut ion-text-center" type="submit" (click)='saveContact()' style="margin:0 auto">{{ translations.contacts.save_contact }}</button>
+          <button *ngIf="modalAction === 'Edit'" class="buttonsBut ion-text-center" type="submit" (click)='editContact()' style="margin:0 auto">{{ translations.contacts.save_contact }}</button>
         </div>
       </div>
     </ion-content>

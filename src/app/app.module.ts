@@ -5,6 +5,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
+import { Globalization } from '@ionic-native/globalization/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { WindowRefService } from './windowservice';
@@ -35,6 +36,7 @@ import { ChartsModule } from 'ng2-charts';
     ChartsModule
   ],
   providers: [
+    Globalization,
     LoadingController,
     Clipboard,
     HTTP,

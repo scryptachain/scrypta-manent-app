@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+var locales =  require('../locales.js')
 
 @Component({
   selector: 'app-settings',
@@ -10,6 +11,9 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 export class SettingsPage implements OnInit {
   currency: string = 'eur'
   theme: string = 'light'
+  language: any = 'en'
+  locales: any = locales
+  translations: any = {}
 
   constructor(private router: Router, private iab: InAppBrowser) {
     if (localStorage.getItem('currency') != null) {
@@ -27,11 +31,21 @@ export class SettingsPage implements OnInit {
 
   ngOnInit() {
     //this.currency='eur';
+    const app = this
+    if (localStorage.getItem('language') !== null) {
+      app.language = localStorage.getItem('language')
+    }
+    app.translations = this.locales.default[app.language]
   }
 
   changeCurrency() {
     localStorage.setItem('currency', this.currency)
     this.currency = this.currency
+  }
+
+  changeLanguage() {
+    localStorage.setItem('language', this.language)
+    this.language = this.language
   }
 
   changeTheme() {

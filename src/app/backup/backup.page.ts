@@ -8,6 +8,7 @@ import * as jsPdf from 'jspdf'
 import {Location} from '@angular/common';
 import { Platform } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+var locales =  require('../locales.js')
 
 declare var QRious: any
 @Component({
@@ -16,6 +17,9 @@ declare var QRious: any
   styleUrls: ['./backup.page.scss'],
 })
 export class BackupPage implements OnInit {
+  language: any = 'en'
+  locales: any = locales
+  translations: any = {}
   address: string
   public_address: string;
   filedownload: Blob;
@@ -45,7 +49,10 @@ export class BackupPage implements OnInit {
     let payload = app.wallet[app.selected].split(':')
     app.address = payload[0]
     app.encrypted = payload[1]
-
+    if (localStorage.getItem('language') !== null) {
+      app.language = localStorage.getItem('language')
+    }
+    app.translations = this.locales.default[app.language]
   }
 
   getPermissions() {

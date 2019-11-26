@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import axios from 'axios';
 import { Clipboard } from '@ionic-native/clipboard/ngx'
+var locales =  require('../locales.js')
 
 declare var QRious: any
 @Component({
@@ -10,6 +11,9 @@ declare var QRious: any
   styleUrls: ['./receive.page.scss'],
 })
 export class ReceivePage implements OnInit {
+  language: any = 'en'
+  locales: any = locales
+  translations: any = {}
   amount: any = 0
   currency: string = 'eur'
   amountLyra: any = 0
@@ -26,12 +30,20 @@ export class ReceivePage implements OnInit {
 
   async ngOnInit() {
     const app = this
+    
     if (localStorage.getItem('selected') !== null) {
       app.selected = parseInt(localStorage.getItem('selected'))
     }
+    
     if (localStorage.getItem('currency') != null) {
       this.currency = localStorage.getItem('currency')
     }
+    
+    if (localStorage.getItem('language') !== null) {
+      app.language = localStorage.getItem('language')
+    }
+    app.translations = this.locales.default[app.language]
+
     app.wallet = JSON.parse(localStorage.getItem('wallet'))
     let payload = app.wallet[app.selected].split(':')
     app.address = payload[0]
@@ -97,6 +109,7 @@ export class ReceivePage implements OnInit {
         let calculate = parseFloat(app.amountLyra) * parseFloat(app.price)
         if(calculate.toString() !== "NaN"){
           app.amountFIAT = calculate.toFixed(2)
+          this.calculateQRCode()
         }else{
           app.amountFIAT = 0
         }
@@ -114,6 +127,7 @@ export class ReceivePage implements OnInit {
         let calculate = parseFloat(app.amountFIAT) / parseFloat(app.price)
         if(calculate.toString() !== "NaN"){
           app.amountLyra = calculate.toFixed(4)
+          this.calculateQRCode()
         }else{
           app.amountLyra = 0
         }

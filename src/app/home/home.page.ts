@@ -5,7 +5,8 @@ import { WindowRefService, ICustomWindow } from '../windowservice';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import axios from 'axios';
-import {Location} from '@angular/common';
+import {Location} from '@angular/common'
+var locales =  require('../locales.js')
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,9 @@ import {Location} from '@angular/common';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  language: any = 'en'
+  locales: any = locales
+  translations: any = {}
   password:string;
   repassword:string;
   nodes:string[]=[];
@@ -51,8 +55,15 @@ export class HomePage {
 
   ngOnInit()
   {
+    const app = this
     this.add = this.activatedRoute.snapshot.paramMap.get('add')
-    this.checkUser();
+    this.checkUser()
+
+    if (localStorage.getItem('language') !== null) {
+      app.language = localStorage.getItem('language')
+    }
+    app.translations = this.locales.default[app.language]
+    
     setTimeout(function(){
       this.backupAlert=false;
     })

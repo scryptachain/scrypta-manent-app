@@ -2,16 +2,16 @@
   <ion-toolbar>
     <ion-buttons>
       <ion-menu-button></ion-menu-button>
-      <ion-title>Send</ion-title>
+      <ion-title>{{ translations.send.send_title }}</ion-title>
     </ion-buttons>
 
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
   <ion-item lines='none'>
-    <h4 style='font-size:12px;color:#d8273a'>Amount to send</h4>
+    <h4 style='font-size:12px;color:#d8273a'>{{ translations.send.insert_amount }}</h4>
     <div slot='end'>
-      <ion-label style="font-size: 12px;color: #a7a7a7">Your Balance : {{balance}} LYRA</ion-label>
+      <ion-label style="font-size: 12px;color: #a7a7a7">{{ translations.send.your_balance }}: {{balance}} LYRA</ion-label>
     </div>
 
   </ion-item>
@@ -31,35 +31,27 @@
     </ion-item>
 
   <ion-item lines='none'>
-    <h4 style='font-size:12px;color:#d8273a'>Receiving Lyra address</h4>
+    <h4 style='font-size:12px;color:#d8273a'>{{ translations.send.insert_address }}</h4>
   </ion-item>
 
   <ion-item>
-    <ion-input type="text" style="font-size:13px" [(ngModel)]='addressToSend' placeholder="Write address here or scan"></ion-input>
+    <ion-input type="text" style="font-size:13px" [(ngModel)]='addressToSend' placeholder="{{translations.send.insert_or_scan}}"></ion-input>
     <ion-icon name="qr-scanner" (click)="scanQRCode()" style="color: #a7a7a7; float:right"></ion-icon>
   </ion-item>
 
   <div id='password'>
-    <h4 style='font-size:12px;color:#d8273a' class="ion-padding">Insert wallet password</h4>
+    <h4 style='font-size:12px;color:#d8273a' class="ion-padding">{{ translations.send.enter_wallet_password }}</h4>
     <ion-item>
       <ion-input type="password" [(ngModel)]='unlockPwd' style="opacity: 0.5"
-        placeholder='Insert wallet password' required (keyup)='unlockButton()'></ion-input>
+        placeholder="{{ translations.send.enter_wallet_password }}" required (keyup)='unlockButton()'></ion-input>
     </ion-item>
   </div>
   <br>
   <button class='buttonsBut' id='buttonSend' (click)='unlockWallet()' *ngIf="isSending === false"
     style='margin:0 auto; width:100%; opacity: 0.5'>Send</button>
   <div *ngIf="isSending === true" style="width:100%; text-align:center">
-    Sending, please wait...
+    {{ translations.send.sending }}
   </div>
-
-
-
-
-
-
-
-
 
 </ion-content>
 <ion-footer>
@@ -69,23 +61,27 @@
 
     <ion-tab-button [routerLink]="'/dashboard'">
       <ion-label style='color:#a7a7a7'>Dashboard</ion-label>
-      <ion-icon name="card" style='color:#a7a7a7'></ion-icon>
-
+      <ion-icon name="apps" style='color:#a7a7a7'></ion-icon>
     </ion-tab-button>
 
     <ion-tab-button [routerLink]="'/send'">
-      <ion-label class="bottom-menu-active">Send</ion-label>
+      <ion-label class="bottom-menu-active">{{ translations.ui.send }}</ion-label>
       <ion-icon name="send" class="bottom-menu-active"></ion-icon>
     </ion-tab-button>
 
     <ion-tab-button [routerLink]="'/receive'">
-      <ion-label style='color:#a7a7a7'>Receive</ion-label>
+      <ion-label style='color:#a7a7a7'>{{ translations.ui.receive }}</ion-label>
       <ion-icon name="add" style='color:#a7a7a7'></ion-icon>
     </ion-tab-button>
 
     <ion-tab-button [routerLink]="'/archive'">
-      <ion-label style='color:#a7a7a7'>Vault</ion-label>
+      <ion-label style='color:#a7a7a7'>{{ translations.ui.vault }}</ion-label>
       <ion-icon name="lock" style='color:#a7a7a7'></ion-icon>
+    </ion-tab-button>
+    
+    <ion-tab-button [routerLink]="'/token'">
+      <ion-label style='color:#a7a7a7'>Token</ion-label>
+      <ion-icon name="wallet" style='color:#a7a7a7'></ion-icon>
     </ion-tab-button>
   </ion-tab-bar>
 

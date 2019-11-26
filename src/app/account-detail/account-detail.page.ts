@@ -7,6 +7,7 @@ import { OverlayEventDetail } from '@ionic/core';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+var locales =  require('../locales.js')
 
 @Component({
   selector: 'app-account-detail',
@@ -15,6 +16,9 @@ import { Router } from '@angular/router';
 })
 
 export class AccountDetailPage implements OnInit {
+  language: any = 'en'
+  locales: any = locales
+  translations: any = {}
   @Input() response: any
   index
   private _window: ICustomWindow;
@@ -39,6 +43,10 @@ export class AccountDetailPage implements OnInit {
     app.address = payload[0]
     app.myAngularxQrCode = app.address
     app.encrypted = payload[1]
+    if (localStorage.getItem('language') !== null) {
+      app.language = localStorage.getItem('language')
+    }
+    app.translations = this.locales.default[app.language]
     axios.get('https://' + app.idanode + '/transactions/' + app.address).then(response => {
       app.transactions = response.data.data
     })

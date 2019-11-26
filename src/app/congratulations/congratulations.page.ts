@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import Axios from 'axios';
 import { WindowRefService, ICustomWindow } from '../windowservice';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-
+var locales =  require('../locales.js')
 
 @Component({
   selector: 'app-congratulations',
@@ -14,7 +14,9 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
   styleUrls: ['./congratulations.page.scss'],
 })
 export class CongratulationsPage implements OnInit {
-  
+  language: any = 'en'
+  locales: any = locales
+  translations: any = {}
   storageDirectory:string='';
   filedownload:any;
   a:any;
@@ -29,7 +31,11 @@ export class CongratulationsPage implements OnInit {
   
   
   ngOnInit() {
-    
+    const app = this
+    if (localStorage.getItem('language') !== null) {
+      app.language = localStorage.getItem('language')
+    }
+    app.translations = this.locales.default[app.language]
   }
   
   async goToBackup()

@@ -2,29 +2,29 @@
   <ion-toolbar>
     <ion-buttons>
       <ion-icon style="margin: 0 10px" (click)="goBack()" name="arrow-back"></ion-icon>
-      <ion-title>Add new account</ion-title>
+      <ion-title>{{ translations.identities.add_account }}</ion-title>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-text-center">
   <div *ngIf="showNFC === false" style="margin-top:10px">
-    Select one of the following restore methods and follow the instructions:<br>
-    <button (click)='createNewAddress()' *ngIf="add !== null" expand="full" class='buttonsBut' style='margin-top: 5%' >Create new account</button><br/>
+    {{ translations.identities.select_method }}<br>
+    <button (click)='createNewAddress()' *ngIf="add !== null" expand="full" class='buttonsBut' style='margin-top: 5%' >{{ translations.identities.create_new }}</button><br/>
     <button expand="full" class='buttonsBut' style='margin-top: 5%; position:relative'>
       <input placeholder='Choose a file' type='file' style="margin:0; width: 100%; position:absolute; top:0; left: 0; height:50px; opacity:0;" [(ngModel)]='fileName' id='fileInput' (change)='loadSidFile()'>
-      Restore .sid file<ion-icon name="key" style="float:right" size='large'></ion-icon>
+      {{ translations.identities.restore_sid }}<ion-icon name="key" style="float:right" size='large'></ion-icon>
     </button><br/>
     <div *ngIf = "isIOS === false">
-      <button (click)='loginCardAndroid()' expand="full" class='buttonsBut' style='margin-top: 5%'>Read Lyra Card<ion-icon name="card" style="float:right" size='large'></ion-icon></button><br/>
+      <button (click)='loginCardAndroid()' expand="full" class='buttonsBut' style='margin-top: 5%'>{{ translations.identities.read_card }}<ion-icon name="card" style="float:right" size='large'></ion-icon></button><br/>
     </div>
     <div *ngIf = "isIOS === true">
-      <button (click)='loginCardiOS()' expand="full" class='buttonsBut' style='margin-top: 5%'>Read Lyra Card<ion-icon name="card" style="float:right" size='large'></ion-icon></button><br/>
+      <button (click)='loginCardiOS()' expand="full" class='buttonsBut' style='margin-top: 5%'>{{ translations.identities.read_card }}<ion-icon name="card" style="float:right" size='large'></ion-icon></button><br/>
     </div>
-    <button (click)='readQrCode()' expand="full" class='buttonsBut' style='margin-top: 5%'>Restore Paper Wallet<ion-icon name="qr-scanner" style="float:right" size='large'></ion-icon></button><br/><br>
+    <button (click)='readQrCode()' expand="full" class='buttonsBut' style='margin-top: 5%'>{{ translations.identities.restore_paper }}<ion-icon name="qr-scanner" style="float:right" size='large'></ion-icon></button><br/><br>
     <div *ngIf="add === null">
-      <h3>- OR -</h3>
-      <a style="color:#d8273a" routerLink='/home'>Go back</a>
+      <h3>- {{ translations.home.or }} -</h3>
+      <a style="color:#d8273a" routerLink='/home'>{{ translations.home.back }}</a>
     </div>
   </div>
   <div *ngIf="showNFC === true" style="position:fixed; 
@@ -40,7 +40,7 @@
         font-weight:bold;
         padding: 10vh 20px">
       <ion-icon name='close' style="position:absolute; top:10px; right:10px; z-index: 99;" (click)='closeNFC()'></ion-icon>
-      <ion-icon name="card" style="font-size:140px"></ion-icon><br>
-      Please bring the card closer to the phone now!
+      <ion-icon name="apps" style="font-size:140px"></ion-icon><br>
+      {{ translations.identities.close_card }}
   </div>
 </ion-content>

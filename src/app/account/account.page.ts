@@ -8,6 +8,7 @@ import { AccountDetailPage } from '../account-detail/account-detail.page';
 import { Router } from '@angular/router';
 import {Location} from '@angular/common';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+var locales =  require('../locales.js')
 
 @Component({
   selector: 'app-account',
@@ -16,11 +17,14 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 })
 
 export class AccountPage implements OnInit {
+  language: any = 'en'
+  locales: any = locales
+  translations: any = {}
   balance: string = '-'
   wallet: ''
   accounts = []
   isParsing: boolean = false
-  toggleNoBalance: boolean = true
+  toggleNoBalance: boolean = false
   encrypted: string = ''
   selected: number = 0
   idanode: string = 'idanodejs01.scryptachain.org'
@@ -36,6 +40,10 @@ export class AccountPage implements OnInit {
   ngOnInit() {
     const app = this
     app.parseWallet()
+    if (localStorage.getItem('language') !== null) {
+      app.language = localStorage.getItem('language')
+    }
+    app.translations = this.locales.default[app.language]
   }
   
   async parseWallet() {

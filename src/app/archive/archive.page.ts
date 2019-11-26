@@ -9,6 +9,7 @@ import { UploadModalPage } from '../upload-modal/upload-modal.page';
 import { from } from 'rxjs';
 import { File } from '@ionic-native/file/ngx'
 var moment = require('moment')
+var locales =  require('../locales.js')
 
 @Component({
   selector: 'app-archive',
@@ -16,6 +17,9 @@ var moment = require('moment')
   styleUrls: ['./archive.page.scss'],
 })
 export class ArchivePage implements OnInit {
+  language: any = 'en'
+  locales: any = locales
+  translations: any = {}
   nodes: string[] = [];
   wallet = []
   address: string = ''
@@ -55,6 +59,10 @@ export class ArchivePage implements OnInit {
     if (localStorage.getItem('selected') !== null) {
       app.selected = parseInt(localStorage.getItem('selected'))
     }
+    if (localStorage.getItem('language') !== null) {
+      app.language = localStorage.getItem('language')
+    }
+    app.translations = this.locales.default[app.language]
     app.wallet = JSON.parse(localStorage.getItem('wallet'))
     let payload = app.wallet[app.selected].split(':')
     app.address = payload[0]

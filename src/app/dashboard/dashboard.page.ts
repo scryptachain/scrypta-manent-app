@@ -1,14 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Chart } from "chart.js";
 import axios from 'axios';
-import { dashCaseToCamelCase } from '@angular/compiler/src/util';
-import { transcode } from 'buffer';
 import { ModalController } from '@ionic/angular';
-import { ModaltransactionPage } from '../modaltransaction/modaltransaction.page';
-import { OverlayEventDetail } from '@ionic/core';
 import { WindowRefService, ICustomWindow } from '../windowservice';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Router } from '@angular/router';
+var locales =  require('../locales.js')
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +21,10 @@ export class DashboardPage implements OnInit {
   balance: any = '-'
   encrypted: string = ''
   lyra: number;
-  value: string = '0';
+  value: string = '0'
+  language: any = 'en'
+  translations: any = {}
+  locales: any = locales
   idanode: string = 'idanodejs01.scryptachain.org'
   valueBTC: string = '0';
   valore: number;
@@ -64,6 +64,12 @@ export class DashboardPage implements OnInit {
     if (localStorage.getItem('selected') !== null) {
       app.selected = parseInt(localStorage.getItem('selected'))
     }
+    
+    if (localStorage.getItem('language') !== null) {
+      app.language = localStorage.getItem('language')
+    }
+    app.translations = this.locales.default[app.language]
+
     app.wallet = JSON.parse(localStorage.getItem('wallet'))
     let payload = app.wallet[app.selected].split(':')
     app.address = payload[0]
@@ -107,7 +113,7 @@ export class DashboardPage implements OnInit {
         let price: number = result.data.scrypta[app.currency]
         var priceBTC = result.data.scrypta['btc']
         app.current_price = price
-        app.pricelabel = "Price is " + app.current_price + ' ' + app.currency.toUpperCase()
+        app.pricelabel = app.translations.home.price_is + ' ' + app.current_price + ' ' + app.currency.toUpperCase()
         axios.get('https://' + app.idanode + '/balance/' + app.address)
           .then(function (response) {
             app.balance = response.data['balance'].toFixed(4)

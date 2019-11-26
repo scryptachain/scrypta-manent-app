@@ -15,6 +15,7 @@ import { HTTP } from '@ionic-native/http/ngx'
 import { OverlayEventDetail } from '@ionic/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+var locales =  require('../locales.js')
 
 @Component({
   selector: 'app-login-to-wallet',
@@ -22,6 +23,9 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./login-to-wallet.page.scss'],
 })
 export class LoginToWalletPage implements OnInit {
+  language: any = 'en'
+  locales: any = locales
+  translations: any = {}
   add: string = ''
   password: string = '';
   decrypted_wallet: string = '';
@@ -48,6 +52,11 @@ export class LoginToWalletPage implements OnInit {
 
   ngOnInit() {
     this.add = this.activatedRoute.snapshot.paramMap.get('add')
+    const app = this
+    if (localStorage.getItem('language') !== null) {
+      app.language = localStorage.getItem('language')
+    }
+    app.translations = this.locales.default[app.language]
   }
 
   goBack() {
@@ -82,7 +91,7 @@ export class LoginToWalletPage implements OnInit {
         });
       });
     }, () => {
-      alert('We\'re sorry, NFC not allowed.');
+      alert(app.translations.identities.no_nfc);
     });
   }
 
@@ -91,7 +100,7 @@ export class LoginToWalletPage implements OnInit {
     app.nfcreader.invalidateSession(success => {
       console.log('Can\'t close session')
     }, error => {
-      alert('Seems there\'s something wrong with NFC, please retry!')
+      alert(app.translations.identities.no_nfc)
     })
   }
 
@@ -100,7 +109,7 @@ export class LoginToWalletPage implements OnInit {
       app.nfcreader = this.nfc.addNdefListener(() => {
         app.showNFC = true
       }, (err) => {
-        alert('NFC is not enabled or device not compatible.');
+        alert(app.translations.identities.no_nfc);
       }).subscribe(async (event) => {
         app.showNFC = false
         let NFC = this.nfc.bytesToHexString(event.tag.ndefMessage[0].payload)
@@ -139,6 +148,7 @@ export class LoginToWalletPage implements OnInit {
   }
 
   addAddress(address){
+    let app = this
     let payload = address.split(':')
     if(payload[0] !== undefined && payload[1] !== undefined){
       if(payload[0].length === 34){
@@ -152,16 +162,16 @@ export class LoginToWalletPage implements OnInit {
           if(wallet.indexOf(address) === -1){
             wallet.push(address)
             localStorage.setItem('wallet',JSON.stringify(wallet))
-            alert('Address ' + payload[0] + ' imported!')
+            alert(payload[0] + app.translations.identities.imported + '!')
           }else{
-            alert('This address exist yet!')
+            alert(app.translations.identities.address_exist)
           }
         }
       }else{
-        alert('This isn\'t a backup payload!')
+        alert(app.translations.identities.payload_error)
       }
     }else{
-      alert('This isn\'t a backup payload!')
+      alert(app.translations.identities.payload_error)
     }
   }
 

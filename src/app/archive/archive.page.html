@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Vault</ion-title>
+    <ion-title>{{ translations.ui.vault }}</ion-title>
     <ion-buttons slot="end">
       <ion-icon name="add" (click)='openModalUpload()' style="padding-right:10px;"></ion-icon>
     </ion-buttons>
@@ -57,7 +57,7 @@
 
     <ion-tab-button [routerLink]="'/dashboard'">
       <ion-label style='color:#a7a7a7'>Dashboard</ion-label>
-      <ion-icon name="card" style='color:#a7a7a7'></ion-icon>
+      <ion-icon name="apps" style='color:#a7a7a7'></ion-icon>
 
     </ion-tab-button>
 
@@ -74,6 +74,11 @@
     <ion-tab-button [routerLink]="'/archive'">
       <ion-label class="bottom-menu-active">Vault</ion-label>
       <ion-icon name="lock" class="bottom-menu-active"></ion-icon>
+    </ion-tab-button>
+    
+    <ion-tab-button [routerLink]="'/token'">
+      <ion-label style='color:#a7a7a7'>Token</ion-label>
+      <ion-icon name="wallet" style='color:#a7a7a7'></ion-icon>
     </ion-tab-button>
   </ion-tab-bar>
 

@@ -2,14 +2,14 @@
     <ion-toolbar>
         <ion-buttons>
             <ion-menu-button></ion-menu-button>
-            <ion-title>Receive</ion-title>
+            <ion-title>{{ translations.ui.receive }}</ion-title>
             </ion-buttons>
       
     </ion-toolbar>
 </ion-header>
 <ion-content >
   <div style="width: 100%; text-align: center; margin:30px 0 15px 0;">
-      <qrcode [qrdata]="myAngularxQrCode" [size]="256" style="display:inline-block" [level]="'M'"></qrcode><br>
+      <qrcode [qrdata]="myAngularxQrCode" [size]="256" style="display:inline-block; border:10px solid #fff" [level]="'M'"></qrcode><br>
       <span style="font-size:11px">{{address}}</span> <span style="font-size:25px; margin-left:5px"><ion-icon (click)="copyAddress()" name="copy"></ion-icon></span>
   </div>
 <ion-item>
@@ -29,24 +29,28 @@
   
       <ion-tab-button  [routerLink]="'/dashboard'">
         <ion-label style='color:#a7a7a7'>Dashboard</ion-label>
-        <ion-icon name="card" style='color:#a7a7a7'></ion-icon>
-        
+        <ion-icon name="apps" style='color:#a7a7a7'></ion-icon>
       </ion-tab-button>
   
       <ion-tab-button [routerLink]="'/send'">
-        <ion-label style='color:#a7a7a7'>Send</ion-label>
+        <ion-label style='color:#a7a7a7'>{{ translations.ui.send }}</ion-label>
         <ion-icon name="send" style='color:#a7a7a7'></ion-icon>
       </ion-tab-button>
 
       <ion-tab-button [routerLink]="'/receive'" >
-          <ion-label class="bottom-menu-active">Receive</ion-label>
+          <ion-label class="bottom-menu-active">{{ translations.ui.receive }}</ion-label>
           <ion-icon name="add" class="bottom-menu-active"></ion-icon>
         </ion-tab-button>
 
         <ion-tab-button [routerLink]="'/archive'" >
-            <ion-label style='color:#a7a7a7'>Vault</ion-label>
-            <ion-icon name="lock" style='color:#a7a7a7'></ion-icon>
-          </ion-tab-button>
+          <ion-label style='color:#a7a7a7'>{{ translations.ui.vault }}</ion-label>
+          <ion-icon name="lock" style='color:#a7a7a7'></ion-icon>
+        </ion-tab-button>
+        
+        <ion-tab-button [routerLink]="'/token'">
+          <ion-label style='color:#a7a7a7'>Token</ion-label>
+          <ion-icon name="wallet" style='color:#a7a7a7'></ion-icon>
+        </ion-tab-button>
     </ion-tab-bar>
   
   </ion-footer>

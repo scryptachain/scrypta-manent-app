@@ -10,6 +10,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx'
 import { ActionSheetController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
+var locales =  require('../locales.js')
 
 @Component({
   selector: 'app-address-book',
@@ -18,6 +19,9 @@ import { AlertController } from '@ionic/angular';
 })
 
 export class AddressBookPage implements OnInit {
+  language: any = 'en'
+  locales: any = locales
+  translations: any = {}
   balance: string = '-'
   wallet: ''
   contacts = []
@@ -40,16 +44,19 @@ export class AddressBookPage implements OnInit {
   async presentActionSheet(index) {
     const app = this
     let contact = app.contacts[index]
+    axios.get('https://' + app.idanode + '/transactions/' + app.address).then(response => {
+      app.transactions = response.data.data
+    })
     const actionSheet = await this.actionSheetController.create({
         header: contact.label,
         buttons: [{
-          text: 'Send Lyra',
+          text: app.translations.send.send_title,
           icon: 'send',
           handler: () => {
             app.router.navigate(['/send/' + contact.address])
           }
         },{
-          text: 'Edit contact',
+          text: app.translations.contacts.edit_contact,
           icon: 'create',
           handler: () => {
             app.newContactAddress = app.contacts[index].address
@@ -60,7 +67,7 @@ export class AddressBookPage implements OnInit {
             app.showNewContact = true
           }
         },{
-          text: 'Delete contact',
+          text: app.translations.contacts.delete_contact,
           icon: 'trash',
           handler: async () => {
             app.confirmDelete(index)
@@ -73,6 +80,10 @@ export class AddressBookPage implements OnInit {
     ngOnInit() {
       const app = this
       app.showNewContact = false
+      if (localStorage.getItem('language') !== null) {
+        app.language = localStorage.getItem('language')
+      }
+      app.translations = this.locales.default[app.language]
       app.parseAddressBook()
     }
 
@@ -94,11 +105,11 @@ export class AddressBookPage implements OnInit {
     async confirmDelete(index) {
       const app = this
       const alert = await this.alertController.create({
-        header: 'Please confirm.',
-        message: 'Do you want to delete <strong>'+app.contacts[index].label+'</strong>?',
+        header: app.translations.contacts.confirm_delete,
+        message: app.translations.contacts.want_delete + ' <strong>'+app.contacts[index].label+'</strong>?',
         buttons: [
           {
-            text: 'Cancel',
+            text: app.translations.contacts.cancel,
             role: 'cancel',
             cssClass: 'secondary'
           }, {

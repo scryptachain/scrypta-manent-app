@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-buttons>
       <ion-icon style="margin: 0 10px" (click)="goBack()" name="arrow-back"></ion-icon>
-      <ion-title>Create new address</ion-title>
+      <ion-title>{{ translations.home.create_wallet }}</ion-title>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -22,12 +22,12 @@
   </div>
   <div *ngIf="add === null">
     <img src="/assets/imgs/logo.png" class="scrypta_ce" style='margin-top: 10%; width: 80px'><br><br>
-    Welcome on Manent<br>
-    The Official Lyra Wallet<br><br>
-    Choose a strong password to start.
+    {{ translations.home.welcome_manent }}<br>
+    {{ translations.home.official_wallet }}<br><br>
+    {{ translations.home.choose_password }}
   </div>
   <div *ngIf="add !== null" class="ion-padding"><br><br>
-    Please choose a strong password<br>in order to secure your wallet.
+    {{ translations.home.choose_password }}
   </div>
   <form (ngSubmit)=createWallet()>
     <ion-item>
@@ -38,19 +38,19 @@
     </ion-item>
     <ion-item>
       <ion-label position="floating">
-        Repeat Password
+        {{ translations.home.repeat_password }}
       </ion-label>
       <ion-input type="password" [(ngModel)]='repassword' name='repassword' class="inputForms"></ion-input>
     </ion-item>
-    <button *ngIf="isCreating === false" type="submit" expand="full" class='buttonsBut' style="margin-top:5%;">CREATE NEW ACCOUNT</button>
+    <button *ngIf="isCreating === false" type="submit" expand="full" class='buttonsBut' style="margin-top:5%;">{{ translations.home.create_button }}</button>
     <div style="width:100%; text-align:center; margin-top:15px" *ngIf="isCreating === true">
-      Creating account...
+      {{ translations.home.creating }}
     </div>
   </form><br>
   <div *ngIf="add === null" >
-    <a style="color:#d8273a" routerLink='/login-to-wallet'>Import existing account</a>
+    <a style="color:#d8273a" routerLink='/login-to-wallet'>{{ translations.home.import_wallet }}</a>
   </div>
   <div *ngIf="add !== null" >
-    <a style="color:#d8273a" routerLink='/login-to-wallet/add'>Go Back</a>
+    <a style="color:#d8273a" routerLink='/login-to-wallet/add'>{{ translations.home.back }}</a>
   </div>
 </ion-content>

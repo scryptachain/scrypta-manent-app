@@ -4,6 +4,7 @@ import axios from 'axios'
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx'
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+var locales =  require('../locales.js')
 
 @Component({
   selector: 'app-send',
@@ -11,6 +12,9 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./send.page.scss'],
 })
 export class SendPage implements OnInit {
+  language: any = 'en'
+  locales: any = locales
+  translations: any = {}
   private _window: ICustomWindow;
   wallet: ''
   encrypted: string = ''
@@ -42,15 +46,24 @@ export class SendPage implements OnInit {
 
   async ngOnInit() {
     const app = this
+    
     if(this.activatedRoute.snapshot.paramMap.get('address') !== undefined){
       this.addressToSend = this.activatedRoute.snapshot.paramMap.get('address')
     }
+
     if (localStorage.getItem('selected') !== null) {
       app.selected = parseInt(localStorage.getItem('selected'))
     }
+    
     if (localStorage.getItem('currency') !== null) {
       app.currency = localStorage.getItem('currency')
     }
+    
+    if (localStorage.getItem('language') !== null) {
+      app.language = localStorage.getItem('language')
+    }
+    app.translations = this.locales.default[app.language]
+
     app.currency_placeholder = 'Calculate in ' + app.currency.toUpperCase()
     app.wallet = JSON.parse(localStorage.getItem('wallet'))
     let payload = app.wallet[app.selected].split(':')
@@ -248,7 +261,7 @@ export class SendPage implements OnInit {
       let check = barcodeData.text.split('?')
       if(check[1] !== undefined){
         var amount = check[1].replace('amount=','')
-        app.amountToSend = parseFloat(amount)
+        app.amountToSend = parseFloat(amount).toFixed(8).replace(',','.')
         this.addressToSend = check[0]
       }else{
         this.addressToSend = barcodeData.text
