@@ -7,6 +7,7 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { File } from '@ionic-native/file/ngx'
 import { FormGroup } from '@angular/forms'
+var locales =  require('../locales.js')
 
 @Component({
   selector: 'app-upload-modal',
@@ -14,6 +15,9 @@ import { FormGroup } from '@angular/forms'
   styleUrls: ['./upload-modal.page.scss'],
 })
 export class UploadModalPage implements OnInit {
+  language: any = 'en'
+  locales: any = locales
+  translations: any = {}
   public fileInput: FormGroup;
   refID: string
   file: string
@@ -57,6 +61,10 @@ export class UploadModalPage implements OnInit {
       app.selected = parseInt(localStorage.getItem('selected'))
     }
     app.wallet = JSON.parse(localStorage.getItem('wallet'))
+    if (localStorage.getItem('language') !== null) {
+      app.language = localStorage.getItem('language')
+    }
+    app.translations = this.locales.default[app.language]
     let payload = app.wallet[app.selected].split(':')
     app.address = payload[0]
     app.encrypted = payload[1]

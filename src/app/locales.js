@@ -1,5 +1,23 @@
 export default {
     en: {
+        vault: {
+            line_1: 'Upload a text or a file directly into the Scrypta Blockchain and save it forever.',
+            line_2: 'Files are linked to your Lyra Address and you will be able to proof that at any time.',
+            line_3: 'This operation will costs a fraction of LYRA depends on how much data you want to upload.',
+            encrypted: 'Encrypted file',
+            block: 'Written at block:',
+            filetype: 'File type:',
+            upload_file: 'UPLOAD NEW FILE',
+            encrypt_data: 'Encrypt data',
+            encryption_password: 'Encryption password',
+            encryption_reminder: 'Please make sure you\'ll remember this password, if you lose it you will not be able to access the data again.',
+            title: 'Title',
+            select_file: 'Select a file',
+            text: 'Text',
+            legal_disclaimer: 'Scrypta is a decentralized blockchain. Each user is directly for each uploaded content and in general for the use of the Scrypta infrastructure.',
+            upload_now: 'UPLOAD NOW',
+            insert_text: 'Insert text'
+        },
         settings: {
             title: 'Settings',
             language: 'Language',
@@ -87,7 +105,7 @@ export default {
             insert_amount: "Amount you mean to send",
             sending: "Sending, please wait..",
             successful: 'Send was successful, TXID is: ',
-            sent_successful: 'Your transaction has been broadcasted, it will be confirmed in the next block.',
+            sent_successful: 'Your transaction has been broadcasted, it will be confirmed in the next block.'
         },
         archive: {
             loading_data: "Loading data, please wait...",
@@ -175,6 +193,24 @@ export default {
         },
     },
     it: {
+        vault: {
+            line_1: 'Carica un testo o un file direttamente all\'interno della Blockchain di Scrypta e salvalo per sempre.',
+            line_2: 'I file sono collegati alla tua identità Lyra e sarai in grado di provarlo in qualsiasi momento grazie alla prova di esistenza fornita dalla blockchain.',
+            line_3: 'Questa operazione costerà una frazione di Lyra, dipende dalla lunghezza del testo che vorrai caricare. Potrai caricare file fino ad un massimo di 20MB.',
+            encrypted: 'File cryptato',
+            block: 'Scritto al blocco:',
+            filetype: 'Tipo di file:',
+            upload_file: 'CARICA NUOVO FILE',
+            encrypt_data: 'Cifra i dati',
+            encryption_password: 'Password di cifratura',
+            encryption_reminder: 'Cortesemente ricorda questa password perchè non verrà salvata da nessuna parte, se la perdi non potrai accedere nuovamente ai dati.',
+            title: 'Titolo',
+            select_file: 'Seleziona un file',
+            text: 'Testo',
+            legal_disclaimer: 'Scrypta è una blockchain decentralizzata ciascun utente è direttamente responsabile per i contenuti immessi e più in generale per l\'utilizzo dell\'infrastruttura.',
+            upload_now: 'CARICA ORA',
+            insert_text: 'Inserisci testo'
+        },
         settings: {
             title: 'Impostazioni',
             language: 'Lingua',

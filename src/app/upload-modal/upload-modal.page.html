@@ -9,28 +9,31 @@
 
 <ion-content class="ion-padding">
   <div style="width:100%">
-      <h2 style='font-size:14px'>Encrypt data</h2>
+      <h2 style='font-size:14px'>{{ translations.vault.encrypt_data }}</h2>
       <div style="float:right; margin-top:-30px;">
         <ion-toggle [(ngModel)]='toggleChecked'></ion-toggle>
       </div>
       <div *ngIf="toggleChecked === true">
-        <h2 style='font-size:14px'>Encryption password</h2>
+        <h2 style='font-size:14px'>{{ translations.vault.encryption_password }}</h2>
           <ion-input type='text' style="border-bottom:1px solid #aaa" [(ngModel)]='encryptPwd'></ion-input>
-        <span style="color:#f00; font-size:12px">Please make sure you'll remember this password, if you lose it you will not be able to access the data again.</span>
+        <span style="color:#f00; font-size:12px">{{ translations.vault.encryption_reminder }}</span>
       </div>
     </div>
-  <h2 style='font-size:14px'>Title</h2>
-    <ion-input placeholder='Insert a title' style="border-bottom:1px solid #aaa" [(ngModel)]='refID'></ion-input>
-  <h2 style='font-size:14px'>Select a file</h2>
-    <input placeholder='Choose a file' type='file' style="margin:0; width: 100%" [(ngModel)]='fileName' id='fileInput' (change)='getAttributes()'>
-  <h2 style='font-size:14px'>Text</h2>
-    <ion-textarea placeholder='Insert a text' style="border-bottom:1px solid #aaa; height:20vh" [(ngModel)]='message'></ion-textarea>
+  <h2 style='font-size:14px'>{{ translations.vault.title }}</h2>
+    <ion-input style="border-bottom:1px solid #aaa" [(ngModel)]='refID'></ion-input>
+  <h2 style='font-size:14px'>{{ translations.vault.select_file }}</h2>
+    <input placeholder="{{ translations.vault.select_file }}" type='file' style="margin:0; width: 100%" [(ngModel)]='fileName' id='fileInput' (change)='getAttributes()'>
+  <h2 style='font-size:14px'>{{ translations.vault.text }}</h2>
+    <ion-textarea placeholder="{{ translations.vault.insert_text }}" style="border-bottom:1px solid #aaa; height:20vh" [(ngModel)]='message'></ion-textarea>
   <div id='passwordFields'>
-  <h2 style='font-size:14px'>Insert wallet password</h2>
+  <h2 style='font-size:14px'>{{ translations.send.enter_wallet_password }}</h2>
     <ion-input type='password' style="border-bottom:1px solid #aaa" [(ngModel)]='unlockPwd'></ion-input>
   </div><br><br>
+  <span style="color:#f00; text-decoration:underline">
+    {{ translations.vault.legal_disclaimer }}
+  </span>
   <div class="ion-text-center">
-    <button class="buttonsBut ion-text-center" type="submit" (click)='unlockWallet()' style="margin:0 auto">Upload</button>
+    <button class="buttonsBut ion-text-center" type="submit" (click)='unlockWallet()' style="margin:20px auto">{{ translations.vault.upload_now }}</button>
   </div>
 
 </ion-content>

@@ -20,14 +20,15 @@
   </div>
   <div *ngIf="isUploading === false">
     <div *ngIf="readreturn.length == 0">
-        Upload a text or a file directly into the Scrypta Blockchain and save it forever.<br><br>
-        Files are linked to your Lyra Address and you will be able to proof that at any time.<br><br>
-        This operation will costs a fraction of LYRA depends on how much data you want to upload.<br><br>
-        <span style="color:#f00; text-decoration:underline">
-          Attention, do not upload illegal or copyright infringing files.<br>
-          Anyone about you is responsible of these files.<br><br>
-        </span>
-        <button class='buttonsBut' (click)='openModalUpload()' style='margin:0 auto;margin-top:5%'>Upload new file</button>
+        <ion-icon name="lock" style="font-size:80px; margin:20px 0" class="bottom-menu-active"></ion-icon>
+        <ion-card>
+          <div style="padding:10px">
+            {{ translations.vault.line_1 }}<br><br>
+            {{ translations.vault.line_2 }}<br><br>
+            {{ translations.vault.line_3 }}
+          </div>
+        </ion-card>
+        <button class='buttonsBut' (click)='openModalUpload()' style='margin:0 auto;margin-top:5%'>{{ translations.vault.upload_file }}</button>
       </div>
       <div *ngIf="readreturn.length != 0">
         <div *ngFor="let file of readreturn; let i=index" (click)="generic(file)" [attr.data-index]="i">
@@ -38,10 +39,10 @@
                 <p *ngIf="file.data && !file.is_file">{{file.data}}</p>
                 <div *ngIf="file.is_file">
                   <img *ngIf="file.mimetype === 'image'" src="{{file.data}}" width="100%">
-                  <span *ngIf="file.mimetype !== 'image' && file.mimetype !== undefined">File type: {{ file.mimedetail }}</span>
-                  <span *ngIf="file.protocol === 'E://'">Encrypted file</span>
+                  <span *ngIf="file.mimetype !== 'image' && file.mimetype !== undefined">{{ translations.vault.filetype }} {{ file.mimedetail }}</span>
+                  <span *ngIf="file.protocol === 'E://'">{{ translations.vault.encrypted }}</span>
                 </div>
-                <p style="font-size:10px;color:#a7a7a7"><strong>Written at Block:</strong> {{file.block}}</p>
+                <p style="font-size:10px;color:#a7a7a7"><strong>{{ translations.vault.block }}</strong> {{file.block}}</p>
                 <p style="font-size:10px;color:#a7a7a7">{{file.datetime}}</p>
             </div>
           </ion-card>
@@ -62,17 +63,17 @@
     </ion-tab-button>
 
     <ion-tab-button [routerLink]="'/send'">
-      <ion-label style='color:#a7a7a7'>Send</ion-label>
+      <ion-label style='color:#a7a7a7'>{{ translations.ui.send }}</ion-label>
       <ion-icon name="send" style='color:#a7a7a7'></ion-icon>
     </ion-tab-button>
 
     <ion-tab-button [routerLink]="'/receive'">
-      <ion-label style='color:#a7a7a7'>Receive</ion-label>
+      <ion-label style='color:#a7a7a7'>{{ translations.ui.receive }}</ion-label>
       <ion-icon name="add" style='color:#a7a7a7'></ion-icon>
     </ion-tab-button>
 
     <ion-tab-button [routerLink]="'/archive'">
-      <ion-label class="bottom-menu-active">Vault</ion-label>
+      <ion-label class="bottom-menu-active">{{ translations.ui.vault }}</ion-label>
       <ion-icon name="lock" class="bottom-menu-active"></ion-icon>
     </ion-tab-button>
     
