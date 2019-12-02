@@ -26,10 +26,13 @@ export class AccountDetailPage implements OnInit {
   address: any = ''
   public myAngularxQrCode: string = null;
   encrypted: any
+  showChange: boolean = false
   balance: any = 0
   idanode: string = 'idanodejs01.scryptachain.org'
   transactions: any = []
   password: any = ''
+  passwordChange: any = ''
+  passwordChangeRepeat: any = ''
   private_key: any = ''
   showUnlock:boolean = false
   constructor(public alertController: AlertController, public router:Router, private clipboard: Clipboard, windowRef: WindowRefService, private modalCtrl: ModalController, private iab: InAppBrowser) {
@@ -57,6 +60,50 @@ export class AccountDetailPage implements OnInit {
 
   close() {
     this.modalCtrl.dismiss()
+  }
+
+  openChangePassword(){
+    const app = this
+    app.showChange = true
+  }
+
+  hideChangePassword(){
+    const app = this
+    app.showChange = false
+  }
+
+  changePassword() {
+    const app = this
+    if (app.password !== '') {
+      app._window.ScryptaCore.readKey(app.password, app.address + ':' + app.encrypted).then(function (response) {
+        if (response !== false) {
+          if(app.passwordChange === app.passwordChangeRepeat){
+            var wallet = {
+                prv: response.prv,
+                key: response.key
+            }
+            app._window.ScryptaCore.buildWallet(app.passwordChange, app.address, wallet, false).then(function(response){
+              app.wallet[app.index] = response
+              localStorage.setItem('wallet',JSON.stringify(app.wallet))
+              app.showChange = false
+              app.password = ''
+              app.passwordChange = ''
+              app.passwordChangeRepeat = ''
+              let payload = app.wallet[app.index].split(':')
+              app.address = payload[0]
+              app.encrypted = payload[1]
+              alert(app.translations.identities.password_changed)
+            })
+          }else{
+            alert(app.translations.home.password_not_match)
+          }
+        } else {
+          alert('Wrong Password')
+        }
+      })
+    } else {
+      alert('Fill all the fields!')
+    }
   }
 
   copyAddress() {

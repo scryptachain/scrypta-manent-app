@@ -43,6 +43,7 @@ export default {
         },
         identities: {
             title: 'Manage identities',
+            password_changed: 'Password changed!',
             hide_empty: 'Hide empty identities',
             loading: 'Loading identities...',
             add_account: 'Add new identity',
@@ -59,6 +60,7 @@ export default {
             identity: 'Identity',
             imported: 'imported',
             use_address: 'Use this identity',
+            change_password: 'Change password',
             open_explorer: 'Open in block explorer',
             delete_address: 'Delete identity',
             show_privkey: 'Show private key',
@@ -130,6 +132,9 @@ export default {
             logout: 'Logout'
         },
         general: {
+            pay_now: 'Pay now',
+            process_payment: 'Processing payment, please wait',
+            receive_card: 'Make Payment with Card',
             to: 'to',
             from: 'from',
             address: "Address",
@@ -152,6 +157,7 @@ export default {
             welcome_manent: 'Welcome on Manent',
             official_wallet: 'The Official Scrypta Wallet',
             choose_password: 'Choose a strong password to start.',
+            password_not_match: 'New password don\'t match!',
             price_is: 'Price is',
             congratulations: 'Congratulations!',
             make_backup: 'Now it\'s time to make a backup.',
@@ -236,6 +242,7 @@ export default {
         },
         identities: {
             title: 'Gestisci identità',
+            password_changed: 'Password cambiata correttamente!',
             hide_empty: 'Nascondi identità senza fondi',
             loading: 'Carico identità...',
             add_account: 'Aggiungi nuova identità',
@@ -252,6 +259,7 @@ export default {
             identity: 'Identità',
             imported: 'importata',
             use_address: 'Usa questa identità',
+            change_password: 'Cambia password',
             open_explorer: 'Apri nel block explorer',
             delete_address: 'Elimina identità',
             show_privkey: 'Visualizza la chiave privata',
@@ -323,6 +331,9 @@ export default {
             logout: 'Esci'
         },
         general: {
+            process_payment: 'Effettuo il pagamento...',
+            receive_card: 'Effettua pagamento con card',
+            pay_now: 'Paga ora',
             to: 'a',
             from: 'da',
             address: "Indirizzo",
@@ -352,6 +363,7 @@ export default {
             congratulations: 'Congratulazioni!',
             make_backup: 'Ora è il momento di fare un backup',
             unconfirmed: 'Transazioni non confermate',
+            password_not_match: 'La nuova password non corrisponde!',
             latest_transactions: 'Ultime transazioni',
             balance: 'Il tuo bilancio',
             open_block_explorer: 'Apri block explorer',

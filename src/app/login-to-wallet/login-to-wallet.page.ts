@@ -88,6 +88,7 @@ export class LoginToWalletPage implements OnInit {
           let address = hex.substr(3)
           console.log('ADDRESS', address)
           app.addAddress(address)
+          app.closeSession()
         });
       });
     }, () => {
@@ -121,12 +122,6 @@ export class LoginToWalletPage implements OnInit {
         let address = str.substr(3)
         app.addAddress(address)
         app.nfcreader.unsubscribe()
-
-        this.platform.ready().then(() => {
-          if(this.platform.is('ios') === true ){
-            app.closeSession()
-          }
-        })
 
         if(app.add !== null){
           app.router.navigate(['/account'])

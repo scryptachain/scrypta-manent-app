@@ -13,8 +13,28 @@
   <span style="font-size:11px">{{ address }}</span> <span style="font-size:25px; margin-left:5px"><ion-icon (click)="copyAddress()" name="copy"></ion-icon></span><br>
   <button class='buttonsBut' (click)="useAddress()" style='margin:10px auto; width:100%; opacity: 1'>{{ translations.identities.use_address }}</button><br>
   <button class='buttonsBut' (click)="openInExplorer()" style='margin:0 auto; width:100%; opacity: 1'>{{ translations.identities.open_explorer }}</button><br>
+  <button class='buttonsBut' (click)="openChangePassword()" style='margin:10px auto 0 auto; width:100%; opacity: 1'>{{ translations.identities.change_password }}</button><br>
   <button class='buttonsBut' (click)="confirmDelete()" style='margin:10px auto 0 auto; width:100%; opacity: 1'>{{ translations.identities.delete_address }}</button>
   
+  <div *ngIf="showChange === true" class="unlockModal ion-padding">
+      <ion-icon name='close' style="position:absolute; top:10px; right:10px; font-size:25px" (click)='hideChangePassword()'></ion-icon>
+      <h4 style="margin-top:20vh">{{ translations.send.enter_wallet_password }}</h4>
+      <ion-item class="ion-text-center">
+        <ion-input [(ngModel)]='password' type='password'></ion-input>
+      </ion-item>
+      <h4 style="margin-top:10px">{{ translations.home.enter_password }}</h4>
+      <ion-item class="ion-text-center">
+        <ion-input [(ngModel)]='passwordChange' type='password'></ion-input>
+      </ion-item>
+      <h4 style="margin-top:10px">{{ translations.home.repeat_password }}</h4>
+      <ion-item class="ion-text-center">
+        <ion-input [(ngModel)]='passwordChangeRepeat' type='password'></ion-input>
+      </ion-item>
+      <div class="ion-text-center">
+        <button (click)='changePassword()' class='buttonsBut ion-text-center' style='margin:10% auto 0 auto;'>{{ translations.identities.change_password }}</button>
+      </div>
+    </div>
+
   <div *ngIf="private_key === ''">
       <div *ngIf="showUnlock === true" class="unlockModal ion-padding">
           <ion-icon name='close' style="position:absolute; top:10px; right:10px; font-size:25px" (click)='lock()'></ion-icon>

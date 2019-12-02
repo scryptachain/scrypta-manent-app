@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
-import axios from 'axios';
+import { Component, OnInit } from '@angular/core'
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx'
+import axios from 'axios'
 import { Clipboard } from '@ionic-native/clipboard/ngx'
+import { WindowRefService, ICustomWindow } from '../windowservice';
 var locales =  require('../locales.js')
+import { NFC } from '@ionic-native/nfc/ngx'
+import { Platform } from '@ionic/angular'
 
 declare var QRious: any
 @Component({
@@ -13,6 +16,7 @@ declare var QRious: any
 export class ReceivePage implements OnInit {
   language: any = 'en'
   locales: any = locales
+  password: any = ''
   translations: any = {}
   amount: any = 0
   currency: string = 'eur'
@@ -23,10 +27,26 @@ export class ReceivePage implements OnInit {
   encrypted: string = ''
   wallet: string = ''
   selected: number = 0
+  isSending: boolean = false
   address: string
+  showUnlock: boolean = false
+  guestWallet: any = ''
   encodedData: {}
+  showNFC:boolean = false
+  private _window: ICustomWindow;
+  haveNFC: boolean = true
+  nfcreader:any
+  isIOS: boolean = false
   public myAngularxQrCode: string = null;
-  constructor(private clipboard: Clipboard) { }
+  constructor(private nfc: NFC, public platform: Platform, windowRef: WindowRefService, private clipboard: Clipboard) { 
+    const app = this
+    app._window = windowRef.nativeWindow;
+    app.platform.ready().then(async () => {
+      if(this.platform.is('ios') === true ){
+        app.isIOS = true
+      }
+    })
+  }
 
   async ngOnInit() {
     const app = this
@@ -58,6 +78,92 @@ export class ReceivePage implements OnInit {
     alert('Address copied!')
   }
   
+  receiveCardiOS(){
+    const app = this
+    this.nfc.enabled().then(() => {
+      app.showUnlock = true
+      this.nfc.beginSession().subscribe(() => {
+        this.nfc.addNdefListener(() => {}).subscribe((event: any) => {
+          let NFC = this.nfc.bytesToString(event.tag.ndefMessage[0].payload)
+          var hex  = NFC.toString();
+          let address = hex.substr(3)
+          app.guestWallet = address
+          app.closeSession()
+        });
+      });
+    }, () => {
+      alert(app.translations.identities.no_nfc);
+    });
+  }
+
+  receiveCardAndroid() {
+    const app = this
+      app.nfcreader = this.nfc.addNdefListener(() => {
+        app.showNFC = true
+      }, (err) => {
+        alert(app.translations.identities.no_nfc);
+      }).subscribe(async (event) => {
+        app.showNFC = false
+        let NFC = this.nfc.bytesToHexString(event.tag.ndefMessage[0].payload)
+        var hex  = NFC.toString();
+        var str = '';
+        for (var n = 0; n < hex.length; n += 2) {
+          str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+        }
+        let address = str.substr(3)
+        app.guestWallet = address
+        app.showUnlock = true
+        app.nfcreader.unsubscribe()
+    })
+  }
+  
+  closeNFC(){
+    const app = this
+    app.nfcreader.unsubscribe()
+    app.showNFC = false
+  }
+
+  unlockWallet() {
+    const app = this
+    if (app.password !== '') {
+      app._window.ScryptaCore.readKey(app.password, app.guestWallet).then(async function (response) {
+        if (response !== false) {
+          app.isSending = true
+          await app._window.ScryptaCore.send(app.password, app.address, app.amountLyra, '', app.guestWallet).then((result) => {
+            app.isSending = false
+            if(result !== false && result !== undefined && result !== null){
+              alert(app.translations.send.sent_successful)
+              app.amountLyra = 0
+              app.amountFIAT = 0
+            }else{
+              alert(app.translations.token.send_fail)
+            }
+            app.showUnlock = false
+            app.guestWallet = ''
+          })
+        } else {
+          alert('Wrong Password')
+        }
+      })
+    } else {
+      alert('Fill all the fields!')
+    }
+  }
+
+  lock() {
+    const app = this
+    app.showUnlock = false
+  }
+
+  closeSession(){
+    const app = this
+    app.nfcreader.invalidateSession(success => {
+      console.log('Can\'t close session')
+    }, error => {
+      alert(app.translations.identities.no_nfc)
+    })
+  }
+
   calculateQRCode() {
     const app = this
     if (app.amountLyra === 0) {

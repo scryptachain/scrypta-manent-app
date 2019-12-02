@@ -161,13 +161,13 @@ export class DashboardPage implements OnInit {
     }
     var url: string
     if (app.currency == 'eur') {
-      url = 'https://api.coingecko.com/api/v3/coins/scrypta/market_chart?vs_currency=eur&days=30'
+      url = 'https://api.coingecko.com/api/v3/coins/scrypta/market_chart?vs_currency=eur&days=4'
     }
     else if (app.currency == 'usd') {
-      url = 'https://api.coingecko.com/api/v3/coins/scrypta/market_chart?vs_currency=usd&days=30'
+      url = 'https://api.coingecko.com/api/v3/coins/scrypta/market_chart?vs_currency=usd&days=4'
     }
     else if (app.currency == 'gbp') {
-      url = 'https://api.coingecko.com/api/v3/coins/scrypta/market_chart?vs_currency=gbp&days=30'
+      url = 'https://api.coingecko.com/api/v3/coins/scrypta/market_chart?vs_currency=gbp&days=4'
     }
     axios.get('https://api.coingecko.com/api/v3/simple/price?ids=scrypta&vs_currencies=btc,' + app.currency)
       .then(function (result) {
