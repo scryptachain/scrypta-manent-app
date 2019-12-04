@@ -129,6 +129,7 @@ export class ReceivePage implements OnInit {
       app._window.ScryptaCore.readKey(app.password, app.guestWallet).then(async function (response) {
         if (response !== false) {
           app.isSending = true
+          app.amountLyra = parseFloat(app.amountLyra.replace(',','.').replace('0',''))
           await app._window.ScryptaCore.send(app.password, app.address, app.amountLyra, '', app.guestWallet).then((result) => {
             app.isSending = false
             if(result !== false && result !== undefined && result !== null){
