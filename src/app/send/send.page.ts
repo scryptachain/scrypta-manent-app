@@ -225,6 +225,7 @@ export class SendPage implements OnInit {
     const app = this
     if(app.isSending === false){
       app.isSending = true
+      app.amountToSend = parseFloat(app.amountToSend.replace(',','.').replace('0',''))
       await this._window.ScryptaCore.send(app.unlockPwd, app.addressToSend, app.amountToSend, '', app.address + ':' + app.encrypted).then((result) => {
         if(result !== false && result !== undefined && result !== null){
           let stored = localStorage.getItem('pendingtx')
