@@ -154,6 +154,7 @@ export default {
         },
         home: {
             or: 'OR',
+            enter_new_password: 'Enter new password',
             welcome_manent: 'Welcome on Manent',
             official_wallet: 'The Official Scrypta Wallet',
             choose_password: 'Choose a strong password to start.',
@@ -353,6 +354,7 @@ export default {
         },
         home: {
             or: 'OPPURE',
+            enter_new_password: 'Inserisci la nuova password',
             welcome_manent: 'Benvenuto su Manent',
             official_wallet: 'Il Wallet ufficiale di Scrypta',
             choose_password: 'Inserisci una tua password sicura per procedere.',
