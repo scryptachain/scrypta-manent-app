@@ -154,12 +154,21 @@ export class LoginToWalletPage implements OnInit {
           this.router.navigate(['/dashboard'])
         }else{
           let wallet = JSON.parse(localStorage.getItem('wallet'))
-          if(wallet.indexOf(address) === -1){
+          let found = false
+          for(let xx in wallet){
+            let pp = wallet[xx].split(':')
+            if(pp[0] === payload[0]){
+              found = true
+            }
+          }
+          if(found === false){
             wallet.push(address)
             localStorage.setItem('wallet',JSON.stringify(wallet))
-            alert(payload[0] + app.translations.identities.imported + '!')
+            alert(payload[0] + ' ' + app.translations.identities.imported + '!')
+            this.router.navigate(['/dashboard'])
           }else{
             alert(app.translations.identities.address_exist)
+            this.router.navigate(['/dashboard'])
           }
         }
       }else{

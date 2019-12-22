@@ -225,7 +225,7 @@ export class SendPage implements OnInit {
     const app = this
     if(app.isSending === false){
       app.isSending = true
-      app.amountToSend = parseFloat(String(app.amountToSend).replace(',','.').replace('0',''))
+      app.amountToSend = parseFloat(String(app.amountToSend).replace(',','.'))
       await this._window.ScryptaCore.send(app.unlockPwd, app.addressToSend, app.amountToSend, '', app.address + ':' + app.encrypted).then((result) => {
         if(result !== false && result !== undefined && result !== null){
           let stored = localStorage.getItem('pendingtx')
@@ -258,7 +258,7 @@ export class SendPage implements OnInit {
   scanQRCode() {
     const app = this
     this.qrScanner.scan().then(barcodeData => {
-      barcodeData.text = barcodeData.text.replace('lyra:','')
+      barcodeData.text = barcodeData.text.replace('lyra:','').replace('scrypta:','')
       let check = barcodeData.text.split('?')
       if(check[1] !== undefined){
         var amount = check[1].replace('amount=','')
