@@ -21,17 +21,15 @@ export class AppComponent {
     private platform: Platform,
     private statusBar: StatusBar,
     private router: Router,
-    private menuCtrl: MenuController,
+    private menu: MenuController,
     private globalization: Globalization
   ) {
     this.initializeApp();
     const app = this
-
     if (localStorage.getItem('language') !== null) {
       app.language = localStorage.getItem('language')
     }
     app.translations = this.locales.default[app.language]
-
     app.appPages = [
       {
         title: 'Dashboard',
@@ -65,8 +63,8 @@ export class AppComponent {
         document.body.classList.add("dark")
       }
     }
-
   }
+
   fetchAddress() {
     if (localStorage.getItem('lyraWallet') !== null) {
       var indirizzo = localStorage.getItem('lyraWallet').split(':')
