@@ -333,7 +333,7 @@ export default {
         },
         general: {
             process_payment: 'Effettuo il pagamento...',
-            receive_card: 'Effettua pagamento con card',
+            receive_card: 'Effettua pagamento',
             pay_now: 'Paga ora',
             to: 'a',
             from: 'da',

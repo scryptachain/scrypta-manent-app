@@ -4,11 +4,13 @@
             <ion-menu-button></ion-menu-button>
             <ion-title>{{ translations.ui.receive }}</ion-title>
             </ion-buttons>
-      
+            <ion-buttons slot="end">
+              <ion-icon name="qr-scanner" (click)='openModalQR()' style="padding-right:10px;"></ion-icon>
+            </ion-buttons>
     </ion-toolbar>
 </ion-header>
 <ion-content >
-  <div style="width: 100%; text-align: center; margin:30px 0 15px 0;">
+  <div *ngIf="showQR" style="width: 100%; text-align: center; margin:30px 0 15px 0;">
       <qrcode [qrdata]="myAngularxQrCode" [size]="256" style="display:inline-block; border:10px solid #fff" [level]="'M'"></qrcode><br>
       <span style="font-size:11px">{{address}}</span> <span style="font-size:25px; margin-left:5px"><ion-icon (click)="copyAddress()" name="copy"></ion-icon></span>
   </div>
@@ -20,11 +22,25 @@
   <ion-input type="number" [(ngModel)]='amountFIAT' (ionFocus)="fixInputs('fiat')" (ngModelChange)='calculateLyra()' value=0 style='font-size: 18px; font-weight:bold;'></ion-input>
   <p style='font-size: 18px; font-weight:bold;' slot='end'>{{ currency.toUpperCase() }}</p>
 </ion-item>
-<div *ngIf = "isIOS === false && amountLyra > 0" style="text-align:center">
-  <button (click)='receiveCardAndroid()' expand="full" class='buttonsBut' style='margin-top: 5%;'>{{ translations.general.receive_card }}<ion-icon name="card" style="float:right" size='large'></ion-icon></button><br/>
+<div style="text-align: center;" *ngIf="!showQR">
+  <div (click)='addNumber(1)' class="pos-btn">1</div>
+  <div (click)='addNumber(2)' class="pos-btn">2</div>
+  <div (click)='addNumber(3)' class="pos-btn">3</div>
+  <div (click)='addNumber(4)' class="pos-btn">4</div>
+  <div (click)='addNumber(5)' class="pos-btn">5</div>
+  <div (click)='addNumber(6)' class="pos-btn">6</div>
+  <div (click)='addNumber(7)' class="pos-btn">7</div>
+  <div (click)='addNumber(8)' class="pos-btn">8</div>
+  <div (click)='addNumber(9)' class="pos-btn">9</div>
+  <div (click)='addDot()' class="pos-btn">.</div>
+  <div (click)='addNumber(0)' class="pos-btn">0</div>
+  <div (click)='removeNumber()' class="pos-btn">C</div>
 </div>
-<div *ngIf = "isIOS === true && amountLyra > 0" style="text-align:center">
-  <button (click)='receiveCardiOS()' style="text-align:center" expand="full" class='buttonsBut' style='margin-top: 5%'>{{ translations.general.receive_card }}<ion-icon name="card" style="float:right" size='large'></ion-icon></button><br/>
+<div *ngIf = "isIOS === false && !showQR" style="text-align:center">
+  <button (click)='receiveCardAndroid()' expand="full" class='buttonsBut' style='margin-top: 5%;'>{{ translations.general.receive_card }}<ion-icon name="arrow-forward" style="float:right" size='large'></ion-icon></button><br/>
+</div>
+<div *ngIf = "isIOS === true && !showQR" style="text-align:center">
+  <button (click)='receiveCardiOS()' style="text-align:center" expand="full" class='buttonsBut' style='margin-top: 5%'>{{ translations.general.receive_card }}<ion-icon name="arrow-forward" style="float:right" size='large'></ion-icon></button><br/>
 </div>
 <ion-content *ngIf="showUnlock === true" class="unlockModal ion-padding">
   <ion-icon name='close' style="position:absolute; top:10px; right:10px; font-size:25px" (click)='lock()'></ion-icon>
@@ -77,12 +93,11 @@
           <ion-label style='color:#a7a7a7'>{{ translations.ui.vault }}</ion-label>
           <ion-icon name="lock" style='color:#a7a7a7'></ion-icon>
         </ion-tab-button>
-        
-        <!--
+      
         <ion-tab-button [routerLink]="'/token'">
           <ion-label style='color:#a7a7a7'>Token</ion-label>
           <ion-icon name="wallet" style='color:#a7a7a7'></ion-icon>
-        </ion-tab-button>-->
+        </ion-tab-button>
     </ion-tab-bar>
   
   </ion-footer>

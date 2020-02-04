@@ -33,6 +33,7 @@ export class ReceivePage implements OnInit {
   guestWallet: any = ''
   encodedData: {}
   showNFC:boolean = false
+  showQR:boolean = false
   private _window: ICustomWindow;
   haveNFC: boolean = true
   nfcreader:any
@@ -76,6 +77,15 @@ export class ReceivePage implements OnInit {
     const app = this
     app.clipboard.copy(app.address)
     alert('Address copied!')
+  }
+
+  openModalQR() {
+    const app = this
+    if(app.showQR === false){
+      app.showQR = true
+    }else{
+      app.showQR = false
+    }
   }
   
   receiveCardiOS(){
