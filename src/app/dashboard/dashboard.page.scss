@@ -1,5 +1,10 @@
 //@import 'https://code.highcharts.com/css/highcharts.css';
-
+.show{
+    display:block!important;
+    width:100%!important;
+    padding:0!important;
+    margin:0!important;
+}
 #container {
 	height: 400px;
 	max-width: 800px;

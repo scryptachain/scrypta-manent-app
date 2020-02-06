@@ -83,7 +83,6 @@ export class TokenPage implements OnInit {
    }else{
     localStorage.setItem('chain',address)
    }
-   alert(app.translations.token.token_selected)
    this.router.navigate(['/dashboard'])
  }
 
