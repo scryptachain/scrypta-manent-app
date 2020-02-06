@@ -20,6 +20,7 @@ export class DashboardPage implements OnInit {
   selected: number = 0
   balance: any = '-'
   encrypted: string = ''
+  chain: string = 'main'
   lyra: number;
   value: string = '0'
   language: any = 'en'
@@ -33,6 +34,7 @@ export class DashboardPage implements OnInit {
   transactions = []
   unconfirmed = []
   currency: string = 'eur'
+  ticker: string = ''
   isRefreshing: boolean = false
   current_price: any = 0
   private _window: ICustomWindow;
@@ -63,6 +65,10 @@ export class DashboardPage implements OnInit {
     const app = this
     if (localStorage.getItem('selected') !== null) {
       app.selected = parseInt(localStorage.getItem('selected'))
+    }
+
+    if (localStorage.getItem('chain') !== null) {
+      app.chain = localStorage.getItem('chain')
     }
     
     if (localStorage.getItem('language') !== null) {
@@ -103,54 +109,67 @@ export class DashboardPage implements OnInit {
 
   async getBalance() {
     const app = this
-    if (localStorage.getItem('currency') !== null) {
-      app.currency = localStorage.getItem('currency')
-    }
+    if(app.chain === 'main'){
+      if (localStorage.getItem('currency') !== null) {
+        app.currency = localStorage.getItem('currency')
+      }
 
-    let url = 'https://api.coingecko.com/api/v3/simple/price?ids=scrypta&vs_currencies=btc,' + app.currency
-    axios.get(url)
-      .then(function (result) {
-        let price: number = result.data.scrypta[app.currency]
-        var priceBTC = result.data.scrypta['btc']
-        app.current_price = price
-        app.pricelabel = app.translations.home.price_is + ' ' + app.current_price + ' ' + app.currency.toUpperCase()
-        axios.get('https://' + app.idanode + '/balance/' + app.address)
-          .then(function (response) {
-            app.balance = response.data['balance'].toFixed(4)
-            app.value = (parseFloat(app.balance) * parseFloat(app.current_price)).toFixed(4)
-            app.valueBTC = (parseFloat(app.balance) * parseFloat(priceBTC)).toFixed(8)
-            for(let k in app.unconfirmed){
-              app.balance = parseFloat(app.balance) - parseFloat(app.unconfirmed[k].value)
-            }
-            app.balance = parseFloat(app.balance).toFixed(4)
-          })
-      }).catch(error => {
-        this.getBalance()
-      })
+      let url = 'https://api.coingecko.com/api/v3/simple/price?ids=scrypta&vs_currencies=btc,' + app.currency
+      axios.get(url)
+        .then(function (result) {
+          let price: number = result.data.scrypta[app.currency]
+          var priceBTC = result.data.scrypta['btc']
+          app.current_price = price
+          app.pricelabel = app.translations.home.price_is + ' ' + app.current_price + ' ' + app.currency.toUpperCase()
+          axios.get('https://' + app.idanode + '/balance/' + app.address)
+            .then(function (response) {
+              app.balance = response.data['balance'].toFixed(4)
+              app.value = (parseFloat(app.balance) * parseFloat(app.current_price)).toFixed(4)
+              app.valueBTC = (parseFloat(app.balance) * parseFloat(priceBTC)).toFixed(8)
+              for(let k in app.unconfirmed){
+                app.balance = parseFloat(app.balance) - parseFloat(app.unconfirmed[k].value)
+              }
+              app.balance = parseFloat(app.balance).toFixed(4)
+            })
+        }).catch(error => {
+          this.getBalance()
+        })
+    }else{
+      let sidechainBalance = await axios.post('https://' + app.idanode + '/sidechain/balance', { dapp_address: app.address, sidechain_address: app.chain })
+      app.balance = sidechainBalance.data.balance
+      app.ticker = sidechainBalance.data.symbol
+    }
   }
 
   async fetchTransactions() {
     const app = this
-    axios.get('https://' + app.idanode + '/transactions/' + app.address)
-      .then(function (response) {
-        app.transactions = response.data['data']
-        for(let k in app.transactions){
-            if(app.unconfirmed.length > 0){
-              for(let x in app.unconfirmed){
-                if(app.unconfirmed[x].txid === app.transactions[k].txid){
-                  let updated = []
-                  for(let y in app.unconfirmed){
-                    if(app.unconfirmed[y].txid !== app.transactions[k].txid){
-                      updated.push(app.unconfirmed[y])
+    if(app.chain === 'main'){
+      axios.get('https://' + app.idanode + '/transactions/' + app.address)
+        .then(function (response) {
+          app.transactions = response.data['data']
+          for(let k in app.transactions){
+              if(app.unconfirmed.length > 0){
+                for(let x in app.unconfirmed){
+                  if(app.unconfirmed[x].txid === app.transactions[k].txid){
+                    let updated = []
+                    for(let y in app.unconfirmed){
+                      if(app.unconfirmed[y].txid !== app.transactions[k].txid){
+                        updated.push(app.unconfirmed[y])
+                      }
                     }
+                    localStorage.setItem('pendingtx',JSON.stringify(updated))
+                    app.unconfirmed = updated
                   }
-                  localStorage.setItem('pendingtx',JSON.stringify(updated))
-                  app.unconfirmed = updated
-                }
+              }
             }
           }
-        }
+        })
+    }else{
+      axios.post('https://' + app.idanode + '/sidechain/transactions', { dapp_address: app.address, sidechain_address: app.chain })
+      .then(function (response) {
+        app.transactions = response.data.transactions
       })
+    }
   }
 
   async fetchGraph() {
@@ -185,62 +204,64 @@ export class DashboardPage implements OnInit {
               labels.push(date)
               data.push(app.dati[i][1])
             }
-            setTimeout(function(){
-              app.lineChart = new Chart(app.lineCanvas.nativeElement, {
-                type: "line",
-                options: {
-                  responsive: true,
-                  legend: {
-                    display: false,
-                      labels: {
-                        boxWidth: 0
-                      }
-                  },
-                  scales: {
-                    xAxes: [{
+            if(app.chain === 'main'){
+              setTimeout(function(){
+                app.lineChart = new Chart(app.lineCanvas.nativeElement, {
+                  type: "line",
+                  options: {
+                    responsive: true,
+                    legend: {
                       display: false,
-                      scaleLabel: {
+                        labels: {
+                          boxWidth: 0
+                        }
+                    },
+                    scales: {
+                      xAxes: [{
                         display: false,
-                        labelString: 'Month'
-                      }
-                    }],
-                    yAxes: [{
-                      display: false,
-                      scaleLabel: {
-                        display: true,
-                        labelString: 'Value'
-                      }
-                    }]
-                  }
-                },
-                data: {
-                  labels: labels,
-                  datasets: [
-                    {
-                      fill: true,
-                      lineTension: 0.1,
-                      backgroundColor: "rgba(216,39,58,0.4)",
-                      borderColor: "rgba(216,39,58,1)",
-                      borderCapStyle: "butt",
-                      borderDash: [],
-                      borderDashOffset: 0.0,
-                      borderJoinStyle: "miter",
-                      pointBorderColor: "rgba(216,39,58,0)",
-                      pointBackgroundColor: "transparent",
-                      pointBorderWidth: 0,
-                      pointHoverRadius: 5,
-                      pointHoverBackgroundColor: "rgba(216,39,58,1)",
-                      pointHoverBorderColor: "rgba(216,39,58,1)",
-                      pointHoverBorderWidth: 2,
-                      pointRadius: 1,
-                      pointHitRadius: 10,
-                      data: data,
-                      spanGaps: false
+                        scaleLabel: {
+                          display: false,
+                          labelString: 'Month'
+                        }
+                      }],
+                      yAxes: [{
+                        display: false,
+                        scaleLabel: {
+                          display: true,
+                          labelString: 'Value'
+                        }
+                      }]
                     }
-                  ]
-                }
-              })
-            },300)
+                  },
+                  data: {
+                    labels: labels,
+                    datasets: [
+                      {
+                        fill: true,
+                        lineTension: 0.1,
+                        backgroundColor: "rgba(216,39,58,0.4)",
+                        borderColor: "rgba(216,39,58,1)",
+                        borderCapStyle: "butt",
+                        borderDash: [],
+                        borderDashOffset: 0.0,
+                        borderJoinStyle: "miter",
+                        pointBorderColor: "rgba(216,39,58,0)",
+                        pointBackgroundColor: "transparent",
+                        pointBorderWidth: 0,
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: "rgba(216,39,58,1)",
+                        pointHoverBorderColor: "rgba(216,39,58,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 1,
+                        pointHitRadius: 10,
+                        data: data,
+                        spanGaps: false
+                      }
+                    ]
+                  }
+                })
+              },300)
+            }
           })
       });
   }

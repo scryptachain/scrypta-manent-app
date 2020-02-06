@@ -42,6 +42,11 @@ export class AppComponent {
         icon: 'journal'
       },
       {
+        title: app.translations.token.title,
+        url: '/token',
+        icon: 'wallet'
+      },
+      {
         title: app.translations.ui.contacts,
         url: '/address-book',
         icon: 'contact'

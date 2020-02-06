@@ -75,13 +75,17 @@ export default {
             download_paper: 'Download paper wallet'
         },
         token: {
-            your_tokens: 'Your tokens',
-            no_tokens: 'No tokens',
-            send_token: 'Send token',
-            select_token: 'Select a token',
+            your_tokens: 'Your assets',
+            no_tokens: 'No assets',
+            send_token: 'Send assets',
+            select_token: 'Select an asset',
+            token_selected: 'Asset selected!',
             no_balance: 'Not enough balance!',
             send_success: 'Send was successful!!',
-            send_fail: 'Send failed, please retry.'
+            send_fail: 'Send failed, please retry.',
+            title: 'Manage assets',
+            loading: 'Loading your assets',
+            hide_empty: 'Hide empty assets'
         },
         upload: {
             insert_title: "Enter a title",
@@ -94,7 +98,7 @@ export default {
             loading: "Loading..."
         },
         send: {
-            send_title: "Send Lyra",
+            send_title: "Send",
             loading_data: "Loading data, please wait...",
             details_button: "Show details",
             refresh: "Refresh",
@@ -281,7 +285,11 @@ export default {
             select_token: 'Seleziona un token',
             no_balance: 'Non hai abbastanza token!',
             send_success: 'Token inviati correttamente!',
-            send_fail: 'Invio fallito, ritenta.'
+            token_selected: 'Asset selezionato!',
+            send_fail: 'Invio fallito, ritenta.',
+            title: 'Gestisci asset',
+            loading: 'Carico i tuoi asset',
+            hide_empty: 'Nascondi asset senza fondi'
         },
         upload: {
             insert_title: "Inserisci un titolo",
@@ -294,7 +302,7 @@ export default {
             loading: "Caricamento..."
         },
         send: {
-            send_title: "Invia Lyra",
+            send_title: "Invia",
             loading_data: "Caricamento, aspetta un attimo...",
             details_button: "Dettagli",
             your_balance: "Il tuo bilancio:",

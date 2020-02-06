@@ -29,6 +29,7 @@ const routes: Routes = [
   { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
   { path: 'card-settings', loadChildren: './card-settings/card-settings.module#CardSettingsPageModule' },
   { path: 'archive', loadChildren: './archive/archive.module#ArchivePageModule' },
+  { path: 'token', loadChildren: './token/token.module#TokenPageModule' },
   { path: 'archivedetail', loadChildren: './archivedetail/archivedetail.module#ArchivedetailPageModule' },
   { path: 'upload-modal', loadChildren: './upload-modal/upload-modal.module#UploadModalPageModule' },
   { path: 'modaltransaction', loadChildren: './modaltransaction/modaltransaction.module#ModaltransactionPageModule' },

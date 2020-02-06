@@ -14,11 +14,15 @@
       <qrcode [qrdata]="myAngularxQrCode" [size]="256" style="display:inline-block; border:10px solid #fff" [level]="'M'"></qrcode><br>
       <span style="font-size:11px">{{address}}</span> <span style="font-size:25px; margin-left:5px"><ion-icon (click)="copyAddress()" name="copy"></ion-icon></span>
   </div>
-<ion-item>
+  <ion-item *ngIf="chain !== 'main'">
+    <ion-input type="text" readonly [(ngModel)]='amountSidechain' (ionFocus)="fixInputs('sidechain')" value=0 style='font-size: 36px; line-height:36px; font-weight:bold;'></ion-input>
+    <p style='font-size: 36px; line-height:36px; font-weight:bold;' slot='end'>{{ ticker }}</p>
+  </ion-item>
+<ion-item *ngIf="chain === 'main'">
   <ion-input type="text" readonly [(ngModel)]='amountLyra' (ionFocus)="fixInputs('lyra')" (ngModelChange)='calculateFIAT()' value=0 style='font-size: 36px; line-height:36px; font-weight:bold;'></ion-input>
   <p style='font-size: 36px; line-height:36px; font-weight:bold;' slot='end'>LYRA</p>
 </ion-item>
-<ion-item>
+<ion-item *ngIf="chain === 'main'">
   <ion-input type="text" readonly [(ngModel)]='amountFIAT' (ionFocus)="fixInputs('fiat')" (ngModelChange)='calculateLyra()' value=0 style='font-size: 18px; font-weight:bold;'></ion-input>
   <p style='font-size: 18px; font-weight:bold;' slot='end'>{{ currency.toUpperCase() }}</p>
 </ion-item>
@@ -89,15 +93,11 @@
           <ion-icon name="add" class="bottom-menu-active"></ion-icon>
         </ion-tab-button>
 
-        <ion-tab-button [routerLink]="'/archive'" >
+        <ion-tab-button [routerLink]="'/archive'" *ngIf="chain === 'main'">
           <ion-label style='color:#a7a7a7'>{{ translations.ui.vault }}</ion-label>
           <ion-icon name="lock" style='color:#a7a7a7'></ion-icon>
         </ion-tab-button>
-      
-        <ion-tab-button [routerLink]="'/token'">
-          <ion-label style='color:#a7a7a7'>Token</ion-label>
-          <ion-icon name="wallet" style='color:#a7a7a7'></ion-icon>
-        </ion-tab-button>
+  
     </ion-tab-bar>
   
   </ion-footer>

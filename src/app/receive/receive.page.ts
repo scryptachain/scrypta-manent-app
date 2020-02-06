@@ -20,12 +20,16 @@ export class ReceivePage implements OnInit {
   translations: any = {}
   amount: any = 0
   currency: string = 'eur'
+  chain: string = 'main'
   amountLyra: any = 0
+  amountSidechain: any = 0
+  ticker: any = ''
   amountFIAT: any = 0
   price: any = 0
   focus: any = 'lyra'
   encrypted: string = ''
   wallet: string = ''
+  idanode: string = 'idanodejs01.scryptachain.org'
   selected: number = 0
   isSending: boolean = false
   address: string
@@ -60,6 +64,10 @@ export class ReceivePage implements OnInit {
       this.currency = localStorage.getItem('currency')
     }
     
+    if (localStorage.getItem('chain') !== null) {
+      app.chain = localStorage.getItem('chain')
+    }
+    
     if (localStorage.getItem('language') !== null) {
       app.language = localStorage.getItem('language')
     }
@@ -69,6 +77,12 @@ export class ReceivePage implements OnInit {
     let payload = app.wallet[app.selected].split(':')
     app.address = payload[0]
     app.encrypted = payload[1]
+
+    if(app.chain !== 'main'){
+      let sidechainBalance = await axios.post('https://' + app.idanode + '/sidechain/balance', { dapp_address: app.address, sidechain_address: app.chain })
+      app.ticker = sidechainBalance.data.symbol
+    }
+
     this.calculateQRCode()
     app.price = await app.returnLyraPrice()
   }
@@ -139,19 +153,42 @@ export class ReceivePage implements OnInit {
       app._window.ScryptaCore.readKey(app.password, app.guestWallet).then(async function (response) {
         if (response !== false) {
           app.isSending = true
-          app.amountLyra = parseFloat(app.amountLyra.replace(',','.').replace('0',''))
-          await app._window.ScryptaCore.send(app.password, app.address, app.amountLyra, '', app.guestWallet).then((result) => {
+          let guestSplit = app.guestWallet.split(':')
+          if(app.chain === 'main'){
+            app.amountLyra = parseFloat(app.amountLyra.replace(',','.').replace('0',''))
+            await app._window.ScryptaCore.send(app.password, app.address, app.amountLyra, '', app.guestWallet).then((result) => {
+              app.isSending = false
+              if(result !== false && result !== undefined && result !== null){
+                alert(app.translations.send.sent_successful)
+                app.amountLyra = 0
+                app.amountFIAT = 0
+              }else{
+                alert(app.translations.token.send_fail)
+              }
+              app.password = ''
+              app.showUnlock = false
+              app.guestWallet = ''
+            })
+          }else{
+            let responseSend = await axios.post('https://' + app.idanode + '/sidechain/send', 
+              { 
+                from: guestSplit[0], 
+                private_key: response.prv,
+                pubkey: response.key,
+                sidechain_address: app.chain,
+                to: app.address,
+                amount: app.amountSidechain
+              })
             app.isSending = false
-            if(result !== false && result !== undefined && result !== null){
+            if(responseSend.data !== false){
               alert(app.translations.send.sent_successful)
-              app.amountLyra = 0
-              app.amountFIAT = 0
             }else{
               alert(app.translations.token.send_fail)
             }
+            app.password = ''
             app.showUnlock = false
             app.guestWallet = ''
-          })
+          }
         } else {
           alert('Wrong Password')
         }
@@ -204,9 +241,15 @@ export class ReceivePage implements OnInit {
       if(parseFloat(app.amountLyra) === 0){
         app.amountLyra = ''
       }
-      let display = app.amountLyra.toString()
-      display = display.concat(number.toString())
-      app.amountLyra = parseFloat(display)
+      if(app.chain === 'main'){
+        let display = app.amountLyra.toString()
+        display = display.concat(number.toString())
+        app.amountLyra = parseFloat(display)
+      }else{
+        let display = app.amountSidechain.toString()
+        display = display.concat(number.toString())
+        app.amountSidechain = parseFloat(display)
+      }
     }else{
       if(parseFloat(app.amountFIAT) === 0){
         app.amountFIAT = ''
@@ -220,11 +263,20 @@ export class ReceivePage implements OnInit {
   addDot(){
     const app = this
     if(app.focus === 'lyra'){
-      let display = app.amountLyra.toString()
-      let dot = display.split('.')
-      if(!dot[1]){
-        display = display.concat('.')
-        app.amountLyra = display
+      if(app.chain === 'main'){
+        let display = app.amountLyra.toString()
+        let dot = display.split('.')
+        if(!dot[1]){
+          display = display.concat('.')
+          app.amountLyra = display
+        }
+      }else{
+        let display = app.amountSidechain.toString()
+        let dot = display.split('.')
+        if(!dot[1]){
+          display = display.concat('.')
+          app.amountSidechain = display
+        }
       }
     }else{
       let display = app.amountFIAT.toString()
@@ -239,13 +291,24 @@ export class ReceivePage implements OnInit {
   removeNumber(){
     const app = this
     if(app.focus === 'lyra'){
-      let display = app.amountLyra.toString()
-      let max = display.length - 1
-      display = display.substr(0,max)
-      if(display.length > 0){
-        app.amountLyra = parseFloat(display)
+      if(app.chain === 'main'){
+        let display = app.amountLyra.toString()
+        let max = display.length - 1
+        display = display.substr(0,max)
+        if(display.length > 0){
+          app.amountLyra = parseFloat(display)
+        }else{
+          app.amountLyra = 0
+        }
       }else{
-        app.amountLyra = 0
+        let display = app.amountSidechain.toString()
+        let max = display.length - 1
+        display = display.substr(0,max)
+        if(display.length > 0){
+          app.amountSidechain = parseFloat(display)
+        }else{
+          app.amountSidechain = 0
+        }
       }
     }else{
       let display = app.amountFIAT.toString()

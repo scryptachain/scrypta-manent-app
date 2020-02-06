@@ -20,10 +20,12 @@ export class SendPage implements OnInit {
   encrypted: string = ''
   selected: number = 0
   address: string
+  ticker: any = ''
   nodes: string[] = [];
   unconfirmed = []
   connected: string = '';
   public_address: string;
+  chain: string = 'main';
   idanode: string = 'idanodejs01.scryptachain.org'
   encrypted_wallet: string;
   amountToSend: any = 0;
@@ -57,6 +59,10 @@ export class SendPage implements OnInit {
     
     if (localStorage.getItem('currency') !== null) {
       app.currency = localStorage.getItem('currency')
+    }
+    
+    if (localStorage.getItem('chain') !== null) {
+      app.chain = localStorage.getItem('chain')
     }
     
     if (localStorage.getItem('language') !== null) {
@@ -113,7 +119,12 @@ export class SendPage implements OnInit {
 
   async getBalance() {
     const app = this
-    app._window.ScryptaCore.connectNode().then(async function (response) {
+
+    if(app.chain !== 'main'){
+      let sidechainBalance = await axios.post('https://' + app.idanode + '/sidechain/balance', { dapp_address: app.address, sidechain_address: app.chain })
+      app.ticker = sidechainBalance.data.symbol
+      app.balance = sidechainBalance.data.balance
+    }else{
       axios.get('https://' + app.idanode + '/balance/' + app.address)
         .then(function (response) {
           app.balance = response.data['balance'].toFixed(4)
@@ -122,7 +133,7 @@ export class SendPage implements OnInit {
           }
           app.balance = parseFloat(app.balance).toFixed(4)
         })
-    })
+    }
   }
 
   fixInputs(what){
@@ -134,6 +145,10 @@ export class SendPage implements OnInit {
       }
       if(app.amountFIAT === '' || app.amountFIAT === 'NaN'  || app.amountFIAT === null){
         app.amountFIAT = 0
+      }
+    } else if(what === 'sidechain'){
+      if(app.amountToSend === 0){
+        app.amountToSend = ''
       }
     }else{
       if(app.amountFIAT === 0){
@@ -204,11 +219,29 @@ export class SendPage implements OnInit {
     if (app.unlockPwd !== '' && app.addressToSend !== '' && app.amountToSend > 0) {
       if(app.amountToSend < app.balance){
         app.decrypted_wallet = 'Wallet Locked'
-        app._window.ScryptaCore.readKey(app.unlockPwd, app.address + ':' + app.encrypted).then(function (response) {
+        app._window.ScryptaCore.readKey(app.unlockPwd, app.address + ':' + app.encrypted).then(async function (response) {
           if (response !== false) {
             app.private_key = response.key
             app.api_secret = response.api_secret
-            app.sendLyra();
+            if(app.chain === 'main'){
+              app.sendLyra();
+            }else{
+              let responseSend = await axios.post('https://' + app.idanode + '/sidechain/send', 
+                { 
+                  from: app.address, 
+                  private_key: response.prv,
+                  pubkey: response.key,
+                  sidechain_address: app.chain,
+                  to: app.addressToSend,
+                  amount: app.amountToSend
+                })
+              app.isSending = false
+              if(responseSend.data !== false){
+                alert(app.translations.send.sent_successful)
+              }else{
+                alert(app.translations.token.send_fail)
+              }
+            }
           } else {
             alert('Wrong Password')
           }
