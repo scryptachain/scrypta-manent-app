@@ -180,12 +180,13 @@ export class ReceivePage implements OnInit {
                 amount: app.amountSidechain
               })
             app.isSending = false
-            if(responseSend.data !== false){
+            if(responseSend.data.error === undefined){
               alert(app.translations.send.sent_successful)
             }else{
-              alert(app.translations.token.send_fail)
+              alert(responseSend.data.description)
             }
             app.password = ''
+            app.amountSidechain = 0
             app.showUnlock = false
             app.guestWallet = ''
           }
