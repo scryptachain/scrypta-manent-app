@@ -15,11 +15,11 @@
       <span style="font-size:11px">{{address}}</span> <span style="font-size:25px; margin-left:5px"><ion-icon (click)="copyAddress()" name="copy"></ion-icon></span>
   </div>
 <ion-item>
-  <ion-input type="number" [(ngModel)]='amountLyra' (ionFocus)="fixInputs('lyra')" (ngModelChange)='calculateFIAT()' value=0 style='font-size: 36px; line-height:36px; font-weight:bold;'></ion-input>
+  <ion-input type="text" readonly [(ngModel)]='amountLyra' (ionFocus)="fixInputs('lyra')" (ngModelChange)='calculateFIAT()' value=0 style='font-size: 36px; line-height:36px; font-weight:bold;'></ion-input>
   <p style='font-size: 36px; line-height:36px; font-weight:bold;' slot='end'>LYRA</p>
 </ion-item>
 <ion-item>
-  <ion-input type="number" [(ngModel)]='amountFIAT' (ionFocus)="fixInputs('fiat')" (ngModelChange)='calculateLyra()' value=0 style='font-size: 18px; font-weight:bold;'></ion-input>
+  <ion-input type="text" readonly [(ngModel)]='amountFIAT' (ionFocus)="fixInputs('fiat')" (ngModelChange)='calculateLyra()' value=0 style='font-size: 18px; font-weight:bold;'></ion-input>
   <p style='font-size: 18px; font-weight:bold;' slot='end'>{{ currency.toUpperCase() }}</p>
 </ion-item>
 <div style="text-align: center;" *ngIf="!showQR">
@@ -56,7 +56,7 @@
   </div>
 </ion-content>
 </ion-content>
-<div *ngIf="showNFC === true" style="position:fixed; 
+<div *ngIf="showNFC" style="position:fixed; 
       top:0; 
       left:0; 
       background-color:#fff; 
@@ -69,7 +69,7 @@
       font-weight:bold;
       padding: 10vh 20px">
     <ion-icon name='close' style="position:absolute; top:10px; right:10px; z-index: 99;" (click)='closeNFC()'></ion-icon>
-    <ion-icon name="card" style="font-size:140px"></ion-icon><br>
+    <ion-icon name="card" style="font-size:140px;margin-top:30%;"></ion-icon><br>
     {{ translations.identities.close_card }}
 </div>
 <ion-footer>

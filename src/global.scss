@@ -9,17 +9,16 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
-@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
 
 title-toolbar{
     text-align: center;
 }
 *, .native-input{
-  font-family: 'Poppins';
+  font-family: 'poppinsregular';
 }
 
 input{
-  font-family: 'Poppins'!important;
+  font-family: 'poppinsregular'!important;
 }
 .unlockModal{
   position:fixed;
@@ -39,7 +38,7 @@ h1,h2,h3,h4,h5,h6{
     text-transform: uppercase;
     height: 50px;
     background:#d8273a;
-    font-family: 'Poppins';
+    font-family: 'poppinsregular';
     line-height: 35px;
     color:white;
     border-radius: 15px 15px 15px 15px;
@@ -49,9 +48,13 @@ h1,h2,h3,h4,h5,h6{
     width: 215px;
     height: 19px;
     color: #555555;
-    font-family: 'Poppins';
+    font-family: 'poppinsregular';
     font-size: 12px;
     font-weight: 500;
     line-height: 18px;
     letter-spacing: -0,2215385px;
+  }
+
+  .sc-ion-label-md-h{
+    font-family: 'poppinsregular'!important;
   }

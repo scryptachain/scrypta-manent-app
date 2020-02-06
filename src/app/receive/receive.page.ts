@@ -23,7 +23,7 @@ export class ReceivePage implements OnInit {
   amountLyra: any = 0
   amountFIAT: any = 0
   price: any = 0
-  focus: any = ''
+  focus: any = 'lyra'
   encrypted: string = ''
   wallet: string = ''
   selected: number = 0
@@ -198,21 +198,79 @@ export class ReceivePage implements OnInit {
     })
   }
 
+  addNumber(number){
+    const app = this
+    if(app.focus === 'lyra'){
+      if(parseFloat(app.amountLyra) === 0){
+        app.amountLyra = ''
+      }
+      let display = app.amountLyra.toString()
+      display = display.concat(number.toString())
+      app.amountLyra = parseFloat(display)
+    }else{
+      if(parseFloat(app.amountFIAT) === 0){
+        app.amountFIAT = ''
+      }
+      let display = app.amountFIAT.toString()
+      display = display.concat(number.toString())
+      app.amountFIAT = parseFloat(display)
+    }
+  }
+
+  addDot(){
+    const app = this
+    if(app.focus === 'lyra'){
+      let display = app.amountLyra.toString()
+      let dot = display.split('.')
+      if(!dot[1]){
+        display = display.concat('.')
+        app.amountLyra = display
+      }
+    }else{
+      let display = app.amountFIAT.toString()
+      let dot = display.split('.')
+      if(!dot[1]){
+        display = display.concat('.')
+        app.amountFIAT = display
+      }
+    }
+  }
+
+  removeNumber(){
+    const app = this
+    if(app.focus === 'lyra'){
+      let display = app.amountLyra.toString()
+      let max = display.length - 1
+      display = display.substr(0,max)
+      if(display.length > 0){
+        app.amountLyra = parseFloat(display)
+      }else{
+        app.amountLyra = 0
+      }
+    }else{
+      let display = app.amountFIAT.toString()
+      let max = display.length - 1
+      display = display.substr(0,max)
+      if(display.length > 0){
+        app.amountFIAT = parseFloat(display)
+      }else{
+        app.amountFIAT = 0
+      }
+    }
+  }
+  
   fixInputs(what){
     const app = this
     app.focus = what
     if(what === 'lyra'){
-      if(app.amountLyra === 0){
-        app.amountLyra = ''
-      }
       if(app.amountFIAT === '' || app.amountFIAT === 'NaN'  || app.amountFIAT === null){
         app.amountFIAT = 0
       }
-    }else{
-      if(app.amountFIAT === 0){
-        app.amountFIAT = ''
+      if(app.amountLyra === '0.000'){
+        app.amountLyra = 0
       }
-      if(app.amountLyra === '' || app.amountLyra === 'NaN'  || app.amountLyra === null){
+    }else{
+      if(app.amountLyra === '' || app.amountLyra === 'NaN'  || app.amountLyra === null || app.amountLyra === '0.0000'){
         app.amountLyra = 0
       }
     }
@@ -243,7 +301,11 @@ export class ReceivePage implements OnInit {
         app.price = await this.returnLyraPrice()
         let calculate = parseFloat(app.amountFIAT) / parseFloat(app.price)
         if(calculate.toString() !== "NaN"){
-          app.amountLyra = calculate.toFixed(4)
+          if(app.amountLyra > 0){
+            app.amountLyra = calculate.toFixed(4)
+          }else{
+            app.amountLyra = calculate
+          }
           this.calculateQRCode()
         }else{
           app.amountLyra = 0
