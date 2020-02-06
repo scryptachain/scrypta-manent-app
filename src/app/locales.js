@@ -137,6 +137,7 @@ export default {
         },
         general: {
             pay_now: 'Pay now',
+            read_card: 'Read card',
             process_payment: 'Processing payment, please wait',
             receive_card: 'Make Payment with Card',
             to: 'to',
@@ -341,6 +342,7 @@ export default {
         },
         general: {
             process_payment: 'Effettuo il pagamento...',
+            read_card: 'Leggi card',
             receive_card: 'Effettua pagamento',
             pay_now: 'Paga ora',
             to: 'a',

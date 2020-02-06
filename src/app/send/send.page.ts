@@ -5,6 +5,8 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx'
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 var locales =  require('../locales.js')
+import { NFC } from '@ionic-native/nfc/ngx'
+import { Platform } from '@ionic/angular'
 
 @Component({
   selector: 'app-send',
@@ -24,6 +26,11 @@ export class SendPage implements OnInit {
   nodes: string[] = [];
   unconfirmed = []
   connected: string = '';
+  haveNFC: boolean = true
+  guestWallet: any = ''
+  nfcreader:any
+  isIOS: boolean = false
+  showQR: boolean = false
   public_address: string;
   chain: string = 'main';
   idanode: string = 'idanodejs01.scryptachain.org'
@@ -39,11 +46,18 @@ export class SendPage implements OnInit {
   amountFIAT: any = 0;
   currency_placeholder: any = ''
   price: any = 0
+  showNFC: boolean = false
   balance: any = '-';
   isSending: boolean = false;
   currency: string = 'eur'
-  constructor(public activatedRoute: ActivatedRoute,windowRef: WindowRefService, private qrScanner: BarcodeScanner, private router: Router) {
-    this._window = windowRef.nativeWindow;
+  constructor(private nfc: NFC, public platform: Platform, public activatedRoute: ActivatedRoute,windowRef: WindowRefService, private qrScanner: BarcodeScanner, private router: Router) {
+    const app = this
+    app._window = windowRef.nativeWindow;
+    app.platform.ready().then(async () => {
+      if(this.platform.is('ios') === true ){
+        app.isIOS = true
+      }
+    })
   }
 
   async ngOnInit() {
@@ -78,6 +92,71 @@ export class SendPage implements OnInit {
     await app.getUnconfirmed()
     app.getBalance()
     app.price = await app.returnLyraPrice()
+  }
+
+  receiveCardiOS(){
+    const app = this
+    this.nfc.enabled().then(() => {
+      this.nfc.beginSession().subscribe(() => {
+        this.nfc.addNdefListener(() => {}).subscribe((event: any) => {
+          let NFC = this.nfc.bytesToString(event.tag.ndefMessage[0].payload)
+          var hex  = NFC.toString();
+          let address = hex.substr(3)
+          app.guestWallet = address
+          let split = address.split(':')
+          app.addressToSend = split[0]
+          app.closeSession()
+        });
+      });
+    }, () => {
+      alert(app.translations.identities.no_nfc);
+    });
+  }
+
+  closeSession(){
+    const app = this
+    app.nfcreader.invalidateSession(success => {
+      console.log('Can\'t close session')
+    }, error => {
+      alert(app.translations.identities.no_nfc)
+    })
+  }
+
+  receiveCardAndroid() {
+    const app = this
+      app.nfcreader = this.nfc.addNdefListener(() => {
+        app.showNFC = true
+      }, (err) => {
+        alert(app.translations.identities.no_nfc);
+      }).subscribe(async (event) => {
+        app.showNFC = false
+        let NFC = this.nfc.bytesToHexString(event.tag.ndefMessage[0].payload)
+        var hex  = NFC.toString();
+        var str = '';
+        for (var n = 0; n < hex.length; n += 2) {
+          str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+        }
+        let address = str.substr(3)
+        app.guestWallet = address
+        let split = address.split(':')
+        app.addressToSend = split[0]
+        app.nfcreader.unsubscribe()
+    })
+  }
+  
+  closeNFC(){
+    const app = this
+    app.nfcreader.unsubscribe()
+    app.showNFC = false
+  }
+
+  openModalQR() {
+    const app = this
+    if(app.showQR === false){
+      app.showQR = true
+    }else{
+      app.showQR = false
+    }
   }
 
   returnLyraPrice(){
