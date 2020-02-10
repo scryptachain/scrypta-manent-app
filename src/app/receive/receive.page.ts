@@ -32,6 +32,7 @@ export class ReceivePage implements OnInit {
   idanode: string = 'idanodejs01.scryptachain.org'
   selected: number = 0
   isSending: boolean = false
+  guestBalance: any = ''
   address: string
   showUnlock: boolean = false
   guestWallet: any = ''
@@ -107,11 +108,23 @@ export class ReceivePage implements OnInit {
     this.nfc.enabled().then(() => {
       app.showUnlock = true
       this.nfc.beginSession().subscribe(() => {
-        this.nfc.addNdefListener(() => {}).subscribe((event: any) => {
+        this.nfc.addNdefListener(() => {}).subscribe(async (event: any) => {
           let NFC = this.nfc.bytesToString(event.tag.ndefMessage[0].payload)
           var hex  = NFC.toString();
           let address = hex.substr(3)
           app.guestWallet = address
+          let split = app.guestWallet.split(':')
+          if(app.chain !== 'main'){
+            let sidechainBalance = await axios.post('https://' + app.idanode + '/sidechain/balance', { dapp_address: split[0], sidechain_address: app.chain })
+            app.guestBalance = sidechainBalance.data.balance
+            if(app.guestBalance > app.amountSidechain){
+              app.showUnlock = true
+            }else{
+              alert(app.translations.token.no_balance)
+            }
+          }else{
+            app.showUnlock = true
+          }
           app.closeSession()
         });
       });
@@ -136,7 +149,18 @@ export class ReceivePage implements OnInit {
         }
         let address = str.substr(3)
         app.guestWallet = address
-        app.showUnlock = true
+        let split = app.guestWallet.split(':')
+        if(app.chain !== 'main'){
+          let sidechainBalance = await axios.post('https://' + app.idanode + '/sidechain/balance', { dapp_address: split[0], sidechain_address: app.chain })
+          app.guestBalance = sidechainBalance.data.balance
+          if(app.guestBalance > app.amountSidechain){
+            app.showUnlock = true
+          }else{
+            alert(app.translations.token.no_balance)
+          }
+        }else{
+          app.showUnlock = true
+        }
         app.nfcreader.unsubscribe()
     })
   }
