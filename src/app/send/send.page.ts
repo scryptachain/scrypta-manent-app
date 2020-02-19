@@ -48,6 +48,7 @@ export class SendPage implements OnInit {
   price: any = 0
   showNFC: boolean = false
   balance: any = '-';
+  sendMemo: any = '';
   isSending: boolean = false;
   currency: string = 'eur'
   constructor(private nfc: NFC, public platform: Platform, public activatedRoute: ActivatedRoute,windowRef: WindowRefService, private qrScanner: BarcodeScanner, private router: Router) {
@@ -312,11 +313,15 @@ export class SendPage implements OnInit {
                   pubkey: response.key,
                   sidechain_address: app.chain,
                   to: app.addressToSend,
-                  amount: app.amountToSend
+                  amount: app.amountToSend,
+                  memo: app.sendMemo
                 })
               app.isSending = false
               if(responseSend.data !== false){
                 alert(app.translations.send.sent_successful)
+                app.sendMemo = ''
+                app.amountToSend = ''
+                app.addressToSend = ''
               }else{
                 alert(app.translations.token.send_fail)
               }
