@@ -85,7 +85,11 @@ body.dark {
     background-color:#000000
   }
   .showNFCWrapper{
-    background:#000!important
+    background:#000!important;
+    color:#fff!important;
+  }
+  .showNFCWrapper *{
+    color:#fff!important;
   }
   .bottom-menu-active{
     color:#ffffff
