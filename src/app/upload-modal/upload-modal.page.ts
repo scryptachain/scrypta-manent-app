@@ -68,6 +68,7 @@ export class UploadModalPage implements OnInit {
     let payload = app.wallet[app.selected].split(':')
     app.address = payload[0]
     app.encrypted = payload[1]
+    
   }
   
   close() {

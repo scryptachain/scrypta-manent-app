@@ -23,7 +23,7 @@ export class ArchivePage implements OnInit {
   nodes: string[] = [];
   wallet = []
   address: string = ''
-  idanode: string = 'idanodejs01.scryptachain.org'
+  idanode: string = 'https://idanodejs01.scryptachain.org'
   selected: number = 0
   balance: string = '-'
   workingmessage: string = 'Uploading data, please wait and don\'t refresh the page'
@@ -67,13 +67,16 @@ export class ArchivePage implements OnInit {
     let payload = app.wallet[app.selected].split(':')
     app.address = payload[0]
     app.encrypted = payload[1]
-    this.readData()
+    setTimeout(async () => {
+      app.idanode = await app._window.ScryptaCore.connectNode()
+      app.readData()
+    },50)
   }
 
   async readData() {
     const app = this
     app.readerror = ''
-    await axios.post('https://' + app.idanode + '/read', {
+    await axios.post(app.idanode + '/read', {
       decrypt: false,
       address: app.address,
       history: false
@@ -95,11 +98,11 @@ export class ArchivePage implements OnInit {
   async retrieveInfo(hash, i: number) {
     
     const app = this
-    await axios.get('https://' + app.idanode + '/ipfs/type/' + hash).then(async function (response) {
+    await axios.get(app.idanode + '/ipfs/type/' + hash).then(async function (response) {
       if(response.data.data !== undefined){
         app.readreturn[i].mimetype = response.data.data.type
         app.readreturn[i].mimedetail = response.data.data.ext
-        app.readreturn[i].data = 'https://' + app.idanode + '/ipfs/' + app.readreturn[i].data 
+        app.readreturn[i].data = app.idanode + '/ipfs/' + app.readreturn[i].data 
       }
     })
 
@@ -169,11 +172,11 @@ export class ArchivePage implements OnInit {
             var crypted = await app._window.ScryptaCore.cryptFile(detail.data.fileObject.fileBuffer,detail.data.fileObject.encryptPwd)
             form_data.append("buffer", crypted)
             app.workingmessage = 'Uploading file to IPFS...'
-            var ipfs = await axios.post('https://' + app.idanode + '/ipfs/add', form_data, config)
+            var ipfs = await axios.post(app.idanode + '/ipfs/add', form_data, config)
             var hash = ipfs.data.data[0].hash
             if(hash !== undefined){
               app.workingmessage = 'Verifying IPFS file...'
-              let buffer = await axios.get('https://' + app.idanode + '/ipfs/buffer/' + hash)
+              let buffer = await axios.get(app.idanode + '/ipfs/buffer/' + hash)
               let data = buffer.data.data[0].content.data
               app.workingmessage = 'Verifying crypted file...'
               let decrypted = await app._window.ScryptaCore.decryptFile(data, detail.data.fileObject.encryptPwd)
@@ -191,7 +194,7 @@ export class ArchivePage implements OnInit {
           }else{
             const form_data = new FormData()
             form_data.append("file", detail.data.fileObject.fileBuffer)
-            var ipfs = await axios.post('https://' + app.idanode + '/ipfs/add', form_data, config)
+            var ipfs = await axios.post(app.idanode + '/ipfs/add', form_data, config)
             var hash = ipfs.data.data.hash
             if(hash !== undefined){
               message = 'ipfs:' + hash

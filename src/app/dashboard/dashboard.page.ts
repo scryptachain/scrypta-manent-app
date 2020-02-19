@@ -26,7 +26,7 @@ export class DashboardPage implements OnInit {
   language: any = 'en'
   translations: any = {}
   locales: any = locales
-  idanode: string = 'idanodejs01.scryptachain.org'
+  idanode: string = 'https://idanodejs01.scryptachain.org'
   valueBTC: string = '0';
   valore: number;
   options: any;
@@ -52,6 +52,7 @@ export class DashboardPage implements OnInit {
     app.router.events.subscribe(async (val) => {
       if(app.isRefreshing === false){
         app.isRefreshing = true
+        app.idanode = await app._window.ScryptaCore.connectNode()
         await app.getUnconfirmed()
         await app.fetchTransactions()
         await app.getBalance()
@@ -81,6 +82,7 @@ export class DashboardPage implements OnInit {
     app.address = payload[0]
     app.encrypted = payload[1]
     
+    app.idanode = await app._window.ScryptaCore.connectNode()
     this.fetchGraph()
     await this.getUnconfirmed()
     await this.fetchTransactions()
@@ -121,7 +123,7 @@ export class DashboardPage implements OnInit {
           var priceBTC = result.data.scrypta['btc']
           app.current_price = price
           app.pricelabel = app.translations.home.price_is + ' ' + app.current_price + ' ' + app.currency.toUpperCase()
-          axios.get('https://' + app.idanode + '/balance/' + app.address)
+          axios.get(app.idanode + '/balance/' + app.address)
             .then(function (response) {
               app.balance = response.data['balance'].toFixed(4)
               app.value = (parseFloat(app.balance) * parseFloat(app.current_price)).toFixed(4)
@@ -135,7 +137,7 @@ export class DashboardPage implements OnInit {
           this.getBalance()
         })
     }else{
-      let sidechainBalance = await axios.post('https://' + app.idanode + '/sidechain/balance', { dapp_address: app.address, sidechain_address: app.chain })
+      let sidechainBalance = await axios.post(app.idanode + '/sidechain/balance', { dapp_address: app.address, sidechain_address: app.chain })
       app.balance = sidechainBalance.data.balance
       app.ticker = sidechainBalance.data.symbol
     }
@@ -144,7 +146,7 @@ export class DashboardPage implements OnInit {
   async fetchTransactions() {
     const app = this
     if(app.chain === 'main'){
-      axios.get('https://' + app.idanode + '/transactions/' + app.address)
+      axios.get(app.idanode + '/transactions/' + app.address)
         .then(function (response) {
           app.transactions = response.data['data']
           for(let k in app.transactions){
@@ -165,7 +167,7 @@ export class DashboardPage implements OnInit {
           }
         })
     }else{
-      axios.post('https://' + app.idanode + '/sidechain/transactions', { dapp_address: app.address, sidechain_address: app.chain })
+      axios.post(app.idanode + '/sidechain/transactions', { dapp_address: app.address, sidechain_address: app.chain })
       .then(function (response) {
         app.transactions = response.data.transactions
       })

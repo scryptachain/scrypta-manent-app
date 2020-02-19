@@ -19,7 +19,7 @@ export class ArchivedetailPage implements OnInit {
   risposta
   private _window: ICustomWindow;
   wallet: any
-  idanode: any = 'idanodejs01.scryptachain.org'
+  idanode: any = 'https://idanodejs01.scryptachain.org'
   address: any = ''
   encrypted: any
   isDecrypting: boolean = false
@@ -42,6 +42,9 @@ export class ArchivedetailPage implements OnInit {
     let payload = app.wallet[app.selected].split(':')
     app.address = payload[0]
     app.encrypted = payload[1]
+    setTimeout(async () => {
+      app.idanode = await app._window.ScryptaCore.connectNode()
+    },50)
   }
   
   openFile(response) {
@@ -74,7 +77,7 @@ export class ArchivedetailPage implements OnInit {
     const app = this
     if(app.isDecrypting === false){
       app.isDecrypting = true
-      axios.get('https://'+ app.idanode +'/ipfs/buffer/' + app.risposta.data).then(ipfs => {
+      axios.get(app.idanode +'/ipfs/buffer/' + app.risposta.data).then(ipfs => {
         let data = ipfs.data.data[0].content.data
         app._window.ScryptaCore.decryptFile(data, app.decryptPwd).then(decrypted => {
           app.isDecrypting = false
@@ -133,7 +136,7 @@ export class ArchivedetailPage implements OnInit {
           app.isInvalidating = true
           let prv = response.prv
           app.password = ''
-          axios.post('https://' + app.idanode + '/invalidate',{
+          axios.post(app.idanode + '/invalidate',{
             private_key: prv,
             uuid: app.risposta.uuid,
             dapp_address: app.address

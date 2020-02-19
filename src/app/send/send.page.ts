@@ -33,7 +33,7 @@ export class SendPage implements OnInit {
   showQR: boolean = false
   public_address: string;
   chain: string = 'main';
-  idanode: string = 'idanodejs01.scryptachain.org'
+  idanode: string = 'https://idanodejs01.scryptachain.org'
   encrypted_wallet: string;
   amountToSend: any = 0;
   addressToSend: string;
@@ -54,6 +54,9 @@ export class SendPage implements OnInit {
   constructor(private nfc: NFC, public platform: Platform, public activatedRoute: ActivatedRoute,windowRef: WindowRefService, private qrScanner: BarcodeScanner, private router: Router) {
     const app = this
     app._window = windowRef.nativeWindow;
+    setTimeout(async () => {
+      app.idanode = await app._window.ScryptaCore.connectNode()
+    },50)
     app.platform.ready().then(async () => {
       if(this.platform.is('ios') === true ){
         app.isIOS = true
@@ -201,11 +204,11 @@ export class SendPage implements OnInit {
     const app = this
 
     if(app.chain !== 'main'){
-      let sidechainBalance = await axios.post('https://' + app.idanode + '/sidechain/balance', { dapp_address: app.address, sidechain_address: app.chain })
+      let sidechainBalance = await axios.post(app.idanode + '/sidechain/balance', { dapp_address: app.address, sidechain_address: app.chain })
       app.ticker = sidechainBalance.data.symbol
       app.balance = sidechainBalance.data.balance
     }else{
-      axios.get('https://' + app.idanode + '/balance/' + app.address)
+      axios.get(app.idanode + '/balance/' + app.address)
         .then(function (response) {
           app.balance = response.data['balance'].toFixed(4)
           for(let k in app.unconfirmed){
@@ -273,26 +276,6 @@ export class SendPage implements OnInit {
       }
     }
   }
-
-  checkIdaNodes() {
-    var checknodes = this._window.ScryptaCore.returnNodes();
-    const app = this
-    for (var i = 0; i < checknodes.length; i++) {
-      axios.get('https://' + checknodes[i] + '/wallet/getinfo').then(function (response) {
-        app.nodes.push(response.data.blocks)
-        if (i == checknodes.length) {
-          app.connectToNode()
-        }
-      })
-    }
-  }
-
-  connectToNode() {
-    var app = this
-    if (app.connected == '') {
-      app.connected = app.nodes[Math.floor(Math.random() * app.nodes.length)]
-    }
-  }
   
   unlockWallet() {
     const app = this
@@ -306,7 +289,7 @@ export class SendPage implements OnInit {
             if(app.chain === 'main'){
               app.sendLyra();
             }else{
-              let responseSend = await axios.post('https://' + app.idanode + '/sidechain/send', 
+              let responseSend = await axios.post(app.idanode + '/sidechain/send', 
                 { 
                   from: app.address, 
                   private_key: response.prv,

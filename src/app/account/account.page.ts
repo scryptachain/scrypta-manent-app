@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Clipboard } from '@ionic-native/clipboard/ngx'
 import { ToastController, ModalController } from '@ionic/angular';
 import { ModaltransactionPage } from '../modaltransaction/modaltransaction.page';
+import { WindowRefService, ICustomWindow } from '../windowservice';
 import { OverlayEventDetail } from '@ionic/core';
 import { AccountDetailPage } from '../account-detail/account-detail.page';
 import { Router } from '@angular/router';
@@ -27,23 +28,31 @@ export class AccountPage implements OnInit {
   toggleNoBalance: boolean = false
   encrypted: string = ''
   selected: number = 0
-  idanode: string = 'idanodejs01.scryptachain.org'
+  private _window: ICustomWindow;
+  idanode: string = 'https://idanodejs01.scryptachain.org'
   address: string
   transactions = []
-  constructor(private clipboard: Clipboard, private toast: ToastController, private modalCtrl: ModalController, public router:Router, private _location: Location, private iab: InAppBrowser) {
-    this.router.events.subscribe((val) => {
+  constructor(private clipboard: Clipboard, private toast: ToastController, private modalCtrl: ModalController, public router:Router, windowRef: WindowRefService, private _location: Location, private iab: InAppBrowser) {
+    const app = this
+    app._window = windowRef.nativeWindow;
+
+    this.router.events.subscribe(async (val) => {
       this.accounts = []
+      app.idanode = await app._window.ScryptaCore.connectNode()
       this.parseWallet()
     })
    }
 
-  ngOnInit() {
+  async ngOnInit() {
     const app = this
-    app.parseWallet()
     if (localStorage.getItem('language') !== null) {
       app.language = localStorage.getItem('language')
     }
     app.translations = this.locales.default[app.language]
+    setTimeout(async function(){
+      app.idanode = await app._window.ScryptaCore.connectNode()
+      app.parseWallet()
+    },50)
   }
   
   async parseWallet() {
@@ -60,8 +69,8 @@ export class AccountPage implements OnInit {
       app.encrypted = payload[1]
       for (let i = 0; i < app.wallet.length; i++) {
         let payload = app.wallet[i].split(':')
-        let transactions = await axios.get('https://' + app.idanode + '/transactions/' + payload[0])
-        let balance = await axios.get('https://' + app.idanode + '/balance/' + payload[0])
+        let transactions = await axios.get(app.idanode + '/transactions/' + payload[0])
+        let balance = await axios.get(app.idanode + '/balance/' + payload[0])
         let address = {
           address: payload[0],
           balance: balance.data.balance.toFixed(4),
@@ -96,7 +105,7 @@ export class AccountPage implements OnInit {
 
   async fetchTransactions() {
     const app = this
-    axios.get('https://' + app.idanode + 'transactions/' + app.address)
+    axios.get(app.idanode + '/transactions/' + app.address)
       .then(function (response) {
         app.transactions = response.data['data']
       })

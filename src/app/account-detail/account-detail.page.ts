@@ -28,7 +28,7 @@ export class AccountDetailPage implements OnInit {
   encrypted: any
   showChange: boolean = false
   balance: any = 0
-  idanode: string = 'idanodejs01.scryptachain.org'
+  idanode: string = 'https://idanodejs01.scryptachain.org'
   transactions: any = []
   password: any = ''
   passwordChange: any = ''
@@ -50,12 +50,15 @@ export class AccountDetailPage implements OnInit {
       app.language = localStorage.getItem('language')
     }
     app.translations = this.locales.default[app.language]
-    axios.get('https://' + app.idanode + '/transactions/' + app.address).then(response => {
-      app.transactions = response.data.data
-    })
-    axios.get('https://' + app.idanode + '/balance/' + app.address).then(response => {
-      app.balance = response.data.balance.toFixed(4)
-    })
+    setTimeout(async () => {
+      app.idanode = await app._window.ScryptaCore.connectNode()
+      axios.get(app.idanode + '/transactions/' + app.address).then(response => {
+        app.transactions = response.data.data
+      })
+      axios.get(app.idanode + '/balance/' + app.address).then(response => {
+        app.balance = response.data.balance.toFixed(4)
+      })
+    },50)
   }
 
   close() {

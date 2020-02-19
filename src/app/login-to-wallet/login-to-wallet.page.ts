@@ -167,7 +167,7 @@ export class LoginToWalletPage implements OnInit {
             alert(payload[0] + ' ' + app.translations.identities.imported + '!')
             this.router.navigate(['/dashboard'])
           }else{
-            alert(app.translations.identities.address_exist)
+            alert(payload[0] + ' ' + app.translations.identities.address_exist)
             this.router.navigate(['/dashboard'])
           }
         }
