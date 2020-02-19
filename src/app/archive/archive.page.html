@@ -32,7 +32,7 @@
       </div>
       <div *ngIf="readreturn.length != 0">
         <div *ngFor="let file of readreturn; let i=index" (click)="generic(file)" [attr.data-index]="i">
-          <ion-card *ngIf="file.protocol !== 'chain://'">
+          <ion-card *ngIf="file.protocol !== 'chain://' && file.protocol !== 'I://'">
             <div style="padding:10px">
                 <p *ngIf="file.refID !== 'undefined' && file.refID !== undefined && file.refID !== ''">{{file.refID}}</p>
                 <p *ngIf="file.text">{{file.text}}</p>
