@@ -320,7 +320,7 @@ export class SendPage implements OnInit {
               if(responseSend.data !== false){
                 alert(app.translations.send.sent_successful)
                 app.sendMemo = ''
-                app.amountToSend = ''
+                app.amountToSend = 0
                 app.addressToSend = ''
               }else{
                 alert(app.translations.token.send_fail)
