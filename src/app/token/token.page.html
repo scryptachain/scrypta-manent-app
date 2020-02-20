@@ -22,7 +22,7 @@
   <ion-card (click)='selectAddress("main")' style="margin:15px 0">
     <ion-card-header>
       <ion-card-subtitle>Main Chain</ion-card-subtitle>
-      <ion-card-title style="font-size:36px; font-weight:bold;">{{ lyraBalance }} LYRA</ion-card-title>
+      <ion-card-title style="font-size:25px; font-weight:bold;">{{ lyraBalance }} LYRA</ion-card-title>
       <ion-icon name="arrow-forward" style="float:right; position:absolute; top:35px; right:25px;" size='large'></ion-icon>
     </ion-card-header>
   </ion-card>
@@ -31,7 +31,7 @@
         <ion-card (click)='selectAddress(address.address)' *ngIf="address.balance > 0" style="margin:15px 0">
             <ion-card-header>
               <ion-card-subtitle>{{ address.address.substr(0,6) }}...{{ address.address.substr(-6) }}</ion-card-subtitle>
-              <ion-card-title style="font-size:36px; font-weight:bold;">{{ address.balance }} {{ address.ticker }}</ion-card-title>
+              <ion-card-title style="font-size:25px; font-weight:bold;">{{ address.balance }} {{ address.ticker }}</ion-card-title>
               <ion-icon name="arrow-forward" style="float:right; position:absolute; top:35px; right:25px;" size='large'></ion-icon>
             </ion-card-header>
         </ion-card>
@@ -42,7 +42,7 @@
         <ion-card (click)='selectAddress(address.address)' style="margin:15px 0">
             <ion-card-header>
               <ion-card-subtitle>{{ address.address.substr(0,6) }}...{{ address.address.substr(-6) }}</ion-card-subtitle>
-              <ion-card-title style="font-size:36px; font-weight:bold;">{{ address.balance }} {{ address.ticker }}</ion-card-title>
+              <ion-card-title style="font-size:25px; font-weight:bold;">{{ address.balance }} {{ address.ticker }}</ion-card-title>
               <ion-icon name="arrow-forward" style="float:right; position:absolute; top:35px; right:25px;" size='large'></ion-icon>
             </ion-card-header>
         </ion-card>
