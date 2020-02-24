@@ -27,14 +27,17 @@ export class LoginToWalletPage implements OnInit {
   locales: any = locales
   translations: any = {}
   add: string = ''
+  privKeyRestore: string = ''
   password: string = '';
   decrypted_wallet: string = '';
   nodes: string[] = [];
   connected: string = '';
+  passwordRestore: string = '';
   private _window: ICustomWindow;
   isIOS: boolean = false
   fileName: any = ''
   showNFC:boolean = false
+  showPK:boolean = false
   haveNFC: boolean = true
   fileBuffer: any = ''
   nfcreader:any
@@ -103,6 +106,36 @@ export class LoginToWalletPage implements OnInit {
     }, error => {
       alert(app.translations.identities.no_nfc)
     })
+  }
+
+  openRestorePrivKey(){
+    const app = this
+    app.showPK = true
+  }
+
+  closeRestorePrivKey(){
+    const app = this
+    app.showPK = false
+  }
+
+  async importPrivKey(){
+    const app = this
+    if(app.privKeyRestore !== '' && app.passwordRestore !== ''){
+      let privkey = app.privKeyRestore
+      let pubkey = await app._window.ScryptaCore.getPublicKey(privkey)
+      let address = await app._window.ScryptaCore.getAddressFromPubKey(pubkey)
+
+      var wallet = {
+          prv: privkey,
+          key: pubkey
+      }
+
+      var walletstore = await app._window.ScryptaCore.buildWallet(app.passwordRestore, address, wallet, false)
+      app.addAddress(walletstore)
+      app.passwordRestore = ''
+      app.privKeyRestore = ''
+      app.showPK = false
+    }
   }
 
   loginCardAndroid() {

@@ -43,6 +43,11 @@ export default {
         },
         identities: {
             title: 'Manage identities',
+            restore_privkey: 'Restore a private key',
+            insert_privatekey: 'Insert private key here',
+            insert_password: 'Insert password here',
+            import_now: 'Import key',
+            create_password: 'Create a new password',
             password_changed: 'Password changed!',
             hide_empty: 'Hide empty identities',
             loading: 'Loading identities...',
@@ -249,6 +254,11 @@ export default {
         },
         identities: {
             title: 'Gestisci identità',
+            restore_privkey: 'Recupera una chiave privata',
+            insert_privatekey: 'Inserisci la chiave privata qui',
+            insert_password: 'Inserisci la password qui',
+            import_now: 'Importa chiave',
+            create_password: 'Crea una nuova password',
             password_changed: 'Password cambiata correttamente!',
             hide_empty: 'Nascondi identità senza fondi',
             loading: 'Carico identità...',
