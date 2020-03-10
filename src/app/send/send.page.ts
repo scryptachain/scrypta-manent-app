@@ -246,16 +246,17 @@ export class SendPage implements OnInit {
   async calculateFIAT() {
     const app = this
     if(app.focus === 'lyra'){
-      if(app.amountToSend !== null){
-        app.price = await this.returnLyraPrice()
-        let calculate = parseFloat(app.amountToSend) * parseFloat(app.price)
+      app.price = await this.returnLyraPrice()
+      if(app.amountToSend !== '' && app.amountToSend !== 0 && app.amountToSend !== null){
+        let amount = app.amountToSend.toFixed(8)
+        amount = amount.replace(',','.')
+        let fixed = parseFloat(amount).toFixed(8)
+        let calculate = parseFloat(fixed) * parseFloat(app.price)
         if(calculate.toString() !== "NaN"){
           app.amountFIAT = calculate.toFixed(2)
         }else{
           app.amountFIAT = 0
         }
-      }else{
-        app.amountFIAT = 0
       }
     }
   }
@@ -280,6 +281,8 @@ export class SendPage implements OnInit {
   unlockWallet() {
     const app = this
     if (app.unlockPwd !== '' && app.addressToSend !== '' && app.amountToSend > 0) {
+      app.amountToSend = parseFloat(app.amountToSend).toFixed(8)
+      app.amountToSend = parseFloat(app.amountToSend.replace(',','.'))
       if(app.amountToSend < app.balance){
         app.decrypted_wallet = 'Wallet Locked'
         app._window.ScryptaCore.readKey(app.unlockPwd, app.address + ':' + app.encrypted).then(async function (response) {
@@ -362,11 +365,13 @@ export class SendPage implements OnInit {
       let check = barcodeData.text.split('?')
       if(check[1] !== undefined){
         var amount = check[1].replace('amount=','')
-        app.amountToSend = parseFloat(amount).toFixed(8).replace(',','.')
+        app.amountToSend = Number(amount)
         this.addressToSend = check[0]
       }else{
         this.addressToSend = barcodeData.text
       }
+      app.focus = 'lyra'
+      app.calculateFIAT()
       document.getElementById('password').style.display = 'block';
       document.getElementById('buttonSend').style.display = 'block';
     }).catch(err => {
