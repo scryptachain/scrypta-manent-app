@@ -65,7 +65,7 @@
     </div>
   </ion-item>
   
-  <div id='memo'>
+  <div id='memo' *ngIf="chain !== 'main'">
     <h4 style='font-size:12px;color:#d8273a' class="ion-padding">{{ translations.send.enter_memo }}</h4>
     <ion-item>
       <ion-input type="text" [(ngModel)]='sendMemo'
