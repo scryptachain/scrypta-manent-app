@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController, MenuController, ToastController, AlertController, LoadingController } from '@ionic/angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 //import { File } from '@ionic-native/file/';
+import { Network } from '@ionic-native/network/ngx';
 import {File} from '@ionic-native/file/ngx'
 import { NFC, Ndef } from '@ionic-native/nfc/ngx';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
@@ -39,6 +40,7 @@ import { ChartsModule } from 'ng2-charts';
     Globalization,
     LoadingController,
     Clipboard,
+    Network,
     HTTP,
     BarcodeScanner,
     //QRScanner,

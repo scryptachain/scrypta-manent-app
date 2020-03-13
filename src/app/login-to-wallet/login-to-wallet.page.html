@@ -21,7 +21,7 @@
     <div *ngIf = "isIOS === true">
       <button (click)='loginCardiOS()' expand="full" class='buttonsBut' style='margin-top: 5%'>{{ translations.identities.read_card }}<ion-icon name="card" style="float:right" size='large'></ion-icon></button><br/>
     </div>
-    <button (click)='readQrCode()' expand="full" class='buttonsBut' style='margin-top: 5%'>{{ translations.identities.restore_paper }}<ion-icon name="qr-scanner" style="float:right" size='large'></ion-icon></button><br/>
+    <button (click)='readQrCode()' expand="full" class='buttonsBut' style='margin-top: 5%'>{{ translations.identities.restore_paper }}<ion-icon name="camera" style="float:right" size='large'></ion-icon></button><br/>
     <button (click)='openRestorePrivKey()' *ngIf="add !== null" expand="full" class='buttonsBut' style='margin-top: 5%' >{{ translations.identities.restore_privkey }}<ion-icon name="key" style="float:right" size='large'></ion-icon></button><br/><br>
     <div *ngIf="add === null">
       <h3>- {{ translations.home.or }} -</h3>

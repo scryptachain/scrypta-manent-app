@@ -72,10 +72,9 @@
     </ion-list>
   </div>
 </ion-content>
-<ion-footer>
+<ion-footer  class="ion-no-border">
 
-
-  <ion-tab-bar slot="bottom">
+  <ion-tab-bar slot="bottom" style="display:flex!important">
 
     <ion-tab-button [routerLink]="'/dashboard'">
       <ion-label class="bottom-menu-active">Dashboard</ion-label>
@@ -95,7 +94,7 @@
 
     <ion-tab-button [routerLink]="'/archive'" *ngIf="chain === 'main'">
       <ion-label style='color:#a7a7a7'>{{ translations.ui.vault }}</ion-label>
-      <ion-icon name="lock" style='color:#a7a7a7'></ion-icon>
+      <ion-icon name="folder" style='color:#a7a7a7'></ion-icon>
     </ion-tab-button>
 
   </ion-tab-bar>

@@ -5,7 +5,7 @@
             <ion-title>{{ translations.ui.receive }}</ion-title>
             </ion-buttons>
             <ion-buttons slot="end">
-              <ion-icon name="qr-scanner" (click)='openModalQR()' style="padding-right:10px;"></ion-icon>
+              <div (click)='openModalQR()' style="padding-right:10px;">QR</div>
             </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -78,7 +78,7 @@
     {{ translations.identities.close_card }}
 </div>
 <ion-footer>
-    <ion-tab-bar slot="bottom">
+    <ion-tab-bar slot="bottom" style="display:flex!important">
       <ion-tab-button  [routerLink]="'/dashboard'">
         <ion-label style='color:#a7a7a7'>Dashboard</ion-label>
         <ion-icon name="apps" style='color:#a7a7a7'></ion-icon>
@@ -96,7 +96,7 @@
 
         <ion-tab-button [routerLink]="'/archive'" *ngIf="chain === 'main'">
           <ion-label style='color:#a7a7a7'>{{ translations.ui.vault }}</ion-label>
-          <ion-icon name="lock" style='color:#a7a7a7'></ion-icon>
+          <ion-icon name="folder" style='color:#a7a7a7'></ion-icon>
         </ion-tab-button>
   
     </ion-tab-bar>

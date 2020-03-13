@@ -142,6 +142,7 @@ export default {
             logout: 'Logout'
         },
         general: {
+            no_connection: 'No internet connection!',
             pay_now: 'Pay now',
             read_card: 'Read card',
             process_payment: 'Processing payment, please wait',
@@ -353,6 +354,7 @@ export default {
             logout: 'Esci'
         },
         general: {
+            no_connection: 'Nessuna connessione a internet!',
             process_payment: 'Effettuo il pagamento...',
             read_card: 'Leggi card',
             receive_card: 'Effettua pagamento',
