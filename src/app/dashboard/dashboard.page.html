@@ -24,9 +24,12 @@
         <h2>{{ translations.home.unconfirmed }}</h2>
         <ion-list>
           <ion-item *ngFor="let transaction of unconfirmed; let i=index" [attr.data-index]="i">
-            - {{ transaction.value.toFixed(4) }} <span style="font-size:8px; margin-left:5px;">LYRA</span>
-            <span style="margin-left:5px; font-size: 11px">
-              {{ translations.general.to }} {{ transaction.address }}
+            <span *ngIf="transaction.value > 0">+</span>{{ transaction.value.toFixed(4) }} <span style="font-size:8px; margin-left:5px;">LYRA</span>
+            <span style="margin-left:5px; font-size: 11px" *ngIf="transaction.value < 0">
+              {{ translations.general.to }} {{ transaction.to[1] }}
+            </span>
+            <span style="margin-left:5px; font-size: 11px" *ngIf="transaction.value > 0">
+              {{ translations.general.from }} {{ transaction.address }}
             </span>
           </ion-item>
         </ion-list>

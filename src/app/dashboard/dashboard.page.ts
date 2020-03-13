@@ -53,11 +53,9 @@ export class DashboardPage implements OnInit {
       if(app.isRefreshing === false){
         app.isRefreshing = true
         app.idanode = await app._window.ScryptaCore.connectNode()
-        await app.getUnconfirmed()
         await app.fetchTransactions()
         await app.getBalance()
         app.isRefreshing = false
-
       }
     })
   }
@@ -84,29 +82,15 @@ export class DashboardPage implements OnInit {
     
     app.idanode = await app._window.ScryptaCore.connectNode()
     this.fetchGraph()
-    await this.getUnconfirmed()
     await this.fetchTransactions()
     await this.getBalance()
-  }
 
-  async getUnconfirmed(){
-    const app = this
-    app.unconfirmed = []
-    return new Promise(response => {
-      let unconfirmed = []
-      let stored = localStorage.getItem('pendingtx')
-      if(stored !== null){
-        unconfirmed = JSON.parse(stored)
-      }
-      if(unconfirmed.length > 0){
-        for(let k in unconfirmed){
-          if(unconfirmed[k].from === app.address){
-            app.unconfirmed.push(unconfirmed[k])
-          }
-        }
-      }
-      response(true)
-    })
+    setInterval(async function(){
+      app.isRefreshing = true
+      await app.fetchTransactions()
+      await app.getBalance()
+      app.isRefreshing = false
+    },10000)
   }
 
   async getBalance() {
@@ -128,9 +112,6 @@ export class DashboardPage implements OnInit {
               app.balance = response.data['balance'].toFixed(4)
               app.value = (parseFloat(app.balance) * parseFloat(app.current_price)).toFixed(4)
               app.valueBTC = (parseFloat(app.balance) * parseFloat(priceBTC)).toFixed(8)
-              for(let k in app.unconfirmed){
-                app.balance = parseFloat(app.balance) - parseFloat(app.unconfirmed[k].value)
-              }
               app.balance = parseFloat(app.balance).toFixed(4)
             })
         }).catch(error => {
@@ -149,22 +130,7 @@ export class DashboardPage implements OnInit {
       axios.get(app.idanode + '/transactions/' + app.address)
         .then(function (response) {
           app.transactions = response.data['data']
-          for(let k in app.transactions){
-              if(app.unconfirmed.length > 0){
-                for(let x in app.unconfirmed){
-                  if(app.unconfirmed[x].txid === app.transactions[k].txid){
-                    let updated = []
-                    for(let y in app.unconfirmed){
-                      if(app.unconfirmed[y].txid !== app.transactions[k].txid){
-                        updated.push(app.unconfirmed[y])
-                      }
-                    }
-                    localStorage.setItem('pendingtx',JSON.stringify(updated))
-                    app.unconfirmed = updated
-                  }
-              }
-            }
-          }
+          app.unconfirmed = response.data['unconfirmed']
         })
     }else{
       axios.post(app.idanode + '/sidechain/transactions', { dapp_address: app.address, sidechain_address: app.chain })
@@ -274,7 +240,6 @@ export class DashboardPage implements OnInit {
     if(app.isRefreshing === false){
       app.isRefreshing = true
       app.fetchGraph()
-      await app.getUnconfirmed()
       await app.fetchTransactions()
       await app.getBalance()
 

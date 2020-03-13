@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="foundation.scrypta.manent" version="1.4.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="foundation.scrypta.manent" version="1.4.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Scrypta Manent</name>
     <description>Official Scrypta Wallet.</description>
     <author email="info@scrypta.foundation" href="https://scrypta.foundation">Scrypta Foundation</author>
