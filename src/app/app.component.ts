@@ -55,7 +55,7 @@ export class AppComponent {
       {
         title: app.translations.ui.contacts,
         url: '/address-book',
-        icon: 'people-outline'
+        icon: 'people-circle'
       },
       {
         title: 'Backup',
@@ -81,7 +81,6 @@ export class AppComponent {
       var indirizzo = localStorage.getItem('lyraWallet').split(':')
       this.localAddress = indirizzo[0]
     }
-
   }
 
   initializeApp() {

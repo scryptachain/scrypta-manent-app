@@ -32,7 +32,10 @@ import { ChartsModule } from 'ng2-charts';
   entryComponents: [],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      swipeBackEnabled: false,
+      hardwareBackButton: false
+    }),
     AppRoutingModule,
     ChartsModule
   ],
