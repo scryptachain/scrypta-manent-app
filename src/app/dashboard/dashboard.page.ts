@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Chart } from "chart.js";
 import axios from 'axios';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { WindowRefService, ICustomWindow } from '../windowservice';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Router } from '@angular/router';
@@ -45,10 +45,12 @@ export class DashboardPage implements OnInit {
     windowRef: WindowRefService,
     private modalCtrl: ModalController,
     private iab: InAppBrowser,
-    public router:Router
+    public router:Router,
+    private platform: Platform
   ) {
     const app = this
     app._window = windowRef.nativeWindow;
+
     app.router.events.subscribe(async (val) => {
       if(app.isRefreshing === false){
         app.isRefreshing = true
