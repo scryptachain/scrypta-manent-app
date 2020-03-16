@@ -20,7 +20,7 @@
   </div>
   <div *ngIf="isUploading === false">
     <div *ngIf="readreturn.length == 0">
-        <ion-icon name="lock" style="font-size:80px; margin:20px 0" class="bottom-menu-active"></ion-icon>
+        <ion-icon name="folder" style="font-size:80px; margin:20px 0" class="bottom-menu-active"></ion-icon>
         <ion-card>
           <div style="padding:10px">
             {{ translations.vault.line_1 }}<br><br>
@@ -54,7 +54,7 @@
 <ion-footer>
 
 
-  <ion-tab-bar slot="bottom">
+  <ion-tab-bar slot="bottom" style="display:flex!important">
 
     <ion-tab-button [routerLink]="'/dashboard'">
       <ion-label style='color:#a7a7a7'>Dashboard</ion-label>
@@ -74,7 +74,7 @@
 
     <ion-tab-button [routerLink]="'/archive'">
       <ion-label class="bottom-menu-active">{{ translations.ui.vault }}</ion-label>
-      <ion-icon name="lock" class="bottom-menu-active"></ion-icon>
+      <ion-icon name="folder" class="bottom-menu-active"></ion-icon>
     </ion-tab-button>
 
   </ion-tab-bar>

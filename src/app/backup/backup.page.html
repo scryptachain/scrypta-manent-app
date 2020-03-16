@@ -12,7 +12,7 @@
   <h3 style="margin-top:20px; text-align: center;">{{ translations.backup.download_backup }}</h3>
   <h5 style="color:#f00; text-decoration: underline">{{ translations.backup.please_note }}</h5>
   <button expand='full' (click)='getPermissions()' style="margin-top:5%;" class='buttonsBut'>{{ translations.backup.download_sid }} <ion-icon name='key' size='large' style='float:right'></ion-icon></button> 
-  <button expand='full' (click)='unlock()' style="margin-top:5%" class='buttonsBut' >{{ translations.backup.download_paper }}<ion-icon name='qr-scanner' size='large' style="float:right"></ion-icon></button>
+  <button expand='full' (click)='unlock()' style="margin-top:5%" class='buttonsBut' >{{ translations.backup.download_paper }}<ion-icon name='document' size='large' style="float:right"></ion-icon></button>
   <ion-content *ngIf="showUnlock === true" class="unlockModal ion-padding">
     <ion-icon name='close' style="position:absolute; top:10px; right:10px; font-size:25px" (click)='lock()'></ion-icon>
     <h2 style="margin-top:30vh">{{ translations.home.enter_wallet_password }}</h2>

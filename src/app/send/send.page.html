@@ -56,7 +56,7 @@
   </ion-item>
   <ion-item>
     <ion-input type="text" style="font-size:13px" [(ngModel)]='addressToSend' placeholder="{{translations.send.insert_or_scan}}"></ion-input>
-    <ion-icon name="qr-scanner" (click)="scanQRCode()" style="color: #a7a7a7; float:right"></ion-icon>
+    <ion-icon name="camera" (click)="scanQRCode()" style="color: #a7a7a7; float:right"></ion-icon>
     <div *ngIf = "isIOS === false && !showQR" style="text-align:center">
       <ion-icon (click)='receiveCardAndroid()' name="card" style="float:right; margin-left:10px;" size='large'></ion-icon>
     </div>
@@ -91,7 +91,7 @@
 <ion-footer>
 
 
-  <ion-tab-bar slot="bottom">
+  <ion-tab-bar slot="bottom" style="display:flex!important">
 
     <ion-tab-button [routerLink]="'/dashboard'">
       <ion-label style='color:#a7a7a7'>Dashboard</ion-label>
@@ -110,7 +110,7 @@
 
     <ion-tab-button [routerLink]="'/archive'" *ngIf="chain === 'main'">
       <ion-label style='color:#a7a7a7'>{{ translations.ui.vault }}</ion-label>
-      <ion-icon name="lock" style='color:#a7a7a7'></ion-icon>
+      <ion-icon name="folder" style='color:#a7a7a7'></ion-icon>
     </ion-tab-button>
    
   </ion-tab-bar>

@@ -34,6 +34,7 @@ export class ArchivePage implements OnInit {
   api_secret: string;
   readreturn: any[] = [];
   tableItems: any[] = []
+  hashes: any[] = []
   private_key: string
   encrypt: boolean = false
   formdata = {
@@ -81,31 +82,42 @@ export class ArchivePage implements OnInit {
       address: app.address,
       history: false
     }).then(async function (response) {
-      app.readreturn = response.data.data;
-      for (var i = 0; i < app.readreturn.length; i++) {
-        if (app.readreturn[i]['is_file']) {
-          var hash = app.readreturn[i]['data']
-          await app.retrieveInfo(hash, i)
+      app.readreturn = [];
+      for (var i = 0; i < response.data.data.length; i++) {
+        if(response.data.data[i]['protocol'] !== 'chain://' && response.data.data[i]['protocol'] !== 'I://'){
+          if (response.data.data[i]['is_file']) {
+            var hash = response.data.data[i]['data']
+            await app.retrieveInfo(hash)
+            response.data.data[i]['data'] = app.hashes[hash].data
+            response.data.data[i]['mimetype'] = app.hashes[hash].mimetype
+            response.data.data[i]['mimedetail'] = app.hashes[hash].mimedetail
+          }else{
+            response.data.data[i]['data'] = JSON.stringify(response.data.data[i]['data'])
+          }
+          response.data.data[i].datetime = moment.unix(response.data.data[i].time).format('MM/DD/YYYY - HH:mm')
+          app.readreturn.push(response.data.data[i])
         }
-        app.readreturn[i].datetime = moment.unix(app.readreturn[i].time).format('MM/DD/YYYY - HH:mm')
-        await app.returnTableItems()
       }
 
+      await app.returnTableItems()
     })
 
   }
 
-  async retrieveInfo(hash, i: number) {
-    
+  async retrieveInfo(hash) {
     const app = this
-    await axios.get(app.idanode + '/ipfs/type/' + hash).then(async function (response) {
-      if(response.data.data !== undefined){
-        app.readreturn[i].mimetype = response.data.data.type
-        app.readreturn[i].mimedetail = response.data.data.ext
-        app.readreturn[i].data = app.idanode + '/ipfs/' + app.readreturn[i].data 
-      }
+    return new Promise(async res => {
+      await axios.get(app.idanode + '/ipfs/type/' + hash).then(async function (response) {
+        if(response.data.data !== undefined){
+          app.hashes[hash].mimetype = response.data.data.type
+          app.hashes[hash].mimedetail = response.data.data.ext
+          app.hashes[hash].data = app.idanode + '/ipfs/' + hash
+          res(true)
+        }else{
+          res(false)
+        }
+      })
     })
-
   }
 
   async returnTableItems() {

@@ -3,6 +3,9 @@ import { Platform, MenuController } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router'
 import { Globalization } from '@ionic-native/globalization/ngx';
+import { Network } from '@ionic-native/network/ngx';
+import { ToastController } from '@ionic/angular';
+
 var locales =  require('./locales.js')
 
 @Component({
@@ -13,6 +16,7 @@ var locales =  require('./locales.js')
 export class AppComponent {
   language: any = 'en'
   locales: any = locales
+  connected: boolean = true
   translations: any = {}
   public appPages = [];
   private dateLogin: string
@@ -22,7 +26,9 @@ export class AppComponent {
     private statusBar: StatusBar,
     private router: Router,
     private menu: MenuController,
-    private globalization: Globalization
+    private globalization: Globalization,
+    private network: Network,
+    public toastController: ToastController
   ) {
     this.initializeApp();
     const app = this
@@ -49,7 +55,7 @@ export class AppComponent {
       {
         title: app.translations.ui.contacts,
         url: '/address-book',
-        icon: 'contact'
+        icon: 'people-circle'
       },
       {
         title: 'Backup',
@@ -75,15 +81,26 @@ export class AppComponent {
       var indirizzo = localStorage.getItem('lyraWallet').split(':')
       this.localAddress = indirizzo[0]
     }
-
   }
 
   initializeApp() {
+    const app = this
     this.platform.ready().then(() => {
       if(this.platform.is('ios') === true ){
         this.statusBar.overlaysWebView(false);
         this.statusBar.backgroundColorByHexString('#000000');
       }
+      this.network.onConnect().subscribe(() => {
+        console.log(this.network.type)
+      });
+      this.network.onDisconnect().subscribe(async () => {
+        this.connected = false
+        const toast = await this.toastController.create({
+          message: app.translations.general.no_connection,
+          duration: 2000
+        });
+        toast.present();
+      });
       this.fetchAddress()
     });
   }
