@@ -63,9 +63,7 @@ export class HomePage {
       app.language = localStorage.getItem('language')
     }
     app.translations = this.locales.default[app.language]
-    app.router.events.subscribe(async (val) => {
-      app.checkUser()
-    })
+    
     setTimeout(function(){
       this.backupAlert=false;
     })
