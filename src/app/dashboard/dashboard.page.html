@@ -15,7 +15,7 @@
     <h3 style="text-align:left; margin:0px; width: 100%; font-weight:bold; font-size:36px">{{balance}} LYRA</h3>
     <h4 style="font-size:24px; color:#d8273a; margin-top:-5px;">{{ value }} {{ currency.toUpperCase() }} <span style="font-size:14px; color:#333">{{ valueBTC }} BTC</span></h4>
     <div style="width:110%">
-      <canvas #lineCanvas style="position: relative; height:40vh; margin-left: -16px"></canvas><br>
+      <canvas #lineCanvas style="position: relative; height:40vh; max-height: 200px; margin-left: -16px"></canvas><br>
     </div>
     <div *ngIf="chain === 'main'">
 

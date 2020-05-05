@@ -6,6 +6,7 @@ import { WindowRefService, ICustomWindow } from '../windowservice';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Router } from '@angular/router';
 var locales =  require('../locales.js')
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-dashboard',
@@ -46,12 +47,14 @@ export class DashboardPage implements OnInit {
     private modalCtrl: ModalController,
     private iab: InAppBrowser,
     public router:Router,
-    private platform: Platform
+    private platform: Platform,
+    private menu: MenuController
   ) {
     const app = this
     app._window = windowRef.nativeWindow;
 
     app.router.events.subscribe(async (val) => {
+      app.menu.close();
       if(app.isRefreshing === false){
         app.isRefreshing = true
         app.idanode = await app._window.ScryptaCore.connectNode()
