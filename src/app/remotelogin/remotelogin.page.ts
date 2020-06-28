@@ -60,25 +60,40 @@ export class RemoteloginPage implements OnInit {
     if(app.unlockPwd !== ''){
       app._window.ScryptaCore.readKey(app.unlockPwd, app.address + ':' + app.encrypted).then(async function (check) {
         if(check !== false){
-          app.qrScanner.scan().then(barcodeData => {
-            var address = barcodeData.text.replace('login:','')
-            app._window.ScryptaCore.readKey(app.unlockPwd, app.address + ':' + app.encrypted).then(async function (response) {
-              let tosign = JSON.stringify({
-                  protocol: 'login://',
-                  request: address,
-                  sid: app.address + ':' + app.encrypted
-              })
-              let message = await app._window.ScryptaCore.signMessage(response.prv, tosign)
-              console.log(message)
-              app.isSending = true
-              setInterval(function(){
+            app.isSending = true
+              app.qrScanner.scan().then(barcodeData => {
+              var address = barcodeData.text.replace('login:','')
+              app._window.ScryptaCore.readKey(app.unlockPwd, app.address + ':' + app.encrypted).then(async function (response) {
+                let tosign = JSON.stringify({
+                    protocol: 'login://',
+                    request: address,
+                    sid: app.address + ':' + app.encrypted,
+                    timestamp: new Date().getTime()
+                })
+                let message = await app._window.ScryptaCore.signMessage(response.prv, tosign)
                 app.socketone.emit('message', message);
                 app.sockettwo.emit('message', message);
                 app.sockettwo.emit('message', message);
                 app.sockettwo.emit('message', message);
                 app.sockettwo.emit('message', message);
                 app.sockettwo.emit('message', message);
-              }, 500)
+              })
+              setInterval(function(){
+                app._window.ScryptaCore.readKey(app.unlockPwd, app.address + ':' + app.encrypted).then(async function (response) {
+                let tosign = JSON.stringify({
+                    protocol: 'login://',
+                    request: address,
+                    sid: app.address + ':' + app.encrypted,
+                    timestamp: new Date().getTime()
+                })
+                let message = await app._window.ScryptaCore.signMessage(response.prv, tosign)
+                app.socketone.emit('message', message);
+                app.sockettwo.emit('message', message);
+                app.sockettwo.emit('message', message);
+                app.sockettwo.emit('message', message);
+                app.sockettwo.emit('message', message);
+                app.sockettwo.emit('message', message);
+              }, 2000)
             })
           }).catch(err => {
             console.log(err)
