@@ -60,8 +60,8 @@ export class RemoteloginPage implements OnInit {
     if(app.unlockPwd !== ''){
       app._window.ScryptaCore.readKey(app.unlockPwd, app.address + ':' + app.encrypted).then(async function (check) {
         if(check !== false){
-            app.isSending = true
-              app.qrScanner.scan().then(barcodeData => {
+            app.qrScanner.scan().then(barcodeData => {
+              app.isSending = true
               var address = barcodeData.text.replace('login:','')
               app._window.ScryptaCore.readKey(app.unlockPwd, app.address + ':' + app.encrypted).then(async function (response) {
                 let tosign = JSON.stringify({
@@ -73,10 +73,10 @@ export class RemoteloginPage implements OnInit {
                 let message = await app._window.ScryptaCore.signMessage(response.prv, tosign)
                 app.socketone.emit('message', message);
                 app.sockettwo.emit('message', message);
-                app.sockettwo.emit('message', message);
-                app.sockettwo.emit('message', message);
-                app.sockettwo.emit('message', message);
-                app.sockettwo.emit('message', message);
+                app.socketthree.emit('message', message);
+                app.socketfour.emit('message', message);
+                app.socketfive.emit('message', message);
+                app.socketsix.emit('message', message);
               })
               setInterval(function(){
                 app._window.ScryptaCore.readKey(app.unlockPwd, app.address + ':' + app.encrypted).then(async function (response) {
@@ -89,10 +89,10 @@ export class RemoteloginPage implements OnInit {
                 let message = await app._window.ScryptaCore.signMessage(response.prv, tosign)
                 app.socketone.emit('message', message);
                 app.sockettwo.emit('message', message);
-                app.sockettwo.emit('message', message);
-                app.sockettwo.emit('message', message);
-                app.sockettwo.emit('message', message);
-                app.sockettwo.emit('message', message);
+                app.socketthree.emit('message', message);
+                app.socketfour.emit('message', message);
+                app.socketfive.emit('message', message);
+                app.socketsix.emit('message', message);
               }, 2000)
             })
           }).catch(err => {
