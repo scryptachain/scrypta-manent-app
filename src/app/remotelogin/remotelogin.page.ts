@@ -17,6 +17,7 @@ export class RemoteloginPage implements OnInit {
   wallet: ''
   isSending: boolean = false
   encrypted: string = ''
+  interval: any = ''
   selected: number = 0
   address: string
   private _window: ICustomWindow
@@ -53,6 +54,9 @@ export class RemoteloginPage implements OnInit {
     let payload = app.wallet[app.selected].split(':')
     app.address = payload[0]
     app.encrypted = payload[1]
+    clearInterval(app.interval)
+    app.unlockPwd = ''
+    app.isSending = false
   }
 
   scanQRCode() {
@@ -62,15 +66,15 @@ export class RemoteloginPage implements OnInit {
         if(check !== false){
             app.qrScanner.scan().then(barcodeData => {
               app.isSending = true
+              var message = ''
               var address = barcodeData.text.replace('login:','')
               app._window.ScryptaCore.readKey(app.unlockPwd, app.address + ':' + app.encrypted).then(async function (response) {
                 let tosign = JSON.stringify({
                     protocol: 'login://',
                     request: address,
-                    sid: app.address + ':' + app.encrypted,
-                    timestamp: new Date().getTime()
+                    sid: app.address + ':' + app.encrypted
                 })
-                let message = await app._window.ScryptaCore.signMessage(response.prv, tosign)
+                message = await app._window.ScryptaCore.signMessage(response.prv, tosign)
                 app.socketone.emit('message', message);
                 app.sockettwo.emit('message', message);
                 app.socketthree.emit('message', message);
@@ -78,15 +82,8 @@ export class RemoteloginPage implements OnInit {
                 app.socketfive.emit('message', message);
                 app.socketsix.emit('message', message);
               })
-              setInterval(function(){
+              app.interval = setInterval(function(){
                 app._window.ScryptaCore.readKey(app.unlockPwd, app.address + ':' + app.encrypted).then(async function (response) {
-                let tosign = JSON.stringify({
-                    protocol: 'login://',
-                    request: address,
-                    sid: app.address + ':' + app.encrypted,
-                    timestamp: new Date().getTime()
-                })
-                let message = await app._window.ScryptaCore.signMessage(response.prv, tosign)
                 app.socketone.emit('message', message);
                 app.sockettwo.emit('message', message);
                 app.socketthree.emit('message', message);
