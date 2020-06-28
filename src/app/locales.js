@@ -130,10 +130,16 @@ export default {
             search_placeholder: "Enter a public address to search",
             details_button: "Show details",
         },
+        remotelogin: {
+            scan: "Insert your password then unlock your camera and read showed QR Code.",
+            wait: "Wait until remote dApp is updated, then close this window.",
+            start: "START"
+        },
         ui: {
             footer_description: 'Open Source Project developed by',
             data_explorer: 'Data Explorer',
             vault: 'Vault',
+            remotelogin: 'Remote login',
             send: 'Send',
             receive: 'Receive',
             identities: 'Identities',
@@ -342,10 +348,16 @@ export default {
             search_placeholder: "Inserisci un indirizzo per cercare",
             details_button: "Dettagli",
         },
+        remotelogin: {
+            scan: "Inserisci la tua password, dopo di che avvia la camera e scannerizza il QR code presentato dalla dApp.",
+            wait: "Aspetta che la dApp remota si sia aggiornata, dopo di che potrai chiudere questa pagina.",
+            start: "INIZIA"
+        },
         ui: {
             footer_description: 'Progetto open source sviluppato da',
             data_explorer: 'Data Explorer',
             vault: 'Cassaforte',
+            remotelogin: 'Login remoto',
             send: 'Invia',
             identities: 'Identità',
             contacts: 'Contatti',

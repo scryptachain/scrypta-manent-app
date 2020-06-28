@@ -26,12 +26,57 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import {HTTP} from '@ionic-native/http/ngx'
 import {Clipboard} from '@ionic-native/clipboard/ngx'
 import { ChartsModule } from 'ng2-charts';
+import { Injectable } from '@angular/core';
+import { Socket } from 'ngx-socket-io';
+import { SocketIoModule } from 'ngx-socket-io';
 
+@Injectable()
+export class SocketOne extends Socket { 
+    constructor() {
+        super({ url: 'http://idanodejs01.scryptachain.org:42226', options: {} });
+    }
+}
+ 
+@Injectable()
+export class SocketTwo extends Socket {
+    constructor() {
+        super({ url: 'http://idanodejs02.scryptachain.org:42226', options: {} });
+    }
+}
+
+@Injectable()
+export class SocketThree extends Socket {
+    constructor() {
+        super({ url: 'http://idanodejs03.scryptachain.org:42226', options: {} });
+    }
+}
+
+@Injectable()
+export class SocketFour extends Socket {
+    constructor() {
+        super({ url: 'http://idanodejs04.scryptachain.org:42226', options: {} });
+    }
+}
+
+@Injectable()
+export class SocketFive extends Socket {
+    constructor() {
+        super({ url: 'http://idanodejs05.scryptachain.org:42226', options: {} });
+    }
+}
+
+@Injectable()
+export class SocketSix extends Socket {
+    constructor() {
+        super({ url: 'http://idanodejs06.scryptachain.org:42226', options: {} });
+    }
+}
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
+    SocketIoModule,
     IonicModule.forRoot({
       swipeBackEnabled: false,
       hardwareBackButton: false
@@ -40,6 +85,12 @@ import { ChartsModule } from 'ng2-charts';
     ChartsModule
   ],
   providers: [
+    SocketOne, 
+    SocketTwo,
+    SocketThree,
+    SocketFour,
+    SocketFive,
+    SocketSix,
     Globalization,
     LoadingController,
     Clipboard,

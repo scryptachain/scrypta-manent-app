@@ -48,6 +48,11 @@ export class AppComponent {
         icon: 'journal'
       },
       {
+        title: app.translations.ui.remotelogin,
+        url: '/remote-login',
+        icon: 'qr-code-outline'
+      },
+      {
         title: app.translations.token.title,
         url: '/token',
         icon: 'wallet'
