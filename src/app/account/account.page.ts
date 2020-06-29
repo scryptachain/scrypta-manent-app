@@ -49,10 +49,6 @@ export class AccountPage implements OnInit {
       app.language = localStorage.getItem('language')
     }
     app.translations = this.locales.default[app.language]
-    setTimeout(async function(){
-      app.idanode = await app._window.ScryptaCore.connectNode()
-      app.parseWallet()
-    },50)
   }
   
   async parseWallet() {

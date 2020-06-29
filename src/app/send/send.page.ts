@@ -304,6 +304,7 @@ export class SendPage implements OnInit {
       app.isSending = true
       app.amountToSend = parseFloat(String(app.amountToSend).replace(',','.'))
       await this._window.ScryptaCore.send(app.unlockPwd, app.addressToSend, app.amountToSend, '', app.address + ':' + app.encrypted).then((result) => {
+        console.log(result)
         if(result !== false && result !== undefined && result !== null){
           app.amountFIAT = 0
           app.amountToSend = 0

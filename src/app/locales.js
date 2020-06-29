@@ -132,14 +132,14 @@ export default {
         },
         remotelogin: {
             scan: "Insert your password then unlock your camera and read showed QR Code.",
-            wait: "Wait until remote dApp is updated, then close this window.",
+            wait: "Wait until remote dApp is updated, then close the app.",
             start: "START"
         },
         ui: {
             footer_description: 'Open Source Project developed by',
             data_explorer: 'Data Explorer',
             vault: 'Vault',
-            remotelogin: 'Remote login',
+            remotelogin: 'Remote sign',
             send: 'Send',
             receive: 'Receive',
             identities: 'Identities',
@@ -350,14 +350,14 @@ export default {
         },
         remotelogin: {
             scan: "Inserisci la tua password, dopo di che avvia la camera e scannerizza il QR code presentato dalla dApp.",
-            wait: "Aspetta che la dApp remota si sia aggiornata, dopo di che potrai chiudere questa pagina.",
+            wait: "Aspetta che la dApp remota si sia aggiornata, dopo di che potrai l'app.",
             start: "INIZIA"
         },
         ui: {
             footer_description: 'Progetto open source sviluppato da',
             data_explorer: 'Data Explorer',
             vault: 'Cassaforte',
-            remotelogin: 'Login remoto',
+            remotelogin: 'Firma remota',
             send: 'Invia',
             identities: 'Identità',
             contacts: 'Contatti',

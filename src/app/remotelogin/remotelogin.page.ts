@@ -34,6 +34,10 @@ export class RemoteloginPage implements OnInit {
     this.socketfour.connect()
     this.socketfive.connect()
     this.socketsix.connect()
+    this.router.events.subscribe(async (val) => {
+      app.isSending = false
+      app.unlockPwd = ''
+    })
   }
 
   goBack() {
@@ -67,10 +71,12 @@ export class RemoteloginPage implements OnInit {
             app.qrScanner.scan().then(barcodeData => {
               app.isSending = true
               var message = ''
-              var address = barcodeData.text.replace('login:','')
+              let qrRequest = barcodeData.text.split(':')
+              var address = qrRequest[1]
+              var protocol = qrRequest[0] + '://'
               app._window.ScryptaCore.readKey(app.unlockPwd, app.address + ':' + app.encrypted).then(async function (response) {
                 let tosign = JSON.stringify({
-                    protocol: 'login://',
+                    protocol: protocol,
                     request: address,
                     sid: app.address + ':' + app.encrypted
                 })
