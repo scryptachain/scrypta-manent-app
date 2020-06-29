@@ -75,7 +75,9 @@ export class AccountPage implements OnInit {
         }
         app.accounts.push(address)
       }
-      app.isParsing = false
+      setTimeout(function(){
+        app.isParsing = false
+      }, 5000)
     }
   }
   
