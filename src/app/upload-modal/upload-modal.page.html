@@ -21,9 +21,11 @@
     </div>
   <h2 style='font-size:14px'>{{ translations.vault.title }}</h2>
     <ion-input style="border-bottom:1px solid #aaa" [(ngModel)]='refID'></ion-input>
-  <h2 style='font-size:14px'>{{ translations.vault.select_file }}</h2>
+  <div style="display: none;">
+    <h2 style='font-size:14px'>{{ translations.vault.select_file }}</h2>
     <input placeholder="{{ translations.vault.select_file }}" type='file' style="margin:0; width: 100%" [(ngModel)]='fileName' id='fileInput' (change)='getAttributes()'>
-  <h2 style='font-size:14px'>{{ translations.vault.text }}</h2>
+  </div>
+    <h2 style='font-size:14px'>{{ translations.vault.text }}</h2>
     <ion-textarea placeholder="{{ translations.vault.insert_text }}" style="border-bottom:1px solid #aaa; height:20vh" [(ngModel)]='message'></ion-textarea>
   <div id='passwordFields'>
   <h2 style='font-size:14px'>{{ translations.send.enter_wallet_password }}</h2>
