@@ -102,10 +102,10 @@ export class User {
         }
     }
 
-    configs() {
+    configs(): {} {
         return new Promise(async response => {
             let language = await db.get('settings', 'set', 'language')
-            if (!language) {
+            if (language === undefined || language.value === undefined) {
                 language = 'en'
                 await db.put('settings', { set: 'language', value: 'en' })
             } else {
@@ -113,7 +113,7 @@ export class User {
             }
 
             let chain = await db.get('settings', 'set', 'chain')
-            if (!chain) {
+            if (chain === undefined || chain.value === undefined) {
                 chain = 'LYRA'
                 await db.put('settings', { set: 'chain', value: 'LYRA' })
             } else {

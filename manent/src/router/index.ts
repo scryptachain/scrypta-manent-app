@@ -5,7 +5,7 @@ import Dashboard from '../views/Dashboard.vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/dashboard/tab1'
+    redirect: '/dashboard/overview'
   },
   {
     path: '/dashboard/',
@@ -16,18 +16,26 @@ const routes: Array<RouteRecordRaw> = [
         redirect: 'tab1'
       },
       {
-        path: 'tab1',
-        component: () => import('@/views/Tab1.vue')
+        path: 'overview',
+        component: () => import('@/views/Overview.vue')
       },
       {
-        path: 'tab2',
-        component: () => import('@/views/Tab2.vue')
+        path: 'transactions',
+        component: () => import('@/views/Transactions.vue')
       },
       {
-        path: 'tab3',
-        component: () => import('@/views/Tab3.vue')
+        path: 'settings',
+        component: () => import('@/views/Settings.vue')
       }
     ]
+  },
+  {
+    path: '/identities',
+    component: () => import('@/views/Identities.vue')
+  },
+  {
+    path: '/notarization',
+    component: () => import('@/views/Notarization.vue')
   }
 ]
 

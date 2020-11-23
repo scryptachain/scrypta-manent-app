@@ -1,7 +1,7 @@
 <template>
   <ion-app>
     <ion-router-outlet v-if="isLogged" />
-    <Login v-if="!isLogged" />
+    <Login :embed="false" v-if="!isLogged" />
   </ion-app>
 </template>
 
