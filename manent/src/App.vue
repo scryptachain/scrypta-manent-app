@@ -20,12 +20,13 @@ export default defineComponent({
   },
   data(){
     return {
-      isLogged: false,
+      isLogged: {},
       User: new User
     }
   },
-  mounted(){
-    this.isLogged = this.User.isLogged()
+  async mounted(){
+    this.isLogged = await this.User.auth()
+    console.log(this.isLogged)
   }
 });
 </script>

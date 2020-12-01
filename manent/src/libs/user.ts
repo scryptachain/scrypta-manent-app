@@ -3,16 +3,8 @@ const scrypta = new ScryptaCore(true)
 import { ScryptaDB } from "./db"
 const db = new ScryptaDB
 
-export class User {
-    isLogged() {
-        if (localStorage.getItem('xSID') !== null && localStorage.getItem('xSID') !== undefined) {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    async auth(id: any) {
+export class User {    
+    async auth(id: any = '') {
         let wallet = await scrypta.returnDefaultxSid()
         let defaultid = await localStorage.getItem('default')
         if (id !== undefined && id !== null && id.length > 0) {
