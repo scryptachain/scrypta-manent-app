@@ -1,5 +1,17 @@
 <template>
   <ion-page>
+    <div v-if="!showIntro && (showNew || showImport) ">
+      <ion-header translucent>
+        <ion-toolbar>
+          <ion-title v-if="showNew">Create New Account</ion-title>
+          <ion-title v-if="showImport">Import Account</ion-title>
+          <ion-buttons slot="start">
+            <ion-button v-on:click="showIntro = true; showNew = false; showImport = false">Go Back</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+    </div>
+    <ion-content>
     <ion-slides v-if="showIntro" pager="true">
       <ion-slide>
         <div style="padding: 0 20px">
@@ -93,35 +105,105 @@
     </div>
     <div v-if="!showIntro && showImport">
       <div v-if="showSelection">
+        <div>
+          <ion-button
+            shape="round"
+            v-on:click="
+              showImportMnemonic = true;
+              showSelection = false;
+            "
+          >
+            MNEMONIC
+          </ion-button>
+        </div>
+        <div>
+          <ion-button
+            shape="round"
+            v-on:click="
+              showImportCardNFCc = true;
+              showSelection = false;
+            "
+          >
+            NFC
+          </ion-button>
+        </div>
+        <div>
+          <ion-button
+            shape="round"
+            v-on:click="
+              showImportCardQR = true;
+              showSelection = false;
+            "
+          >
+            QR
+          </ion-button>
+        </div>
         <ion-button
           shape="round"
           v-on:click="
-            showImportMnemonic = true;
+            showImportPrivateKey = true;
             showSelection = false;
           "
         >
-          MNEMONIC
+          PRIV KEY
         </ion-button>
-        <ion-button shape="round"> NFC </ion-button>
-        <ion-button shape="round"> QR </ion-button>
-        <ion-button shape="round"> SID</ion-button>
-        <ion-button shape="round"> PRIV KEY </ion-button>
       </div>
       <div v-if="!showSelection && showImportMnemonic">
         <ion-item>
           <ion-label>Insert Mnemonic</ion-label>
           <ion-input v-model="mnemonic"></ion-input>
         </ion-item>
+        <ion-item>
+          <ion-label>Address Label</ion-label>
+          <ion-input v-model="label"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Insert password</ion-label>
+          <ion-input v-model="password" type="password"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Repeat password</ion-label>
+          <ion-input v-model="passwordrepeat" type="password"></ion-input>
+        </ion-item>
         <ion-button shape="round" v-on:click="importMnemonic">
           Import Account
         </ion-button>
       </div>
-
       <div v-if="!showSelection && showImportCardNFC"></div>
       <div v-if="!showSelection && showImportCardQR"></div>
-      <div v-if="!showSelection && showImportFileSID"></div>
-      <div v-if="!showSelection && showImportPrivateKey"></div>
+      <div v-if="!showSelection && showImportPrivateKey">
+        <div>
+          <ion-item
+            ><ion-label>Create Label</ion-label
+            ><ion-input v-model="label"> </ion-input
+          ></ion-item>
+        </div>
+        <div>
+          <ion-item
+            ><ion-label>Private Key</ion-label
+            ><ion-input v-model="privkey"> </ion-input
+          ></ion-item>
+        </div>
+        <div>
+          <ion-item
+            ><ion-label>Password</ion-label
+            ><ion-input v-model="password"> </ion-input
+          ></ion-item>
+        </div>
+        <div>
+          <ion-item
+            ><ion-label>Repeat Password</ion-label
+            ><ion-input v-model="passwordrepeat"> </ion-input
+          ></ion-item>
+        </div>
+        <div>
+          <ion-button shape="round" v-on:click="importPrivKey()">
+            Import Account
+          </ion-button>
+        </div>
+      </div>
     </div>
+    </ion-content>
   </ion-page>
 </template>
 
@@ -134,6 +216,7 @@ import {
   IonInput,
   IonItem,
 } from "@ionic/vue";
+
 import ScryptaCore from "@scrypta/core";
 import { defineComponent } from "vue";
 import { User } from "../libs/user";
@@ -144,7 +227,7 @@ const db = new ScryptaDB();
 
 export default defineComponent({
   name: "Login",
-  components: { IonSlides, IonSlide, IonPage, IonLabel, IonInput, IonItem },
+  components: { IonSlides, IonSlide, IonPage, IonLabel, IonInput, IonItem, },
   data() {
     return {
       scrypta: new ScryptaCore(true),
@@ -158,7 +241,6 @@ export default defineComponent({
       showMnemonic: false,
       showImportCardNFC: false,
       showImportCardQR: false,
-      showImportFileSID: false,
       showImportMnemonic: false,
       showImportPrivateKey: false,
       showSelection: true,
@@ -168,6 +250,7 @@ export default defineComponent({
       newSeed: { walletstore: "", mnemonic: "" },
       recover: false,
       label: "",
+      privkey: "",
     };
   },
   async mounted() {
@@ -234,6 +317,30 @@ export default defineComponent({
           app.presentAlert("Error", "Immetti una password.");
         }
       }
+    },
+    async importPrivKey() {
+      const app = this;
+      let sid;
+      if (
+        app.privkey !== "" &&
+        app.password !== "" &&
+        app.passwordrepeat !== ""
+      ) {
+        if (app.password === app.passwordrepeat) {
+          const wallet = await app.scrypta.importPrivateKey(
+            app.privkey,
+            app.password,
+            false
+          );
+          sid = wallet.walletstore;
+        } else {
+          app.presentAlert("Error", "Le password non corrispondono");
+        }
+      } else {
+        app.presentAlert("Error", "Immetti una password.");
+      }
+      await app.scrypta.saveWallet(sid, app.label);
+      location.reload();
     },
   },
 });
