@@ -30,3 +30,23 @@ export default defineComponent({
   }
 });
 </script>
+
+<style>
+:root {
+  --ion-color-purple: #545262;
+  --ion-color-purple-rgb: 84,82,98;
+  --ion-color-purple-contrast: #ffffff;
+  --ion-color-purple-contrast-rgb: 255,255,255;
+  --ion-color-purple-shade: #4a4856;
+  --ion-color-purple-tint: #656372;
+}
+
+.ion-color-purple {
+  --ion-color-base: var(--ion-color-purple);
+  --ion-color-base-rgb: var(--ion-color-purple-rgb);
+  --ion-color-contrast: var(--ion-color-purple-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-purple-contrast-rgb);
+  --ion-color-shade: var(--ion-color-purple-shade);
+  --ion-color-tint: var(--ion-color-purple-tint);
+}
+</style>

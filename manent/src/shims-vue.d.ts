@@ -4,6 +4,7 @@ declare module '*.vue' {
   export default component
 }
 
+
 declare module '@scrypta/core' {
   class ScryptaCore {
     constructor(isBrowser:boolean): Object;
