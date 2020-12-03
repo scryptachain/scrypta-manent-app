@@ -3,10 +3,11 @@
     <div v-if="!showIntro && (showNew || showImport)">
       <ion-header translucent>
         <ion-toolbar color="purple">
-          <ion-title color="light" v-if="showNew">Create New Account</ion-title>
-          <ion-title color="light" v-if="showImport">Import Account</ion-title>
+          <ion-title color="smoke" v-if="showNew">Create New Account</ion-title>
+          <ion-title color="smoke" v-if="showImport">Import Account</ion-title>
           <ion-buttons slot="start">
             <ion-button
+              v-if="!showMnemonic"
               v-on:click="
                 showIntro = true;
                 showNew = false;
@@ -26,10 +27,10 @@
               src="/assets/images/logo-light.svg"
               style="height: 35px; margin-bottom: 40px"
             />
-            <ion-text color="light">
+            <ion-text color="smoke">
               <h3 style="font-weight: 300">Official Scrypta Wallet</h3>
             </ion-text>
-            <ion-text color="light">
+            <ion-text color="smoke">
               <p style="font-weight: 150">
                 Manent is the first official Scrypta App supported by the
                 Scrypta Foundation, developed to interact with the blockchain in
@@ -41,10 +42,10 @@
         </ion-slide>
         <ion-slide>
           <div style="padding: 0 20px">
-            <ion-text color="light" style="font-weight: 300">
+            <ion-text color="smoke" style="font-weight: 300">
               <h1>How to start</h1>
             </ion-text>
-            <ion-text color="light" style="font-weight: 150">
+            <ion-text color="smoke" style="font-weight: 150">
               <p style="margin-bottom: 5px !important">
                 Create your account with a single click, if you don't have one,
                 or import an existing one. We recommend using the Scrypta Card
@@ -60,10 +61,10 @@
               >
             </small>
             <hr />
-            <ion-text color="light" style="font-weight: 300">
+            <ion-text color="smoke" style="font-weight: 300">
               <h1 style="font-weight: 600">What can you do</h1>
             </ion-text>
-            <ion-text color="light" style="font-weight: 150">
+            <ion-text color="smoke" style="font-weight: 150">
               <p>
                 Manage your LYRA and Tokens with Manent! You can send and
                 receive LYRA or Tokens simply by scanning a QR Code or via NFC.
@@ -83,7 +84,7 @@
               <div>
                 <ion-button
                   style="padding: 0 50px"
-                  color="medium"
+                  color="smoke"
                   expand="block"
                   fill="outline"
                   v-on:click="
@@ -91,19 +92,22 @@
                     showNew = true;
                   "
                 >
-                <ion-icon style="margin-right: 30px;" src="/assets/icon/add-circle.svg"></ion-icon>
+                  <ion-icon
+                    style="margin-right: 30px"
+                    src="/assets/icon/add-circle.svg"
+                  ></ion-icon>
                   Start with a new wallet</ion-button
                 >
               </div>
               <div style="padding: 10px 0">
-                <ion-text color="medium">
+                <ion-text color="smoke">
                   <i>- or -</i>
                 </ion-text>
               </div>
               <div>
                 <ion-button
                   style="padding: 0 50px"
-                  color="medium"
+                  color="smoke"
                   expand="block"
                   fill="outline"
                   v-on:click="
@@ -111,6 +115,10 @@
                     showImport = true;
                   "
                 >
+                  <ion-icon
+                    style="margin-right: 30px"
+                    src="/assets/icon/import.svg"
+                  ></ion-icon>
                   Import an existing one</ion-button
                 >
               </div>
@@ -120,34 +128,122 @@
       </ion-slides>
       <div v-if="!showIntro && showNew">
         <div v-if="showPassword">
-          <ion-item>
-            <ion-label>Address Label</ion-label>
-            <ion-input v-model="label"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label>Insert password</ion-label>
-            <ion-input v-model="password" type="password"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label>Repeat password</ion-label>
-            <ion-input v-model="passwordrepeat" type="password"></ion-input>
-          </ion-item>
-          <ion-button shape="round" v-on:click="createNewSid">
-            Create Now
-          </ion-button>
+          <div style="padding: 100px 20px">
+            <ion-item style="--background: transparent; margin-bottom: 20px">
+              <ion-icon
+                style="margin-right: 5px; height: 18px"
+                src="/assets/icon/label.svg"
+              ></ion-icon>
+              <ion-label>Address Label</ion-label>
+              <ion-input v-model="label"></ion-input>
+            </ion-item>
+            <ion-item style="--background: transparent; margin-bottom: 20px">
+              <ion-icon
+                style="margin-right: 5px; height: 18px"
+                src="/assets/icon/lock.svg"
+              ></ion-icon>
+              <ion-label>Insert password</ion-label>
+              <ion-input v-model="password" type="password"></ion-input>
+            </ion-item>
+            <ion-item style="--background: transparent; margin-bottom: 50px">
+              <ion-icon
+                style="margin-right: 5px; height: 18px"
+                src="/assets/icon/lock.svg"
+              ></ion-icon>
+              <ion-label>Repeat password</ion-label>
+              <ion-input v-model="passwordrepeat" type="password"></ion-input>
+            </ion-item>
+            <ion-button
+              shape="round"
+              color="purple"
+              expand="block"
+              v-on:click="createNewSid"
+            >
+              Create Now
+            </ion-button>
+          </div>
         </div>
         <div v-if="showMnemonic">
-          fai il backup, prendi un folio di carta e scriviti le parole
-          <hr />
-          {{ mnemonic }}
-          <hr />
-          <ion-button shape="round" v-on:click="location.reload()">
-            Continue
-          </ion-button>
+          <ion-row class="ion-justify-content-center" style="padding: 30px 0px">
+            <ion-col size="3" offset="1">
+              <img src="/assets/icon/create.svg" />
+            </ion-col>
+          </ion-row>
+          <div class="ion-text-center" style="padding: 0 30px">
+            <ion-text color="smoke">
+              <h1 style="font-weight: 300">Make a backup</h1>
+              <p style="font-weight: 150">
+                Take a piece of paper and write down the words, then keep it in
+                a safe place
+              </p>
+            </ion-text>
+            <div style="margin-top: 40px">
+              <ion-card class="box-card">
+                <ion-card-content>
+                  <ion-text
+                    class="ion-text-uppercase"
+                    color="smoke"
+                    style="font-weight: 200"
+                  >
+                    {{ mnemonic }}
+                  </ion-text>
+                </ion-card-content>
+              </ion-card>
+            </div>
+            <ion-button
+              shape="round"
+              expand="block"
+              color="purple"
+              v-on:click="location.reload()"
+            >
+              Continue
+            </ion-button>
+          </div>
         </div>
       </div>
       <div v-if="!showIntro && showImport">
         <div v-if="showSelection">
+          <ion-row class="ion-justify-content-center" style="padding: 30px 0px">
+            <ion-col size="3" offset="1">
+              <ion-icon
+                class="my-icon"
+                color="smoke"
+                src="/assets/icon/selection.svg"
+              ></ion-icon>
+            </ion-col>
+          </ion-row>
+          <div class="ion-text-center" style="padding: 0 30px">
+            <ion-text color="smoke">
+              <h1 style="font-weight: 300">Make a select</h1>
+              <p style="font-weight: 150">
+                Import your Account from your Scrypta Blockchain Card, Mnemonic
+                Seeds or from your Private Key.
+              </p>
+            </ion-text>
+          </div>
+          <!-- fab placed to the top start -->
+          <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+            <ion-fab-button color="dark">
+              <ion-icon
+                md="caret-up"
+                ios="chevron-up-circle-outline"
+              ></ion-icon>
+            </ion-fab-button>
+            <ion-fab-list side="top">
+              <ion-fab-button color="light">
+                <ion-icon name="logo-facebook"></ion-icon>
+              </ion-fab-button>
+              <ion-fab-button color="light">
+                <ion-icon name="logo-twitter"></ion-icon>
+              </ion-fab-button>
+              <ion-fab-button color="light">
+                <ion-icon name="logo-vimeo"></ion-icon>
+              </ion-fab-button>
+              <ion-fab-button color="light">
+                <ion-icon name="logo-google"></ion-icon>
+              </ion-fab-button>
+            </ion-fab-list>
+          </ion-fab>
           <div>
             <ion-button
               shape="round"
@@ -252,13 +348,33 @@
 
 <script lang="ts">
 import {
-  IonSlides,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonTitle,
+  IonToolbar,
   IonSlide,
   IonPage,
   IonLabel,
   IonInput,
   IonItem,
+  IonFab,
+  IonFabButton,
+  IonFabList,
 } from "@ionic/vue";
+import {
+  add,
+  arrowBackCircle,
+  arrowForwardCircle,
+  logoFacebook,
+  logoInstagram,
+  logoTwitter,
+  logoVimeo,
+  person,
+  settings,
+  share,
+} from "ionicons/icons";
+
 import ScryptaCore from "@scrypta/core";
 import { defineComponent } from "vue";
 import { User } from "../libs/user";
@@ -269,7 +385,36 @@ const db = new ScryptaDB();
 
 export default defineComponent({
   name: "Login",
-  components: { IonSlides, IonSlide, IonPage, IonLabel, IonInput, IonItem },
+  components: {
+    IonContent,
+    IonHeader,
+    IonIcon,
+    IonTitle,
+    IonToolbar,
+    IonSlide,
+    IonPage,
+    IonLabel,
+    IonInput,
+    IonItem,
+    IonFab,
+    IonFabButton,
+    IonFabList,
+  },
+  setup() {
+    return {
+      add,
+      arrowBackCircle,
+      arrowForwardCircle,
+      logoFacebook,
+      logoInstagram,
+      logoTwitter,
+      logoVimeo,
+      person,
+      settings,
+      share,
+    };
+  },
+
   data() {
     return {
       scrypta: new ScryptaCore(true),
@@ -391,8 +536,20 @@ export default defineComponent({
 <style scoped>
 .ion-page {
   --ion-background-color: linear-gradient(
+    340deg,
     rgba(2, 0, 36, 1) 0%,
     rgba(85, 83, 94, 1) 100%
   );
+}
+.box-card {
+  --background: linear-gradient(
+    125deg,
+    rgba(2, 0, 36, 0.1) 0%,
+    rgba(206, 205, 224, 0.05) 100%
+  );
+}
+
+.my-icon {
+  font-size: 64px;
 }
 </style>
