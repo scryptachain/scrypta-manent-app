@@ -1,9 +1,10 @@
 {
-  "appId": "io.ionic.starter",
+  "appId": "foundation.scrypta.manentapp",
   "appName": "manent-app",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",
+  "linuxAndroidStudioPath": "/usr/local/android-studio/bin/studio.sh",
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 0

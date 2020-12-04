@@ -29,7 +29,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "run:android": "npx cap sync android && npx cap copy && npx cap open android",
+    "run:ios": "npx cap sync ios && npx cap copy && npx cap open ios"
   },
   "eslintConfig": {
     "extends": "react-app"
