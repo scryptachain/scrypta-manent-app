@@ -1,5 +1,7 @@
 {
   "name": "manent",
-  "integrations": {},
-  "type": "angular"
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
 }
