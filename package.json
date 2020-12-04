@@ -34,7 +34,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "pack": "ionic build && npx cap copy && npx cap update && npx cap open"
+    "run:android": "npx cap sync android && npx cap copy && npx cap open android",
+    "run:ios": "npx cap sync ios && npx cap copy && npx cap open ios"
   },
   "eslintConfig": {
     "extends": "react-app"
