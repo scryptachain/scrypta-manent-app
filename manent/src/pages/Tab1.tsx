@@ -6,16 +6,7 @@ const ScryptaCore = require('@scrypta/core')
 const scrypta = new ScryptaCore(true)
 
 const Tab1: React.FC = () => {
-
-  const [token, setToken] = useState(null);
-  useEffect(() => {
-     async function getToken() {
-         const token = await scrypta.createAddress('dodododo')
-         setToken(token);
-     }
-     getToken();
-  }, [])
-  
+  const xSID = localStorage.getItem('xSID')
   return (
     <IonPage>
       <IonHeader>
@@ -29,7 +20,7 @@ const Tab1: React.FC = () => {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
-        {JSON.stringify(token)}
+        {xSID}
       </IonContent>
     </IonPage>
   );

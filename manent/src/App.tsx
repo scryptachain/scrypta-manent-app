@@ -9,7 +9,10 @@ import {
   IonTabBar,
   IonTabButton,
   IonTabs,
-  IonButton
+  IonButton,
+  IonSlides,
+  IonSlide,
+  IonContent
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
@@ -40,24 +43,44 @@ import { useState, useEffect } from 'react';
 const ScryptaCore = require('@scrypta/core')
 const scrypta = new ScryptaCore(true)
 
+const slideOpts = {
+  initialSlide: 0,
+  speed: 400
+};
+
 const App: React.FC = () => {
+  /**
+   * COMPONENT MANAGEMENT ISLOGGED
+   */
   const [islogged, setToken] = useState<string | null>(null);
-  
-  async function createLogin(){
-    let xsid = await scrypta.buildxSid('dodododo')
-    localStorage.setItem('xSID',JSON.stringify(xsid))
-    setToken('change')
-  }
-  
   useEffect(() => {
-     async function getToken() {
-         const token = localStorage.getItem('xSID')
-         setToken(token);
-     }
-     getToken();
+    async function getToken() {
+      const islogged = localStorage.getItem('xSID')
+      setToken(islogged);
+    }
+    getToken();
   }, [])
 
-  if(islogged !== null){
+  /**
+   * COMPONENT MANAGEMENT SHOWCREATE
+   */
+  const [showCreate, setShowCreate] = useState<boolean>(false);
+
+  async function createLogin() {
+    let xsid = await scrypta.buildxSid('dodododo')
+    localStorage.setItem('xSID', JSON.stringify(xsid))
+    setToken(JSON.stringify(xsid))
+  }
+
+  function toggleShowCreate() {
+    if(showCreate){
+      setShowCreate(false)
+    }else{
+      setShowCreate(true)
+    }
+  }
+
+  if (islogged !== null) {
     return (
       <IonApp>
         <IonReactRouter>
@@ -86,15 +109,40 @@ const App: React.FC = () => {
         </IonReactRouter>
       </IonApp>
     );
-  }else{
-    return(
-      <IonApp>
-        <IonPage>
-          {islogged}
-          <IonButton onClick={createLogin} color="primary">Login</IonButton>
-        </IonPage>
-      </IonApp>
-    )
+  } else {
+    if (!showCreate) {
+      return (
+        <IonApp>
+          <IonPage>
+            <IonContent>
+              <IonSlides pager={true} options={slideOpts}>
+                <IonSlide>
+                  <h1>Slide 1</h1>
+                </IonSlide>
+                <IonSlide>
+                  <h1>Slide 2</h1>
+                </IonSlide>
+                <IonSlide>
+                  <IonButton onClick={toggleShowCreate} color="primary">CREATE NEW MNEMONIC</IonButton>
+                </IonSlide>
+              </IonSlides>
+            </IonContent>
+          </IonPage>
+        </IonApp>
+      )
+    } else {
+      return (
+        <IonApp>
+          <IonPage>
+            <IonContent>
+              Create<br></br>
+              <IonButton onClick={createLogin} color="primary">CREATE</IonButton><br></br><br></br>
+              <IonButton onClick={toggleShowCreate} color="primary">BACK</IonButton>
+            </IonContent>
+          </IonPage>
+        </IonApp>
+      )
+    }
   }
 }
 
