@@ -1,7 +1,5 @@
 {
   "name": "manent",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "vue"
+  "integrations": {},
+  "type": "angular"
 }
