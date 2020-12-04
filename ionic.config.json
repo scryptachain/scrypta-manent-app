@@ -1,0 +1,8 @@
+{
+  "name": "manent-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react",
+  "id": "3a127823"
+}
