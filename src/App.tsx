@@ -1,6 +1,8 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { addCircle } from 'ionicons/icons'
+import { cloudDownload, chevronBack, logoFacebook, logoInstagram, share, logoTwitter, logoYoutube, logoPwa, logoNpm, logoIonic, logoGithub, logoJavascript, logoAngular, logoVimeo, logoChrome, logoReact } from 'ionicons/icons';
 
 import {
   IonApp,
@@ -15,7 +17,15 @@ import {
   IonSlides,
   IonSlide,
   IonContent,
-  IonText
+  IonText,
+  IonInput,
+  IonItem,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonFab, IonFabButton, IonFabList,
+  IonGrid, IonRow, IonCol,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
@@ -135,7 +145,7 @@ const App: React.FC = () => {
                 <IonSlide>
                   <img
                     src="/assets/images/logo-light.svg"
-                    style={{ height: "35px", margin: "20px 40px" }}
+                    style={{ height: "35px", margin: "20px 40px" }} alt="Manent App Logo"
                   />
                   <div style={{ marginTop: "50%" }}>
                     <IonText color="smoke">
@@ -152,7 +162,7 @@ const App: React.FC = () => {
                   </div>
                 </IonSlide>
                 <IonSlide>
-                  <div style={{ padding: "0 20px" }}>
+                  <div style={{ padding: "50px 20px" }}>
                     <IonText color="smoke" style={{ fontWeight: 300 }}>
                       <h1>How to start</h1>
                     </IonText>
@@ -188,14 +198,14 @@ const App: React.FC = () => {
                 <IonSlide>
                   <IonContent style={{ padding: "0 20px" }}>
                     <div style={{ padding: "50px 20px" }}>
-                      <img src="/assets/icon/icon-light.svg" style={{ height: "60px" }} />
+                      <img src="/assets/icon/icon-light.svg" style={{ height: "60px" }} alt="Manent Icon" />
                     </div>
                     <IonButton color="smoke" fill="outline" expand="block" onClick={changeLoginState('new')} >
-                      <IonIcon style={{ position: "absolute", left: "10px" }} src="/assets/icon/add-circle.svg">
-                        </IonIcon> Start a New Wallet</IonButton>
+                      <IonIcon style={{ position: "absolute", left: "10px" }} icon={addCircle}>
+                      </IonIcon> Start a New Wallet</IonButton>
                     <IonText color="smoke" style={{ margin: "20px 0", display: "block" }}><i>- or -</i></IonText>
                     <IonButton color="smoke" fill="outline" expand="block" onClick={changeLoginState('importchoose')}>
-                      <IonIcon style={{ position: "absolute", left: "10px" }} src="/assets/icon/import.svg" ></IonIcon> Import an existing one</IonButton>
+                      <IonIcon style={{ position: "absolute", left: "10px" }} icon={cloudDownload} ></IonIcon> Import an existing one</IonButton>
                   </IonContent>
                 </IonSlide>
               </IonSlides>
@@ -207,9 +217,50 @@ const App: React.FC = () => {
       return (
         <IonApp>
           <IonPage>
+            <IonHeader>
+              <IonToolbar color="purple">
+                <IonButtons>
+                  <IonButton onClick={changeLoginState('choose')}><IonIcon icon={chevronBack} color="smoke"></IonIcon></IonButton>
+                </IonButtons>
+                <IonTitle color="smoke">Create Account</IonTitle>
+              </IonToolbar>
+            </IonHeader>
             <IonContent>
-              Create<br></br>
-              <IonButton onClick={createLogin} color="primary">CREATE</IonButton><br></br><br></br>
+              <div style={{ padding: "150px 20px" }}>
+                <IonItem style={{ backgroundColor: "transparent", marginBottom: "20px" }}>
+                  <IonIcon color="smoke"
+                    style={{ marginRight: "5px", height: "18px" }}
+                    src="/assets/icon/label.svg"
+                  ></IonIcon>
+                  <IonLabel color="smoke">Address Label</IonLabel>
+                  <IonInput v-model="label"></IonInput>
+                </IonItem>
+                <IonItem style={{ background: "transparent", marginBottom: "20px" }}>
+                  <IonIcon color="smoke"
+                    style={{ marginRight: "5px", height: "18px" }}
+                    src="/assets/icon/lock.svg"
+                  ></IonIcon>
+                  <IonLabel color="smoke">Insert password</IonLabel>
+                  <IonInput v-model="password" type="password"></IonInput>
+                </IonItem>
+                <IonItem style={{ background: "transparent", marginBottom: "50px" }}>
+                  <IonIcon color="smoke"
+                    style={{ marginRight: "5px", height: "18px" }}
+                    src="/assets/icon/lock.svg"
+                  ></IonIcon>
+                  <IonLabel color="smoke">Repeat password</IonLabel>
+                  <IonInput v-model="passwordrepeat" type="password"></IonInput>
+                </IonItem>
+                <IonButton
+                  shape="round"
+                  color="purple"
+                  expand="block"
+                  onClick={createLogin}
+
+                >
+                  Create Now
+            </IonButton>
+              </div>
               <IonButton onClick={changeLoginState('choose')} color="primary">BACK</IonButton>
             </IonContent>
           </IonPage>
@@ -220,14 +271,70 @@ const App: React.FC = () => {
         <IonApp>
           <IonPage>
             <IonContent>
-              Choose login<br></br>
-              <IonButton onClick={changeLoginState('importmnemonic')} color="primary">MNEMONIC</IonButton><br></br>
-              <IonButton onClick={changeLoginState('importqr')} color="primary">CARD QR</IonButton><br></br>
-              <IonButton onClick={changeLoginState('importnfc')} color="primary">CARD NFC</IonButton><br></br>
-              <IonButton onClick={changeLoginState('importprivkey')} color="primary">PRIVATE KEY</IonButton>
-            </IonContent>
-          </IonPage>
-        </IonApp>
+              <div v-if="showSelection">
+                <IonRow class="ion-justify-content-center" style={{ padding: "30px 0px" }}>
+                  <IonCol size="3" offset="1">
+                    <IonIcon
+                      class="my-icon"
+                      color="smoke"
+                      src="/assets/icon/selection.svg"
+                    ></IonIcon>
+                  </IonCol>
+                </IonRow>
+                <div style={{ padding: "0 30px" }}>
+                  <IonText color="smoke">
+                    <h1 style={{ fontWeight: 300 }}>Make a select</h1>
+                    <p style={{ fontWeight: 150 }}>
+                      Import your Account from your Scrypta Blockchain Card, Mnemonic
+                      Seeds or from your Private Key.
+                    </p>
+                  </IonText>
+                </div>
+                <IonFab vertical="bottom" horizontal="end" slot="fixed">
+                  <IonFabButton>
+                    <IonIcon icon={share} />
+                  </IonFabButton>
+                  <IonFabList side="top">
+                    <IonFabButton onClick={changeLoginState('importmnemonic')}><IonIcon icon={logoVimeo} />Mnemonic</IonFabButton>
+                    <IonFabButton onClick={changeLoginState('importnfc')}><IonIcon icon={logoFacebook} />Nfc Card</IonFabButton>
+                    <IonFabButton onClick={changeLoginState('importqr')}><IonIcon icon={logoInstagram} />QR-COde</IonFabButton>
+                    <IonFabButton onClick={changeLoginState('importprivkey')}><IonIcon icon={logoTwitter} />Priv Key</IonFabButton>
+                  </IonFabList>
+                </IonFab>
+                <div>
+                  <IonButton
+                    shape="round"
+                    onClick={changeLoginState('importmnemonic')}
+
+                  >MNEMONIC
+            </IonButton>
+                </div>
+                <div>
+                  <IonButton
+                    shape="round"
+                    onClick={changeLoginState('importnfc')}
+                  >
+                    NFC
+            </IonButton>
+                </div>
+                <div>
+                  <IonButton
+                    shape="round"
+                    onClick={changeLoginState('importqr')}
+                  >
+                    QR
+            </IonButton>
+                </div>
+                <IonButton
+                  shape="round"
+                  onClick={changeLoginState('importprivkey')}
+                >
+                  PRIV KEY
+          </IonButton>
+              </div >
+            </IonContent >
+          </IonPage >
+        </IonApp >
       )
     } else if (loginState === 'importnfc') {
       return (
@@ -235,7 +342,7 @@ const App: React.FC = () => {
           <IonPage>
             <IonContent>
               ImportNFC<br></br>
-              <IonButton onClick={changeLoginState('choose')} color="primary">BACK</IonButton>
+              <IonButton color="primary">BACK</IonButton>
             </IonContent>
           </IonPage>
         </IonApp>

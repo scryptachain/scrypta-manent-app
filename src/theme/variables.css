@@ -1,7 +1,21 @@
 /* Ionic Variables and Theming. For more info, please see:
 http://ionicframework.com/docs/theming/ */
 
+.ion-item::part(item-native) {
+  background: none;
+}
 
+.myButton {
+  margin: 8px;
+  position: relative;
+  right: 100px;
+  width: 150px;
+  height: 40px;
+}
+
+.ion-button{
+  border-radius: 50px;
+}
 .swiper-container {
   width: 100%!important;
   max-width: 100%!important;
@@ -24,9 +38,7 @@ h1, h2, h3, h4, h5, h6 {
 .box-card {
   --background: linear-gradient( 125deg, rgba(2, 0, 36, 0.1) 0%, rgba(206, 205, 224, 0.05) 100%);
 }
-.my-icon {
-  font-size: 64px;
-}
+
 
 /** Ionic CSS Variables **/
 
@@ -50,7 +62,7 @@ h1, h2, h3, h4, h5, h6 {
   /** smoke **/
   --ion-color-smoke: #f1e6e4;
   --ion-color-smoke-rgb: 241, 230, 228;
-  --ion-color-smoke-contrast: #000000;
+  --ion-color-smoke-contrast: #ffffff;
   --ion-color-smoke-contrast-rgb: 0, 0, 0;
   --ion-color-smoke-shade: #d4cac9;
   --ion-color-smoke-tint: #f2e9e7;
@@ -172,6 +184,7 @@ h1, h2, h3, h4, h5, h6 {
     --ion-color-light-contrast-rgb: 255, 255, 255;
     --ion-color-light-shade: #1e2023;
     --ion-color-light-tint: #383a3e;
+
   }
   /*
    * iOS Dark Theme
