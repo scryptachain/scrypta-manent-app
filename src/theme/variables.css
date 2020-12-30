@@ -1,16 +1,15 @@
 /* Ionic Variables and Theming. For more info, please see:
 http://ionicframework.com/docs/theming/ */
 
-.ion-item::part(item-native) {
-  background: none;
+.myButton {
+  width: 150px !important;
+  text-align: left;
 }
 
-.myButton {
-  margin: 8px;
-  position: relative;
-  right: 100px;
-  width: 150px;
-  height: 40px;
+.myIcon {
+  padding: 0 !important;
+  left: -6px;
+  position: absolute;
 }
 
 .ion-button{

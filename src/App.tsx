@@ -3,6 +3,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { addCircle } from 'ionicons/icons'
 import { cloudDownload, chevronBack, logoFacebook, logoInstagram, share, logoTwitter, logoYoutube, logoPwa, logoNpm, logoIonic, logoGithub, logoJavascript, logoAngular, logoVimeo, logoChrome, logoReact } from 'ionicons/icons';
+import { CreateAnimation, Animation } from '@ionic/react';
 
 import {
   IonApp,
@@ -53,6 +54,7 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 import { useState, useEffect } from 'react';
+import { type } from 'os';
 const ScryptaCore = require('@scrypta/core')
 const scrypta = new ScryptaCore(true)
 
@@ -88,6 +90,7 @@ const App: React.FC = () => {
     localStorage.setItem('xSID', JSON.stringify(xsid))
     setToken(JSON.stringify(xsid))
   }
+
 
   function changeLoginState(state: string) {
     return (event: React.MouseEvent) => {
@@ -256,12 +259,10 @@ const App: React.FC = () => {
                   color="purple"
                   expand="block"
                   onClick={createLogin}
-
                 >
                   Create Now
             </IonButton>
               </div>
-              <IonButton onClick={changeLoginState('choose')} color="primary">BACK</IonButton>
             </IonContent>
           </IonPage>
         </IonApp>
@@ -273,11 +274,12 @@ const App: React.FC = () => {
             <IonContent>
               <div v-if="showSelection">
                 <IonRow class="ion-justify-content-center" style={{ padding: "30px 0px" }}>
-                  <IonCol size="3" offset="1">
+                  <IonCol size="2" >
                     <IonIcon
                       class="my-icon"
                       color="smoke"
                       src="/assets/icon/selection.svg"
+                      style={{fontSize: "100px"}}
                     ></IonIcon>
                   </IonCol>
                 </IonRow>
@@ -295,42 +297,14 @@ const App: React.FC = () => {
                     <IonIcon icon={share} />
                   </IonFabButton>
                   <IonFabList side="top">
-                    <IonFabButton onClick={changeLoginState('importmnemonic')}><IonIcon icon={logoVimeo} />Mnemonic</IonFabButton>
-                    <IonFabButton onClick={changeLoginState('importnfc')}><IonIcon icon={logoFacebook} />Nfc Card</IonFabButton>
-                    <IonFabButton onClick={changeLoginState('importqr')}><IonIcon icon={logoInstagram} />QR-COde</IonFabButton>
-                    <IonFabButton onClick={changeLoginState('importprivkey')}><IonIcon icon={logoTwitter} />Priv Key</IonFabButton>
+                    <IonFab horizontal="end">
+                      <IonButton className="myButton" onClick={changeLoginState('importmnemonic')} ><IonIcon className="myIcon" icon={logoVimeo} />Mnemonic</IonButton>
+                      <IonButton className="myButton" onClick={changeLoginState('importnfc')} ><IonIcon className="myIcon" style={{padding: "0 10px"}} icon={logoFacebook} />Nfc Card</IonButton>
+                      <IonButton className="myButton" onClick={changeLoginState('importqr')} ><IonIcon className="myIcon" style={{padding: "0 10px"}} icon={logoInstagram} />QR-COde</IonButton>
+                      <IonButton className="myButton"onClick={changeLoginState('importprivkey')}><IonIcon className="myIcon" style={{padding: "0 10px"}} icon={logoTwitter} />Priv Key</IonButton>
+                    </IonFab>
                   </IonFabList>
                 </IonFab>
-                <div>
-                  <IonButton
-                    shape="round"
-                    onClick={changeLoginState('importmnemonic')}
-
-                  >MNEMONIC
-            </IonButton>
-                </div>
-                <div>
-                  <IonButton
-                    shape="round"
-                    onClick={changeLoginState('importnfc')}
-                  >
-                    NFC
-            </IonButton>
-                </div>
-                <div>
-                  <IonButton
-                    shape="round"
-                    onClick={changeLoginState('importqr')}
-                  >
-                    QR
-            </IonButton>
-                </div>
-                <IonButton
-                  shape="round"
-                  onClick={changeLoginState('importprivkey')}
-                >
-                  PRIV KEY
-          </IonButton>
               </div >
             </IonContent >
           </IonPage >
