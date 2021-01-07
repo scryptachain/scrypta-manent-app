@@ -2,8 +2,8 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { addCircle } from 'ionicons/icons'
-import { cloudDownload, chevronBack, logoFacebook, logoInstagram, share, logoTwitter, logoYoutube, logoPwa, logoNpm, logoIonic, logoGithub, logoJavascript, logoAngular, logoVimeo, logoChrome, logoReact } from 'ionicons/icons';
-import { CreateAnimation, Animation } from '@ionic/react';
+import { cloudDownload, chevronBack, logoFacebook, logoInstagram, share, logoTwitter, logoVimeo, chevronBackOutline } from 'ionicons/icons';
+
 
 import {
   IonApp,
@@ -26,7 +26,8 @@ import {
   IonTitle,
   IonButtons,
   IonFab, IonFabButton, IonFabList,
-  IonGrid, IonRow, IonCol,
+  IonTextarea,
+  IonBackButton
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
@@ -98,6 +99,9 @@ const App: React.FC = () => {
       event.preventDefault();
     }
   }
+
+  /** TEXT AREA */
+  const [text, setText] = useState<string>();
 
 
   /**
@@ -273,18 +277,15 @@ const App: React.FC = () => {
           <IonPage>
             <IonContent>
               <div v-if="showSelection">
-                <IonRow class="ion-justify-content-center" style={{ padding: "30px 0px" }}>
-                  <IonCol size="2" >
-                    <IonIcon
-                      class="my-icon"
-                      color="smoke"
-                      src="/assets/icon/selection.svg"
-                      style={{fontSize: "100px"}}
-                    ></IonIcon>
-                  </IonCol>
-                </IonRow>
-                <div style={{ padding: "0 30px" }}>
-                  <IonText color="smoke">
+                <div className="vcenter">
+                  <IonIcon
+                    color="smoke"
+                    src="/assets/icon/selection.svg"
+                    style={{ fontSize: "100px" }}
+                  ></IonIcon>
+                </div>
+                <div className="ion-text-center" style={{ padding: "0 30px" }}>
+                  <IonText className="ion-self-align-center" color="smoke">
                     <h1 style={{ fontWeight: 300 }}>Make a select</h1>
                     <p style={{ fontWeight: 150 }}>
                       Import your Account from your Scrypta Blockchain Card, Mnemonic
@@ -293,15 +294,15 @@ const App: React.FC = () => {
                   </IonText>
                 </div>
                 <IonFab vertical="bottom" horizontal="end" slot="fixed">
-                  <IonFabButton>
+                  <IonFabButton color="purple">
                     <IonIcon icon={share} />
                   </IonFabButton>
                   <IonFabList side="top">
                     <IonFab horizontal="end">
-                      <IonButton className="myButton" onClick={changeLoginState('importmnemonic')} ><IonIcon className="myIcon" icon={logoVimeo} />Mnemonic</IonButton>
-                      <IonButton className="myButton" onClick={changeLoginState('importnfc')} ><IonIcon className="myIcon" style={{padding: "0 10px"}} icon={logoFacebook} />Nfc Card</IonButton>
-                      <IonButton className="myButton" onClick={changeLoginState('importqr')} ><IonIcon className="myIcon" style={{padding: "0 10px"}} icon={logoInstagram} />QR-COde</IonButton>
-                      <IonButton className="myButton"onClick={changeLoginState('importprivkey')}><IonIcon className="myIcon" style={{padding: "0 10px"}} icon={logoTwitter} />Priv Key</IonButton>
+                      <IonButton color="purple" className="myButton" onClick={changeLoginState('importmnemonic')} ><IonIcon className="myIcon" icon={logoVimeo} />Mnemonic</IonButton>
+                      <IonButton color="purple" className="myButton" onClick={changeLoginState('importnfc')} ><IonIcon className="myIcon" icon={logoFacebook} />NFC Card</IonButton>
+                      <IonButton color="purple" className="myButton" onClick={changeLoginState('importqr')} ><IonIcon className="myIcon" icon={logoInstagram} />QR-Code</IonButton>
+                      <IonButton color="purple" className="myButton" onClick={changeLoginState('importprivkey')}><IonIcon className="myIcon" icon={logoTwitter} />Priv Key</IonButton>
                     </IonFab>
                   </IonFabList>
                 </IonFab>
@@ -352,9 +353,32 @@ const App: React.FC = () => {
       return (
         <IonApp>
           <IonPage>
+            <IonToolbar color="purple">
+              <IonButtons slot="start">
+                <IonButton slot="end" onClick={changeLoginState('choose')} >Back<IonIcon slot="start" icon={chevronBackOutline} /></IonButton>
+              </IonButtons>
+              <IonTitle>Import Account</IonTitle>
+            </IonToolbar>
             <IonContent>
-              Import mnemonic<br></br>
-              <IonButton onClick={changeLoginState('choose')} color="primary">BACK</IonButton>
+              <div className="vcenter" style={{ height: "100px", marginTop: "50px" }}>
+                <IonIcon
+                  color="smoke"
+                  src="/assets/icon/selection.svg"
+                  style={{ fontSize: "100px" }}
+                ></IonIcon>
+              </div>
+              <div className="ion-text-center" style={{ padding: "0 30px" }}>
+                <IonText className="ion-self-align-center" color="smoke">
+                  <h1 style={{ fontWeight: 300 }}>Import Mnemonic</h1>
+                  <p style={{ fontWeight: 150 }}>
+                    Write your seeds phrase to restore your LYRA address.
+                    </p>
+                </IonText>
+                <div className="textArea">
+                  <IonTextarea color="smoke" placeholder="Enter seeds phrase here..." value={text} onIonChange={e => setText(e.detail.value!)}></IonTextarea>
+                </div>
+              </div>
+              <IonButton style={{ width: "100%", padding: "0 20px" }} onClick={changeLoginState('choose')} color="purple">BACK</IonButton>
             </IonContent>
           </IonPage>
         </IonApp>
