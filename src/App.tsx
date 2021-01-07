@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { addCircle } from 'ionicons/icons'
-import { cloudDownload, chevronBack, logoFacebook, logoInstagram, share, logoTwitter, logoVimeo, chevronBackOutline } from 'ionicons/icons';
+import { cloudDownload, chevronBack, keyOutline, logoFacebook, logoInstagram, share, logoTwitter, logoVimeo, chevronBackOutline } from 'ionicons/icons';
 
 
 import {
@@ -240,7 +240,7 @@ const App: React.FC = () => {
                     src="/assets/icon/label.svg"
                   ></IonIcon>
                   <IonLabel color="smoke">Address Label</IonLabel>
-                  <IonInput v-model="label"></IonInput>
+                  <IonInput color="smoke" v-model="label"></IonInput>
                 </IonItem>
                 <IonItem style={{ background: "transparent", marginBottom: "20px" }}>
                   <IonIcon color="smoke"
@@ -248,7 +248,7 @@ const App: React.FC = () => {
                     src="/assets/icon/lock.svg"
                   ></IonIcon>
                   <IonLabel color="smoke">Insert password</IonLabel>
-                  <IonInput v-model="password" type="password"></IonInput>
+                  <IonInput color="smoke" v-model="password" type="password"></IonInput>
                 </IonItem>
                 <IonItem style={{ background: "transparent", marginBottom: "50px" }}>
                   <IonIcon color="smoke"
@@ -256,7 +256,7 @@ const App: React.FC = () => {
                     src="/assets/icon/lock.svg"
                   ></IonIcon>
                   <IonLabel color="smoke">Repeat password</IonLabel>
-                  <IonInput v-model="passwordrepeat" type="password"></IonInput>
+                  <IonInput color="smoke" v-model="passwordrepeat" type="password"></IonInput>
                 </IonItem>
                 <IonButton
                   shape="round"
@@ -315,9 +315,29 @@ const App: React.FC = () => {
       return (
         <IonApp>
           <IonPage>
+            <IonToolbar color="purple">
+              <IonButtons slot="start">
+                <IonButton slot="end" onClick={changeLoginState('choose')} >Back<IonIcon slot="start" icon={chevronBackOutline} /></IonButton>
+              </IonButtons>
+              <IonTitle>Import Account</IonTitle>
+            </IonToolbar>
             <IonContent>
-              ImportNFC<br></br>
-              <IonButton color="primary">BACK</IonButton>
+              <div className="vcenter" style={{ height: "100px", marginTop: "50px" }}>
+                <IonIcon
+                  color="smoke"
+                  src="/assets/icon/selection.svg"
+                  style={{ fontSize: "100px" }}
+                ></IonIcon>
+              </div>
+              <div className="ion-text-center" style={{ padding: "0 30px" }}>
+                <IonText className="ion-self-align-center" color="smoke">
+                  <h1 style={{ fontWeight: 300 }}>Import NFC Card</h1>
+                  <p style={{ fontWeight: 150 }}>
+                    Turn on NFC and place your Scrypta Card next to your smartphone to correctly import the account.
+                    </p>
+                </IonText>
+              </div>
+              <IonButton style={{ width: "100%", padding: "0 20px" }} color="purple">IMPORT</IonButton>
             </IonContent>
           </IonPage>
         </IonApp>
@@ -330,10 +350,29 @@ const App: React.FC = () => {
       return (
         <IonApp>
           <IonPage>
+          <IonToolbar color="purple">
+              <IonButtons slot="start">
+                <IonButton slot="end" onClick={changeLoginState('choose')} >Back<IonIcon slot="start" icon={chevronBackOutline} /></IonButton>
+              </IonButtons>
+              <IonTitle>Import Account</IonTitle>
+            </IonToolbar>
             <IonContent>
-              import qr<br></br>
-              <IonButton onClick={openScanner}>Scan barcode</IonButton><br></br><br></br>
-              <IonButton onClick={changeLoginState('choose')} color="primary">BACK</IonButton>
+              <div className="vcenter" style={{ height: "100px", marginTop: "100px" }}>
+                <IonIcon
+                  color="smoke"
+                  src="/assets/icon/selection.svg"
+                  style={{ fontSize: "100px" }}
+                ></IonIcon>
+              </div>
+              <div className="ion-text-center" style={{ padding: "0 30px" }}>
+                <IonText className="ion-self-align-center" color="smoke">
+                  <h1 style={{ fontWeight: 300 }}>Import QR-Code</h1>
+                  <p style={{ fontWeight: 150 }}>
+                  Click on the "scan QR-Code" button to activate the camera and scan the QR-Code.
+                    </p>
+                </IonText>
+                </div>
+              <IonButton color="purple" style={{ width: "100%", padding: "0 20px" }} onClick={openScanner}>Scan QR-Code</IonButton><br></br><br></br>
             </IonContent>
           </IonPage>
         </IonApp>
@@ -342,9 +381,70 @@ const App: React.FC = () => {
       return (
         <IonApp>
           <IonPage>
+            <IonToolbar color="purple">
+              <IonButtons slot="start">
+                <IonButton slot="end" onClick={changeLoginState('choose')} >Back<IonIcon slot="start" icon={chevronBackOutline} /></IonButton>
+              </IonButtons>
+              <IonTitle>Import Account</IonTitle>
+            </IonToolbar>
             <IonContent>
-              import privkey<br></br>
-              <IonButton onClick={changeLoginState('choose')} color="primary">BACK</IonButton>
+              <div className="vcenter" style={{ height: "100px", marginTop: "50px" }}>
+                <IonIcon
+                  color="smoke"
+                  src="/assets/icon/selection.svg"
+                  style={{ fontSize: "100px" }}
+                ></IonIcon>
+              </div>
+              <div className="ion-text-center" style={{ padding: "0 30px" }}>
+                <IonText className="ion-self-align-center" color="smoke">
+                  <h1 style={{ fontWeight: 300 }}>Import Private Key</h1>
+                  <p style={{ fontWeight: 150 }}>
+                    Write your Private Key to restore your LYRA address.
+                    </p>
+                </IonText>
+                <div style={{ padding: "20px 20px" }}>
+                  <IonItem style={{ marginBottom: "20px" }}>
+                    <IonIcon color="smoke"
+                      style={{ marginRight: "5px", height: "18px" }}
+                      src={keyOutline}
+                    ></IonIcon>
+                    <IonLabel color="smoke">Private Key</IonLabel>
+                    <IonInput color="smoke" type="password" v-model="label"></IonInput>
+                  </IonItem>
+                  <IonItem style={{ marginBottom: "20px" }}>
+                    <IonIcon color="smoke"
+                      style={{ marginRight: "5px", height: "18px" }}
+                      src="/assets/icon/label.svg"
+                    ></IonIcon>
+                    <IonLabel color="smoke">Address Label</IonLabel>
+                    <IonInput  color="smoke" v-model="label"></IonInput>
+                  </IonItem>
+                  <IonItem style={{ marginBottom: "20px" }}>
+                    <IonIcon color="smoke"
+                      style={{ marginRight: "5px", height: "18px" }}
+                      src="/assets/icon/lock.svg"
+                    ></IonIcon>
+                    <IonLabel color="smoke">Insert password</IonLabel>
+                    <IonInput color="smoke" v-model="password" type="password"></IonInput>
+                  </IonItem>
+                  <IonItem style={{ marginBottom: "50px" }}>
+                    <IonIcon color="smoke"
+                      style={{ marginRight: "5px", height: "18px" }}
+                      src="/assets/icon/lock.svg"
+                    ></IonIcon>
+                    <IonLabel color="smoke">Repeat password</IonLabel>
+                    <IonInput color="smoke" v-model="passwordrepeat" type="password"></IonInput>
+                  </IonItem>
+                  <IonButton
+                    shape="round"
+                    color="purple"
+                    expand="block"
+                    onClick={createLogin}
+                  >
+                    Create Now
+                  </IonButton>
+                </div>
+              </div>
             </IonContent>
           </IonPage>
         </IonApp>
@@ -378,7 +478,7 @@ const App: React.FC = () => {
                   <IonTextarea color="smoke" placeholder="Enter seeds phrase here..." value={text} onIonChange={e => setText(e.detail.value!)}></IonTextarea>
                 </div>
               </div>
-              <IonButton style={{ width: "100%", padding: "0 20px" }} onClick={changeLoginState('choose')} color="purple">BACK</IonButton>
+              <IonButton style={{ width: "100%", padding: "0 20px" }} color="purple">IMPORT</IonButton>
             </IonContent>
           </IonPage>
         </IonApp>
