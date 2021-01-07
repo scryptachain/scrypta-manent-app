@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { addCircle } from 'ionicons/icons'
-import { cloudDownload, chevronBack, keyOutline, logoFacebook, logoInstagram, share, logoTwitter, logoVimeo, chevronBackOutline } from 'ionicons/icons';
+import { apps, send, add, cloudDownload, hardwareChipOutline, readerOutline, chevronBack, keyOutline, qrCodeOutline, share, chevronBackOutline } from 'ionicons/icons';
 
 
 import {
@@ -120,16 +120,16 @@ const App: React.FC = () => {
             </IonRouterOutlet>
             <IonTabBar slot="bottom">
               <IonTabButton tab="tab1" href="/tab1">
-                <IonIcon icon={triangle} />
+                <IonIcon icon={apps} />
                 <IonLabel>Dashboard</IonLabel>
               </IonTabButton>
               <IonTabButton tab="tab2" href="/tab2">
-                <IonIcon icon={ellipse} />
-                <IonLabel>Tab 2</IonLabel>
+                <IonIcon icon={send} />
+                <IonLabel>Send</IonLabel>
               </IonTabButton>
               <IonTabButton tab="tab3" href="/tab3">
-                <IonIcon icon={square} />
-                <IonLabel>Tab 3</IonLabel>
+                <IonIcon icon={add} />
+                <IonLabel>Receive</IonLabel>
               </IonTabButton>
             </IonTabBar>
           </IonTabs>
@@ -299,10 +299,10 @@ const App: React.FC = () => {
                   </IonFabButton>
                   <IonFabList side="top">
                     <IonFab horizontal="end">
-                      <IonButton color="purple" className="myButton" onClick={changeLoginState('importmnemonic')} ><IonIcon className="myIcon" icon={logoVimeo} />Mnemonic</IonButton>
-                      <IonButton color="purple" className="myButton" onClick={changeLoginState('importnfc')} ><IonIcon className="myIcon" icon={logoFacebook} />NFC Card</IonButton>
-                      <IonButton color="purple" className="myButton" onClick={changeLoginState('importqr')} ><IonIcon className="myIcon" icon={logoInstagram} />QR-Code</IonButton>
-                      <IonButton color="purple" className="myButton" onClick={changeLoginState('importprivkey')}><IonIcon className="myIcon" icon={logoTwitter} />Priv Key</IonButton>
+                      <IonButton color="purple" className="myButton" onClick={changeLoginState('importmnemonic')} ><IonIcon className="myIcon" icon={readerOutline} />Mnemonic</IonButton>
+                      <IonButton color="purple" className="myButton" onClick={changeLoginState('importnfc')} ><IonIcon className="myIcon" icon={hardwareChipOutline} />NFC Card</IonButton>
+                      <IonButton color="purple" className="myButton" onClick={changeLoginState('importqr')} ><IonIcon className="myIcon" icon={qrCodeOutline} />QR-Code</IonButton>
+                      <IonButton color="purple" className="myButton" onClick={changeLoginState('importprivkey')}><IonIcon className="myIcon" icon={keyOutline} />Priv Key</IonButton>
                     </IonFab>
                   </IonFabList>
                 </IonFab>
@@ -325,7 +325,7 @@ const App: React.FC = () => {
               <div className="vcenter" style={{ height: "100px", marginTop: "50px" }}>
                 <IonIcon
                   color="smoke"
-                  src="/assets/icon/selection.svg"
+                  src={hardwareChipOutline}
                   style={{ fontSize: "100px" }}
                 ></IonIcon>
               </div>
@@ -360,7 +360,7 @@ const App: React.FC = () => {
               <div className="vcenter" style={{ height: "100px", marginTop: "100px" }}>
                 <IonIcon
                   color="smoke"
-                  src="/assets/icon/selection.svg"
+                  src={qrCodeOutline}
                   style={{ fontSize: "100px" }}
                 ></IonIcon>
               </div>
@@ -391,7 +391,7 @@ const App: React.FC = () => {
               <div className="vcenter" style={{ height: "100px", marginTop: "50px" }}>
                 <IonIcon
                   color="smoke"
-                  src="/assets/icon/selection.svg"
+                  src={keyOutline}
                   style={{ fontSize: "100px" }}
                 ></IonIcon>
               </div>
@@ -463,7 +463,7 @@ const App: React.FC = () => {
               <div className="vcenter" style={{ height: "100px", marginTop: "50px" }}>
                 <IonIcon
                   color="smoke"
-                  src="/assets/icon/selection.svg"
+                  src={readerOutline}
                   style={{ fontSize: "100px" }}
                 ></IonIcon>
               </div>
