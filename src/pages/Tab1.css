@@ -3,3 +3,13 @@
     background-repeat: none;
     background-size: cover;
 }
+ion-item {
+    --ion-background-color: none;
+    --border-style: none;
+}
+
+.vcenter-dashboard {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}

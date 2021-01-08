@@ -16,20 +16,24 @@
 	</clipPath>
 	<g class="st0">
 		<g id="XMLID_127_">
-			<linearGradient id="XMLID_2_" gradientUnits="userSpaceOnUse" x1="465.5871" y1="-212.3116" x2="979.476" y2="1218.244">
-				<stop  offset="0" style="stop-color:#CA2B3B"/>
-				<stop  offset="0.3985" style="stop-color:#CA2B3B"/>
-				<stop  offset="1" style="stop-color:#73344B"/>
+			<linearGradient id="XMLID_2_" gradientUnits="userSpaceOnUse" x1="-189.7448" y1="-445.7258" x2="604.6996" y2="112.6075">
+				<stop  offset="0" style="stop-color:#444352"/>
+				<stop  offset="0.1963" style="stop-color:#D43545"/>
+				<stop  offset="0.7133" style="stop-color:#CA2B3B"/>
+				<stop  offset="1" style="stop-color:#B31E30"/>
 			</linearGradient>
 			<path id="XMLID_21_" class="st1" d="M-119.52,573.4c0,0,204.76,294.99,426.87,294.99c222.11,0,340.11-111.06,517.1-111.06
 				s260.29,177,412.99,177V-478.16H-119.52V573.4z"/>
-			
-				<linearGradient id="XMLID_3_" gradientUnits="userSpaceOnUse" x1="743.8131" y1="-156.0902" x2="932.702" y2="671.6876" gradientTransform="matrix(1 0 0 -1 0 672.2036)">
-				<stop  offset="0" style="stop-color:#DB5461"/>
-				<stop  offset="0.5138" style="stop-color:#D43545"/>
+			<linearGradient id="XMLID_3_" gradientUnits="userSpaceOnUse" x1="561.9197" y1="696.4225" x2="559.142" y2="-481.3552">
+				<stop  offset="4.618004e-05" style="stop-color:#333145"/>
+				<stop  offset="0.0514" style="stop-color:#4E2E42"/>
+				<stop  offset="0.1611" style="stop-color:#81283C"/>
+				<stop  offset="0.2567" style="stop-color:#A72438"/>
+				<stop  offset="0.3335" style="stop-color:#BE2236"/>
+				<stop  offset="0.3819" style="stop-color:#C62135"/>
 			</linearGradient>
-			<path id="XMLID_23_" class="st2" d="M0,588.81c0,0,204.76-294.99,426.87-294.99s340.11,111.06,517.1,111.06
-				s260.29-177,412.99-177v1412.49H0V588.81z"/>
+			<path id="XMLID_23_" class="st2" d="M-115.98,597.15c0,0,204.76-294.99,426.87-294.99S651,413.21,827.99,413.21
+				s260.29-177,412.99-177v1412.49H-115.98V597.15z"/>
 		</g>
 	</g>
 </g>
