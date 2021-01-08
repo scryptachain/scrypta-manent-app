@@ -13,6 +13,14 @@ http://ionicframework.com/docs/theming/ */
   height: 200px;
 }
 
+ion-tab-bar {
+ --ion-background-color: linear-gradient( rgba(2, 0, 36, 1) 0%, rgba(85, 83, 94, 1) 100%);
+ height: 60px;
+}
+
+.tab-item-active { 
+  --ion-background-color:green !important; 
+}
 
 .textArea {
   display: flex;
@@ -59,6 +67,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
+
 /** Ionic CSS Variables **/
 
 :root {
@@ -69,6 +78,8 @@ h1, h2, h3, h4, h5, h6 {
   --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #3171e0;
   --ion-color-primary-tint: #4c8dff;
+  --ion-tab-bar-color-selected: #ffff;
+  
 
   /** purple **/
   --ion-color-purple: #545262;

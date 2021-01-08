@@ -6,31 +6,9 @@ import { apps, send, add, cloudDownload, hardwareChipOutline, readerOutline, che
 
 
 import {
-  IonApp,
-  IonIcon,
-  IonLabel,
-  IonPage,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-  IonButton,
-  IonSlides,
-  IonSlide,
-  IonContent,
-  IonText,
-  IonInput,
-  IonItem,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonButtons,
-  IonFab, IonFabButton, IonFabList,
-  IonTextarea,
-  IonBackButton
+  IonApp, IonIcon, IonLabel, IonMenu, IonList, IonSplitPane, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs, IonButton, IonSlides, IonSlide, IonContent, IonText, IonInput, IonItem, IonHeader, IonToolbar, IonTitle, IonButtons, IonFab, IonFabButton, IonFabList, IonTextarea,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
@@ -92,21 +70,18 @@ const App: React.FC = () => {
     setToken(JSON.stringify(xsid))
   }
 
-
   function changeLoginState(state: string) {
     return (event: React.MouseEvent) => {
       setLoginState(state)
       event.preventDefault();
     }
-  }
+  };
 
   /** TEXT AREA */
   const [text, setText] = useState<string>();
 
+  /**   * USER IS LOGGED   */
 
-  /**
-   * USER IS LOGGED
-   */
   if (islogged !== null) {
     return (
       <IonApp>
@@ -350,7 +325,7 @@ const App: React.FC = () => {
       return (
         <IonApp>
           <IonPage>
-          <IonToolbar color="purple">
+            <IonToolbar color="purple">
               <IonButtons slot="start">
                 <IonButton slot="end" onClick={changeLoginState('choose')} >Back<IonIcon slot="start" icon={chevronBackOutline} /></IonButton>
               </IonButtons>
@@ -368,10 +343,10 @@ const App: React.FC = () => {
                 <IonText className="ion-self-align-center" color="smoke">
                   <h1 style={{ fontWeight: 300 }}>Import QR-Code</h1>
                   <p style={{ fontWeight: 150 }}>
-                  Click on the "scan QR-Code" button to activate the camera and scan the QR-Code.
+                    Click on the "scan QR-Code" button to activate the camera and scan the QR-Code.
                     </p>
                 </IonText>
-                </div>
+              </div>
               <IonButton color="purple" style={{ width: "100%", padding: "0 20px" }} onClick={openScanner}>Scan QR-Code</IonButton><br></br><br></br>
             </IonContent>
           </IonPage>
@@ -417,7 +392,7 @@ const App: React.FC = () => {
                       src="/assets/icon/label.svg"
                     ></IonIcon>
                     <IonLabel color="smoke">Address Label</IonLabel>
-                    <IonInput  color="smoke" v-model="label"></IonInput>
+                    <IonInput color="smoke" v-model="label"></IonInput>
                   </IonItem>
                   <IonItem style={{ marginBottom: "20px" }}>
                     <IonIcon color="smoke"
