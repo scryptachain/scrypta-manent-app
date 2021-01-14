@@ -25,19 +25,34 @@ const Details: React.FC = () => {
         </IonCardHeader>
 
         <IonItem>
-          <h6 style={{ color: "#f1e6e4" }}>LATEST TRANSACTIONS</h6>
+          <h6 style={{ color: "#f1e6e4" }}>LATEST TRANSACTIONS</h6><br/><hr/>
         </IonItem>
         <IonCard>
           <div style={{ display: "flex" }}>
             <div>
               <IonItem style={{ position: "relative", left: "0px", top: "20px" }}>
-                <IonIcon color="smoke" icon={arrowDown} />
+                <IonIcon color="success" icon={arrowDown} />
               </IonItem>
             </div>
             <div>
               <IonCardHeader style={{padding: "15px 5px"}}>
-                <IonCardSubtitle>FROM <br />LUAx3gDxXXwgKRWNcd2Kn8s282NFrQ85wW</IonCardSubtitle>
+                <IonCardSubtitle>FROM <br />LUAx3gDxXXwgKRWNcd2Kn8s282NFr...</IonCardSubtitle>
                 <IonCardTitle color="smoke">+12 BEUR</IonCardTitle>
+              </IonCardHeader>
+            </div>
+          </div>
+        </IonCard>
+        <IonCard>
+          <div style={{ display: "flex" }}>
+            <div>
+              <IonItem style={{ position: "relative", left: "0px", top: "20px" }}>
+                <IonIcon color="danger" icon={arrowUp} />
+              </IonItem>
+            </div>
+            <div>
+              <IonCardHeader style={{padding: "15px 5px"}}>
+                <IonCardSubtitle>TO <br />LUAx3gDxXXwgKRWNcd2Kn8s282NFr...</IonCardSubtitle>
+                <IonCardTitle color="smoke">+50 BEUR</IonCardTitle>
               </IonCardHeader>
             </div>
           </div>

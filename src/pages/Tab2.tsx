@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonIcon, IonLabel, IonInput, IonBackButton, IonToolbar, IonButtons, IonButton, IonTitle, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonItem } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Tab2.css';
 
@@ -7,17 +7,25 @@ const Tab2: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>Tab 2</IonTitle>
+        <IonToolbar color="purple">
+          <IonTitle>Send</IonTitle>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/" />
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Tab 2</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer name="Tab 2 page" />
+        <IonItem>
+          <IonCardSubtitle color="smoke">Amount you mean to send</IonCardSubtitle>
+        </IonItem>
+        <IonItem>
+          <IonIcon color="smoke"
+            style={{ marginRight: "5px", height: "18px" }}
+            src="/assets/icon/label.svg"
+          ></IonIcon>
+          <IonLabel color="smoke">Amount</IonLabel>
+          <IonInput color="smoke" v-model="label"></IonInput>
+        </IonItem>
       </IonContent>
     </IonPage>
   );
