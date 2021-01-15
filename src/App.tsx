@@ -5,6 +5,7 @@ import { addCircle } from 'ionicons/icons'
 import { apps, send, add, cloudDownload, hardwareChipOutline, readerOutline, chevronBack, keyOutline, qrCodeOutline, share, chevronBackOutline } from 'ionicons/icons';
 
 
+
 import {
   IonApp, IonIcon, IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs, IonButton, IonSlides, IonSlide, IonContent, IonText, IonInput, IonItem, IonHeader, IonToolbar, IonTitle, IonButtons, IonFab, IonFabButton, IonFabList, IonTextarea,
 } from '@ionic/react';
@@ -97,22 +98,22 @@ const App: React.FC = () => {
               <IonTabBar slot="bottom">
                 <IonTabButton tab="tab1" href="/tab1">
                   <IonIcon icon={apps} />
-                  <IonLabel>Dashboard</IonLabel>
+                
                 </IonTabButton>
                 <IonTabButton tab="tab2" href="/tab2">
                   <IonIcon icon={send} />
                 </IonTabButton>
                 <IonTabButton tab="tab3" href="/tab3">
                   <IonIcon icon={add} />
-                  <IonLabel>Receive</IonLabel>
+                
                 </IonTabButton>
-                <IonTabButton tab="tab3" href="/tab3">
+                <IonTabButton tab="tab4" href="/tab3">
                   <IonIcon icon={add} />
-                  <IonLabel>Sign</IonLabel>
+                
                 </IonTabButton>
-                <IonTabButton tab="tab3" href="/tab3">
+                <IonTabButton tab="tab5" href="/tab3">
                   <IonIcon icon={add} />
-                  <IonLabel>Settings</IonLabel>
+                 
                 </IonTabButton>
               </IonTabBar>
           </IonTabs>

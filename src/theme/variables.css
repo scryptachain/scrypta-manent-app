@@ -13,10 +13,10 @@ http://ionicframework.com/docs/theming/ */
   height: 200px;
 }
 
-ion-tab-bar {
+/* ion-tabs {
  --ion-background-color: linear-gradient( rgba(2, 0, 36, 1) 0%, rgba(85, 83, 94, 1) 100%);
  height: 60px;
-}
+} */
 
 .tab-item-active { 
   --ion-background-color:green !important; 
