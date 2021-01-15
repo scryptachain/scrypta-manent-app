@@ -1,6 +1,5 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonIcon, IonLabel, IonInput, IonBackButton, IonToolbar, IonButtons, IonButton, IonTitle, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonItem } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
+import { IonContent, IonHeader, IonPage, IonIcon, IonLabel, IonInput, IonBackButton, IonToolbar, IonButtons, IonTitle, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonItem } from '@ionic/react';
 import './Tab2.css';
 
 const Tab2: React.FC = () => {

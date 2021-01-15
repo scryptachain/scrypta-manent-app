@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonIcon, IonText, IonToolbar, IonButtons, IonMenuButton, IonButton, IonTitle, IonBadge, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonItem } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonIcon, IonButton, IonBadge, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonItem } from '@ionic/react';
 import { barChart } from 'ionicons/icons';
 import './Tab1.css';
 
@@ -8,7 +8,7 @@ const Tab1: React.FC = () => {
     <IonPage>
       <IonContent fullscreen>
         <IonHeader style={{ marginTop: "20px" }} >
-          <IonItem><img style={{ height: "25px" }} src="/assets/images/logo.svg" /></IonItem>
+          <IonItem><img style={{ height: "25px" }} src="/assets/images/logo.svg" alt="manent" /></IonItem>
         </IonHeader>
         <IonCard className="cardBalance" style={{ height: "200px" }}>
           <IonItem>

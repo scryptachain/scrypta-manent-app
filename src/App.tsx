@@ -6,7 +6,7 @@ import { apps, send, add, cloudDownload, hardwareChipOutline, readerOutline, che
 
 
 import {
-  IonApp, IonIcon, IonLabel, IonMenu, IonList, IonSplitPane, IonMenuButton, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs, IonButton, IonSlides, IonSlide, IonContent, IonText, IonInput, IonItem, IonHeader, IonToolbar, IonTitle, IonButtons, IonFab, IonFabButton, IonFabList, IonTextarea,
+  IonApp, IonIcon, IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs, IonButton, IonSlides, IonSlide, IonContent, IonText, IonInput, IonItem, IonHeader, IonToolbar, IonTitle, IonButtons, IonFab, IonFabButton, IonFabList, IonTextarea,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Tab1 from './pages/Tab1';
@@ -101,11 +101,18 @@ const App: React.FC = () => {
                 </IonTabButton>
                 <IonTabButton tab="tab2" href="/tab2">
                   <IonIcon icon={send} />
-                  <IonLabel>Send</IonLabel>
                 </IonTabButton>
                 <IonTabButton tab="tab3" href="/tab3">
                   <IonIcon icon={add} />
                   <IonLabel>Receive</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="tab3" href="/tab3">
+                  <IonIcon icon={add} />
+                  <IonLabel>Sign</IonLabel>
+                </IonTabButton>
+                <IonTabButton tab="tab3" href="/tab3">
+                  <IonIcon icon={add} />
+                  <IonLabel>Settings</IonLabel>
                 </IonTabButton>
               </IonTabBar>
           </IonTabs>
