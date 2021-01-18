@@ -130,7 +130,7 @@ const App: React.FC = () => {
        */
       return (
         <IonApp>
-          <IonPage>
+          <IonPage className="gradient_bg">
             <IonContent>
               <IonSlides pager={true} options={slideOpts}>
                 <IonSlide>
@@ -207,7 +207,7 @@ const App: React.FC = () => {
     } else if (loginState === 'new') {
       return (
         <IonApp>
-          <IonPage>
+          <IonPage className="gradient_bg">
             <IonHeader>
               <IonToolbar color="purple">
                 <IonButtons>
@@ -258,7 +258,7 @@ const App: React.FC = () => {
     } else if (loginState === 'importchoose') {
       return (
         <IonApp>
-          <IonPage>
+          <IonPage className="gradient_bg">
             <IonContent>
               <div v-if="showSelection">
                 <div className="vcenter">
@@ -298,7 +298,7 @@ const App: React.FC = () => {
     } else if (loginState === 'importnfc') {
       return (
         <IonApp>
-          <IonPage>
+          <IonPage className="gradient_bg">
             <IonToolbar color="purple">
               <IonButtons slot="start">
                 <IonButton slot="end" onClick={changeLoginState('choose')} >Back<IonIcon slot="start" icon={chevronBackOutline} /></IonButton>
@@ -333,7 +333,7 @@ const App: React.FC = () => {
       };
       return (
         <IonApp>
-          <IonPage>
+          <IonPage className="gradient_bg">
             <IonToolbar color="purple">
               <IonButtons slot="start">
                 <IonButton slot="end" onClick={changeLoginState('choose')} >Back<IonIcon slot="start" icon={chevronBackOutline} /></IonButton>
@@ -364,7 +364,7 @@ const App: React.FC = () => {
     } else if (loginState === 'importprivkey') {
       return (
         <IonApp>
-          <IonPage>
+          <IonPage className="gradient_bg">
             <IonToolbar color="purple">
               <IonButtons slot="start">
                 <IonButton slot="end" onClick={changeLoginState('choose')} >Back<IonIcon slot="start" icon={chevronBackOutline} /></IonButton>
@@ -436,7 +436,7 @@ const App: React.FC = () => {
     } else {
       return (
         <IonApp>
-          <IonPage>
+          <IonPage className="gradient_bg">
             <IonToolbar color="purple">
               <IonButtons slot="start">
                 <IonButton slot="end" onClick={changeLoginState('choose')} >Back<IonIcon slot="start" icon={chevronBackOutline} /></IonButton>

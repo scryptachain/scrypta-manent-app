@@ -1,5 +1,5 @@
 ion-tabs{
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(85,83,94,1) 100%);
+    background: linear-gradient(340deg, rgba(2,0,36,1) 0%, rgba(85,83,94,1) 100%);
 }
 
 ion-tab-bar  {
@@ -67,7 +67,7 @@ ion-tab-button:hover {
 
     ion-icon {
         transform: translate3d(0, 0px, 0);
-        background: purple;
+        background: #D8273A;
         padding: 10px !important;
         border-radius: 50% !important;
         width: 40px !important;
@@ -110,7 +110,7 @@ ion-tab-button:hover {
 }
 
 ion-tab-bar ion-badge {
-    --background: purple;
+    --background: #D8273A;
     --color: white;
     width: 23px;
     height: 21px;
@@ -137,5 +137,5 @@ ion-tab-bar ion-badge {
 #tab-button-tab2.tab-selected > ion-icon:after,
 #tab-button-tab4.tab-selected > ion-icon:after {
     width: 24px;
-    background: purple;
+    background: #D8273A;
 }

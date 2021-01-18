@@ -59,9 +59,11 @@ h1, h2, h3, h4, h5, h6 {
   text-align:center;
   padding:30px;
 }
-.ion-page {
+
+.gradient_bg {
   --ion-background-color: linear-gradient( 340deg, rgba(2, 0, 36, 1) 0%, rgba(85, 83, 94, 1) 100%);
 }
+
 .box-card {
   --background: linear-gradient( 125deg, rgba(2, 0, 36, 0.1) 0%, rgba(206, 205, 224, 0.05) 100%);
 }
