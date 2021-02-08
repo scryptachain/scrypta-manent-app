@@ -1,6 +1,7 @@
 /* Ionic Variables and Theming. For more info, please see:
 http://ionicframework.com/docs/theming/ */
 
+
 .myButton {
   width: 150px !important;
   text-align: left;
@@ -18,9 +19,6 @@ http://ionicframework.com/docs/theming/ */
  height: 60px;
 } */
 
-.tab-item-active { 
-  --ion-background-color:green !important; 
-}
 
 .textArea {
   display: flex;

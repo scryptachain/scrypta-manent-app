@@ -95,26 +95,27 @@ const App: React.FC = () => {
                 <Route path="/details" component={Details} />
                 <Route path="/" render={() => <Redirect to="/tab1" />} exact={true} />
               </IonRouterOutlet>
-              <IonTabBar slot="bottom">
+              <IonTabBar slot="bottom" className="my-custom-tab-bar">
                 <IonTabButton tab="tab1" href="/tab1">
                   <IonIcon icon={apps} />
-                
                 </IonTabButton>
+
                 <IonTabButton tab="tab2" href="/tab2">
                   <IonIcon icon={send} />
                 </IonTabButton>
-                <IonTabButton tab="tab3" href="/tab3">
+
+                <IonTabButton tab="tab3" className="custom-tab" href="/tab3">
                   <IonIcon icon={add} />
                 
                 </IonTabButton>
                 <IonTabButton tab="tab4" href="/tab3">
                   <IonIcon icon={add} />
-                
                 </IonTabButton>
-                <IonTabButton tab="tab5" href="/tab3">
+
+                <IonTabButton tab="tab5" className="custom-tab" href="/tab3">
                   <IonIcon icon={add} />
-                 
                 </IonTabButton>
+
               </IonTabBar>
           </IonTabs>
         </IonReactRouter>

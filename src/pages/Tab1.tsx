@@ -3,6 +3,7 @@ import { IonContent, IonHeader, IonPage, IonIcon, IonButton, IonBadge, IonCard, 
 import { barChart } from 'ionicons/icons';
 import './Tab1.css';
 
+
 const Tab1: React.FC = () => {
   return (
     <IonPage>
@@ -25,6 +26,39 @@ const Tab1: React.FC = () => {
         <IonItem>
           <h6 style={{ color: "#f1e6e4" }}>My Token Assets</h6>
         </IonItem>
+        <IonCard>
+          <div style={{display: "flex"}}>
+          <IonCardHeader>
+            <IonCardSubtitle>Beese24 Token</IonCardSubtitle>
+            <IonCardTitle color="smoke">120 BEUR</IonCardTitle>
+          </IonCardHeader>
+            <IonButton fill="outline" style={{position:"absolute", right: "20px", top:"18px"}} color="smoke" href="/details/:uuid">
+              <IonIcon icon={barChart} />
+            </IonButton>
+          </div>
+        </IonCard>
+        <IonCard>
+          <div style={{display: "flex"}}>
+          <IonCardHeader>
+            <IonCardSubtitle>Beese24 Token</IonCardSubtitle>
+            <IonCardTitle color="smoke">120 BEUR</IonCardTitle>
+          </IonCardHeader>
+            <IonButton fill="outline" style={{position:"absolute", right: "20px", top:"18px"}} color="smoke" href="/details/:uuid">
+              <IonIcon icon={barChart} />
+            </IonButton>
+          </div>
+        </IonCard>
+        <IonCard>
+          <div style={{display: "flex"}}>
+          <IonCardHeader>
+            <IonCardSubtitle>Beese24 Token</IonCardSubtitle>
+            <IonCardTitle color="smoke">120 BEUR</IonCardTitle>
+          </IonCardHeader>
+            <IonButton fill="outline" style={{position:"absolute", right: "20px", top:"18px"}} color="smoke" href="/details/:uuid">
+              <IonIcon icon={barChart} />
+            </IonButton>
+          </div>
+        </IonCard>
         <IonCard>
           <div style={{display: "flex"}}>
           <IonCardHeader>

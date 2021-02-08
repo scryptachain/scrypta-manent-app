@@ -1,3 +1,7 @@
+ion-app {
+    --ion-background-color: #273043;
+}
+
 .cardBalance {
     background-image: url(/assets/images/dashboard.svg);
     background-repeat: none;
