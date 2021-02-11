@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonIcon, IonLabel, IonInput, IonBackButton, IonToolbar, IonButtons, IonTitle, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonItem } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonIcon, IonLabel, IonInput, IonBackButton, IonToolbar, IonButtons, IonTitle, IonCardSubtitle, IonItem } from '@ionic/react';
 import './Tab2.css';
 
 const Tab2: React.FC = () => {

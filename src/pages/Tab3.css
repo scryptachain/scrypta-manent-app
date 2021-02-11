@@ -1,48 +1,53 @@
+.ion-slides {
+    height: 100%;
+}
+
 .myInput {
     min-height: 20px;
     border-bottom: 2px solid #1F2533;
     margin: 25px;
-  }
-  .myInput2 {
+}
+
+.myInput2 {
     min-height: 20px;
     border-bottom: 2px solid #1F2533;
     margin: 0 30px 0 25px;
-  }
+}
 
-  .flexbox {
-      display: flex;
-      align-items: flex-end;
-  }
+.flexbox {
+    display: flex;
+    align-items: flex-end;
+}
 
-  .btn-qr {
-      margin-right: 30px;
-      margin-bottom: 0 !important;
-      box-shadow: 3px 3px 5px ;
-  }
+.btn-qr {
+    margin-right: 30px;
+    margin-bottom: 0 !important;
+    -webkit-box-shadow: 2px 2px 8px 3px #172026;
+    box-shadow: 2px 1px 8px 3px #172026;
+    border-radius: 10px;
+}
 
 .keyboard {
     margin: 25px;
     border: 1px solid #1F2533;
     border-radius: 15px;
-    box-shadow: 0 2px 10px #1F2533;
+    -webkit-box-shadow: 4px 2px 15px 3px #172026;
+    box-shadow: 2px 4px 15px 3px #172026;
 }
-.pos-btn{
-    width:33%;
-    display:inline-block;
-    height:9.5vh;
-    font-size:20px;
-    line-height:12vh;
-    text-align:center;
+
+.pos-btn {
+    width: 33%;
+    display: inline-block;
+    height: 9.5vh;
+    font-size: 20px;
+    line-height: 12vh;
+    text-align: center;
     color: white;
-    border-bottom: 1px solid #1F2533;
-    border-right: 1px solid #1F2533;
-    box-shadow: 0 3px #1F2533;
-    cursor:pointer;
-    
+    cursor: pointer;
 }
-.pos-btn:hover{
+
+.pos-btn-:hover {
     background-color: #1F2533;
-    box-shadow: 0 5px #1F2533;
     transform: translateY(1px);
 }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { addCircle } from 'ionicons/icons'
-import { apps, send, add, cloudDownload, person, swapVertical, pencil, shieldCheckmark, hardwareChipOutline, readerOutline, chevronBack, keyOutline, qrCodeOutline, share, chevronBackOutline } from 'ionicons/icons';
+import { apps, cloudDownload, person, swapVertical, pencil, shieldCheckmark, hardwareChipOutline, readerOutline, chevronBack, keyOutline, qrCodeOutline, share, chevronBackOutline } from 'ionicons/icons';
 
 
 
@@ -14,6 +14,7 @@ import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
 import Details from './pages/Details';
+import Report from './pages/Report';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -34,7 +35,6 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import { useState, useEffect } from 'react';
-import { type } from 'os';
 const ScryptaCore = require('@scrypta/core')
 const scrypta = new ScryptaCore(true)
 
@@ -93,6 +93,7 @@ const App: React.FC = () => {
                 <Route path="/tab2" component={Tab2} exact={true} />
                 <Route path="/tab3" component={Tab3} />
                 <Route path="/details" component={Details} />
+                <Route path="/report" component={Report} />
                 <Route path="/" render={() => <Redirect to="/tab1" />} exact={true} />
               </IonRouterOutlet>
               <IonTabBar slot="bottom" className="my-custom-tab-bar">

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { IonSegment, IonIcon, IonItem, IonInput, IonLabel, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonSegmentButton, IonButton } from '@ionic/react';
+import { IonSegment, IonIcon, IonItem, IonInput, IonLabel, IonContent, IonHeader, IonPage, IonToolbar, IonText, IonSegmentButton, IonButton } from '@ionic/react';
 import './Tab3.css';
-import { qrCode } from 'ionicons/icons';
+import { qrCode, send } from 'ionicons/icons';
 
 const Tab3: React.FC = () => {
   let [selectedSegment, setSegment] = useState('send')
@@ -19,14 +19,10 @@ const Tab3: React.FC = () => {
               <IonLabel color="smoke">Address:</IonLabel>
               <IonInput color="smoke"></IonInput>
             </IonItem>
-              <IonButton color="risingblack" className="btn-qr">
-                <IonIcon icon={qrCode}></IonIcon>
+              <IonButton fill="outline" color="risingblack" className="btn-qr">
+                <IonIcon color="smoke" icon={qrCode}></IonIcon>
               </IonButton>
           </div>
-          <IonItem className="myInput">
-            <IonLabel color="smoke">Password:</IonLabel>
-            <IonInput color="smoke"> </IonInput>
-          </IonItem>
           <div className="keyboard" style={{ textAlign: "center" }}>
             <div className="pos-btn">1</div>
             <div className="pos-btn">2</div>
@@ -41,6 +37,11 @@ const Tab3: React.FC = () => {
             <div className="pos-btn">0</div>
             <div className="pos-btn noborder">C</div>
           </div>
+          <IonItem style={{marginBottom: "100px"}}>
+          <IonButton href="/report" color="risingblack" style={{width: "100%", height: "50px", paddingRight: "15px"}}>
+            <IonText style={{marginLeft: "10px"}}>SENDING OVERVIEW</IonText>
+          </IonButton>
+          </IonItem>
         </div>
       )
     } else {
