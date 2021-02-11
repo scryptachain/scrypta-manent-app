@@ -2,6 +2,11 @@ ion-app {
     --ion-background-color: #273043;
 }
 
+ion-card {
+    --ion-background-color: #272E3F;
+    box-shadow: 0 4px 10px #1F2533;
+}
+
 .cardBalance {
     background-image: url(/assets/images/dashboard.svg);
     background-repeat: none;

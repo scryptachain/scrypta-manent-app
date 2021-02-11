@@ -1,6 +1,6 @@
 ion-tab-bar.my-custom-tab-bar {
     position: absolute;
-    bottom: 0;
+    bottom: 5px;
     left: 5%;
     --background: rgba(255,255,255,0.8);
     @media screen and (min-width: 390px ) {
@@ -46,20 +46,10 @@ ion-tab-bar  {
     margin-top: 39px;
 }
 
-ion-tab-button:hover {
-    ion-icon, ion-label {
-        color: white !important;
-        --ion-color-base: white !important;
-    }
-}
-
-
 #tab-button-tab1 {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
-
-
 
 #tab-button-tab3 {
     overflow: visible !important;
@@ -78,7 +68,7 @@ ion-tab-button:hover {
         width: 40px !important;
         height: 40px !important;
         margin-top: -30px !important;
-        box-shadow: 0 0 0 3px #273043;
+        box-shadow: 0 0 0 2px #273043;
     }
 
 }

@@ -70,6 +70,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /** Ionic CSS Variables **/
 
+
 :root {
   /** primary **/
   --ion-color-primary: #3880ff;
@@ -79,7 +80,14 @@ h1, h2, h3, h4, h5, h6 {
   --ion-color-primary-shade: #3171e0;
   --ion-color-primary-tint: #4c8dff;
   --ion-tab-bar-color-selected: #ffff;
-  
+
+  /** Rising Black **/
+  --ion-color-risingblack: #1F2533;
+  --ion-color-risingblack-rgb: 31,37,51;
+  --ion-color-risingblack-contrast: #ffffff;
+  --ion-color-risingblack-contrast-rgb: 255,255,255;
+  --ion-color-risingblack-shade: #1b212d;
+  --ion-color-risingblack-tint: #353b47;
 
   /** purple **/
   --ion-color-purple: #545262;
@@ -299,5 +307,14 @@ h1, h2, h3, h4, h5, h6 {
   --ion-color-contrast-rgb: var(--ion-color-smoke-contrast-rgb);
   --ion-color-shade: var(--ion-color-smoke-shade);
   --ion-color-tint: var(--ion-color-smoke-tint);
+}
+
+.ion-color-risingblack {
+  --ion-color-base: var(--ion-color-risingblack);
+  --ion-color-base-rgb: var(--ion-color-risingblack-rgb);
+  --ion-color-contrast: var(--ion-color-risingblack-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-risingblack-contrast-rgb);
+  --ion-color-shade: var(--ion-color-risingblack-shade);
+  --ion-color-tint: var(--ion-color-risingblack-tint);
 }
 

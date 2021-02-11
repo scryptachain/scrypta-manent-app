@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { addCircle } from 'ionicons/icons'
-import { apps, send, add, cloudDownload, hardwareChipOutline, readerOutline, chevronBack, keyOutline, qrCodeOutline, share, chevronBackOutline } from 'ionicons/icons';
+import { apps, send, add, cloudDownload, person, swapVertical, pencil, shieldCheckmark, hardwareChipOutline, readerOutline, chevronBack, keyOutline, qrCodeOutline, share, chevronBackOutline } from 'ionicons/icons';
 
 
 
@@ -101,19 +101,19 @@ const App: React.FC = () => {
                 </IonTabButton>
 
                 <IonTabButton tab="tab2" href="/tab2">
-                  <IonIcon icon={send} />
+                  <IonIcon icon={shieldCheckmark} />
                 </IonTabButton>
 
                 <IonTabButton tab="tab3" className="custom-tab" href="/tab3">
-                  <IonIcon icon={add} />
+                  <IonIcon icon={swapVertical} />
                 
                 </IonTabButton>
                 <IonTabButton tab="tab4" href="/tab3">
-                  <IonIcon icon={add} />
+                  <IonIcon icon={pencil} />
                 </IonTabButton>
 
                 <IonTabButton tab="tab5" className="custom-tab" href="/tab3">
-                  <IonIcon icon={add} />
+                  <IonIcon icon={person} />
                 </IonTabButton>
 
               </IonTabBar>
